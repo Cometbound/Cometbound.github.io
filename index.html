@@ -100,13 +100,14 @@
   #ver { position: fixed; right: calc(12px + env(safe-area-inset-right)); bottom: calc(8px + env(safe-area-inset-bottom)); font-size: 11px; color: rgba(255,255,255,.55); letter-spacing: .05em; z-index: 30; pointer-events: none; }
   body:not(.home) #ver { display: none; }
 
-  /* back-to-menu button shown on the in-game title / pause / death screens */
-  #btnHome {
-    display: none; position: fixed; z-index: 15; left: calc(2vmin + env(safe-area-inset-left)); top: calc(2vmin + env(safe-area-inset-top));
-    padding: 1.2vmin 2.4vmin; font: 800 clamp(12px, 2.2vmin, 18px) -apple-system, system-ui, sans-serif; letter-spacing: .08em; color: #fff;
-    border: 2px solid rgba(255,255,255,.55); border-radius: 99px; background: rgba(0,0,0,.55); touch-action: manipulation;
-  }
-  body.menu:not(.home) #btnHome { display: block; }
+  /* ---------- Raycast Arena menus use the same panels/buttons as the other games ---------- */
+  #wrap { background: radial-gradient(ellipse at 50% 0%, #14224f, #050816 70%); }
+  #rc { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
+  #rc .ccPanel { z-index: 3; background: radial-gradient(ellipse at 50% 0%, rgba(24,44,100,.82), rgba(5,8,22,.9) 70%); }
+  #rc .ccPanel.show { pointer-events: auto; }
+  body.home #rc, body.cc #rc, body.si #rc { display: none; }
+  .rcTouch { display: none; } body.touch .rcTouch { display: block; } body.touch .rcDesk { display: none; }
+  #rcOver h2 { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
   /* ---------- CometCombat ---------- */
   #cc { display: none; position: fixed; inset: 0; z-index: 10; background: #070b18; color: #fff; touch-action: none; }
@@ -222,8 +223,28 @@
     <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
   </div>
 </div>
-<div id="ver">v0.9.2</div>
-<button id="btnHome" type="button">&#8962; MENU</button>
+<div id="ver">v0.9.3</div>
+<div id="rc">
+  <div id="rcStart" class="ccPanel">
+    <h2>Raycast Arena</h2>
+    <p>First-person shooter. Survive endless waves of demons: loot is dropped by the fallen, a boss arrives every 5th wave, and the rocket launcher unlocks on wave 3.</p>
+    <p class="rcDesk"><b>Move</b> WASD &nbsp;·&nbsp; <b>Run</b> Shift &nbsp;·&nbsp; <b>Look</b> mouse<br><b>Fire</b> click or Space &nbsp;·&nbsp; <b>Weapons</b> 1 / 2 / 3 / Q / wheel<br><b>Pause</b> Esc &nbsp;·&nbsp; <b>Mute</b> M &nbsp;·&nbsp; <b>Sensitivity</b> [ ] &nbsp;·&nbsp; <b>Invert Y</b> I</p>
+    <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
+    <p id="rcStartBest"></p>
+    <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v0.9.3</div>
+  </div>
+  <div id="rcPause" class="ccPanel">
+    <h2>Paused</h2>
+    <div class="ccRow"><button id="rcResume" class="ccBtn primary" type="button">Resume</button><button id="rcPauseMenu" class="ccBtn" type="button">Menu</button></div>
+  </div>
+  <div id="rcOver" class="ccPanel">
+    <h2>You died</h2>
+    <p id="rcOverStats"></p><p id="rcOverBest"></p>
+    <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v0.9.3</div>
+  </div>
+</div>
 <div id="cc">
   <canvas id="ccCanvas"></canvas>
   <div id="ccTouch">
@@ -243,7 +264,7 @@
     <div id="ccServerRow"><label for="ccServer">Server</label><input id="ccServer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="ccServerStatus" class="ccSrv"></div></div>
     <div id="ccUserErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccFind" class="ccBtn primary" type="button">Find match</button><button id="ccBack" class="ccBtn" type="button">Back</button></div>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
 
   <div id="ccLobby" class="ccPanel">
@@ -252,7 +273,7 @@
     <p>Playing as <b id="ccLobbyName"></b> · <span id="ccLobbyTime">0:00</span></p>
     <p id="ccLobbyStatus"></p>
     <button id="ccCancel" class="ccBtn" type="button">Cancel</button>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
 
   <div id="ccResult" class="ccPanel">
@@ -260,7 +281,7 @@
     <p id="ccResReason"></p>
     <p id="ccResStats"></p>
     <div class="ccRow"><button id="ccAgain" class="ccBtn primary" type="button">Find new match</button><button id="ccResMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
 
   <div id="ccLeave" class="ccPanel">
@@ -275,14 +296,14 @@
     <div><label for="ccDevPw">Developer password</label><input id="ccDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
     <div id="ccDevErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccDevOk" class="ccBtn primary" type="button">Unlock</button><button id="ccDevCancel" class="ccBtn" type="button">Cancel</button></div>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
 
   <div id="ccError" class="ccPanel">
     <h2>Oops</h2>
     <p id="ccErrMsg"></p>
     <div class="ccRow"><button id="ccErrRetry" class="ccBtn primary" type="button">Try again</button><button id="ccErrBack" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
 </div>
 <div id="si">
@@ -296,7 +317,7 @@
     <p><b>Keyboard</b> &nbsp;A / D or arrows to move, Space to fire, P to pause<br><b>Mouse</b> &nbsp;move to steer, hold click to fire<br><b>Touch</b> &nbsp;drag anywhere to steer, the ship fires while you touch</p>
     <p id="siStartBest"></p>
     <div class="ccRow"><button id="siPlay" class="ccBtn primary" type="button">Play</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
   <div id="siPause" class="ccPanel">
     <h2>Paused</h2>
@@ -306,7 +327,7 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Game over</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.2</div>
+    <div class="ccver">v0.9.3</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -319,7 +340,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.2  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS, one HTML file.
+ *  COMETBOUND GAMES v0.9.3  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -699,7 +720,17 @@ function capture(on) {
     try { const p = cvs.requestPointerLock(); if (p && p.catch) p.catch(() => {}); } catch (e) { /* ignore */ }
   }
 }
-function syncBody() { document.body.classList.toggle('menu', state !== ST_PLAY || paused); }
+const rcPanels = { start: document.getElementById('rcStart'), pause: document.getElementById('rcPause'), over: document.getElementById('rcOver') };
+function syncPanels() {
+  const show = inHome ? null : state === ST_TITLE ? 'start' : state === ST_DEAD ? 'over' : paused ? 'pause' : null;
+  for (const k in rcPanels) rcPanels[k].classList.toggle('show', k === show);
+  if (show === 'start') document.getElementById('rcStartBest').textContent = highScore ? 'Best score ' + highScore : '';
+  if (show === 'over') {
+    document.getElementById('rcOverStats').textContent = 'Score ' + score + '   ·   Kills ' + kills + '   ·   Wave ' + wave;
+    document.getElementById('rcOverBest').textContent = (score >= highScore && score > 0 ? 'New best! ' : 'Best ') + highScore;
+  }
+}
+function syncBody() { document.body.classList.toggle('menu', state !== ST_PLAY || paused); syncPanels(); }
 
 function spawnEnemy(x, y, kind) {
   const e = newEnt(T_ENEMY, x, y);
@@ -1104,6 +1135,10 @@ function centered(text, pw, y, color, off) {
 }
 const MONO = 'ui-monospace, Menlo, Consolas, "Courier New", monospace', SANS = '-apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
 
+function rrPath(x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
 function drawHud(pw, ph) {
   const u = ph / 400;
   if (hurtFlash > 0) { ctx.fillStyle = `rgba(200,0,0,${Math.min(.59, hurtFlash * 1.0)})`; ctx.fillRect(0, 0, pw, ph); }
@@ -1121,36 +1156,39 @@ function drawHud(pw, ph) {
   ctx.moveTo(cx, cy - cs - gap); ctx.lineTo(cx, cy - gap); ctx.moveTo(cx, cy + gap); ctx.lineTo(cx, cy + cs + gap);
   ctx.stroke();
 
-  // bottom bar
+  // bottom bar (same navy-glass look and palette as the other games)
   const bh = 44 * u;
-  ctx.fillStyle = 'rgba(0,0,0,.67)'; ctx.fillRect(0, ph - bh, pw, bh);
-  ctx.fillStyle = '#5a5a64'; ctx.fillRect(0, ph - bh, pw, Math.max(1, u));
-  ctx.font = `bold ${Math.round(13 * u)}px ${MONO}`; ctx.textBaseline = 'alphabetic';
-  const r1 = ph - 28 * u, r2 = ph - 9 * u, bx = 84 * u, bw = 110 * u, bhh = 11 * u, by1 = 2 * u;
-  ctx.fillStyle = '#fff'; ctx.fillText('HEALTH', 10 * u, r1);
-  ctx.fillStyle = '#3c0a0a'; ctx.fillRect(bx, r1 - bhh + by1, bw, bhh);
-  ctx.fillStyle = hp > 30 ? '#3cc850' : '#e63228'; ctx.fillRect(bx, r1 - bhh + by1, bw * hp / 100, bhh);
-  ctx.fillStyle = '#fff'; ctx.fillText(String(Math.ceil(hp)), bx + bw + 6 * u, r1);
-  ctx.fillText('ARMOR', 10 * u, r2);
-  ctx.fillStyle = '#0f1437'; ctx.fillRect(bx, r2 - bhh + by1, bw, bhh);
-  ctx.fillStyle = '#4682ff'; ctx.fillRect(bx, r2 - bhh + by1, bw * armor / 100, bhh);
-  ctx.fillStyle = '#fff'; ctx.fillText(String(Math.ceil(armor)), bx + bw + 6 * u, r2);
+  ctx.fillStyle = 'rgba(8,14,36,.80)'; ctx.fillRect(0, ph - bh, pw, bh);
+  ctx.fillStyle = 'rgba(143,208,255,.35)'; ctx.fillRect(0, ph - bh, pw, Math.max(1, u));
+  ctx.font = `bold ${Math.round(13 * u)}px ${SANS}`; ctx.textBaseline = 'alphabetic';
+  const r1 = ph - 28 * u, r2 = ph - 9 * u, bx = 84 * u, bw = 110 * u, bhh = 10 * u, by1 = 2 * u;
+  const bar = (y, frac, col) => {
+    rrPath(bx, y - bhh + by1, bw, bhh, bhh / 2); ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fill();
+    if (frac > 0) { rrPath(bx, y - bhh + by1, Math.max(bhh, bw * Math.min(1, frac)), bhh, bhh / 2); ctx.fillStyle = col; ctx.fill(); }
+  };
+  ctx.fillStyle = '#9db4e8'; ctx.fillText('HEALTH', 10 * u, r1);
+  bar(r1, hp / 100, hp > 30 ? '#4ade80' : '#ef4444');
+  ctx.fillStyle = '#fff'; ctx.fillText(String(Math.ceil(hp)), bx + bw + 8 * u, r1);
+  ctx.fillStyle = '#9db4e8'; ctx.fillText('ARMOR', 10 * u, r2);
+  bar(r2, armor / 100, '#60a5fa');
+  ctx.fillStyle = '#fff'; ctx.fillText(String(Math.ceil(armor)), bx + bw + 8 * u, r2);
 
-  ctx.fillStyle = ammo <= 5 ? '#ff5a46' : '#ffdc5a'; ctx.fillText('AMMO ' + ammo, 250 * u, r1);
+  ctx.fillStyle = ammo <= 5 ? '#ff8a8a' : '#ffe27a'; ctx.fillText('AMMO ' + ammo, 250 * u, r1);
   ctx.fillStyle = '#fff'; ctx.fillText(['[1] PISTOL', '[2] SHOTGUN', '[3] ROCKETS'][weapon], 250 * u, r2);
   if (mult > 1 && comboT > 0) {
-    ctx.fillStyle = '#ff9628'; ctx.fillText('COMBO x' + mult, 385 * u, r1);
-    ctx.fillRect(385 * u, r2 - 8 * u, 80 * u * Math.min(1, comboT / 3.5), 4 * u);
+    ctx.fillStyle = '#ff9a3c'; ctx.fillText('COMBO x' + mult, 385 * u, r1);
+    rrPath(385 * u, r2 - 8 * u, Math.max(4 * u, 80 * u * Math.min(1, comboT / 3.5)), 4 * u, 2 * u); ctx.fill();
   }
   ctx.fillStyle = '#fff'; ctx.textAlign = 'right';
   ctx.fillText('SCORE ' + score, pw - 10 * u, r1);
-  ctx.fillText('WAVE ' + Math.max(wave, 1) + '  KILLS ' + kills, pw - 10 * u, r2);
+  ctx.fillStyle = '#9db4e8'; ctx.fillText('WAVE ' + Math.max(wave, 1) + '  ·  KILLS ' + kills, pw - 10 * u, r2);
   ctx.textAlign = 'left';
-  if (showFps) { ctx.fillStyle = '#0f0'; ctx.fillText('FPS ' + Math.round(fps), 8 * u + (touchMode ? 60 * u : 0), 16 * u); }
+  if (showFps) { ctx.fillStyle = '#6ee7a8'; ctx.fillText('FPS ' + Math.round(fps), 8 * u + (touchMode ? 60 * u : 0), 16 * u); }
 
   // minimap
   const cell = Math.max(3, Math.floor(4 * u)), mx0 = pw - MW * cell - 8 * u, my0 = 8 * u;
-  ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(mx0 - 2, my0 - 2, MW * cell + 4, MH * cell + 4);
+  rrPath(mx0 - 3 * u, my0 - 3 * u, MW * cell + 6 * u, MH * cell + 6 * u, 6 * u); ctx.fillStyle = 'rgba(8,14,36,.72)'; ctx.fill();
+  ctx.strokeStyle = 'rgba(143,208,255,.4)'; ctx.lineWidth = Math.max(1, u); ctx.stroke();
   const wc = [null, '#aa503c', '#8c8c8c', '#506496', '#28b4aa'];
   for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++)
     if (grid[y][x]) { ctx.fillStyle = wc[grid[y][x]]; ctx.fillRect(mx0 + x * cell, my0 + y * cell, cell, cell); }
@@ -1161,7 +1199,7 @@ function drawHud(pw, ph) {
     ctx.fillRect(mx0 + e.x * cell - s / 2, my0 + e.y * cell - s / 2, s, s);
   }
   const pxm = mx0 + posX * cell, pym = my0 + posY * cell;
-  ctx.fillStyle = ctx.strokeStyle = '#3cff5a'; ctx.lineWidth = 2;
+  ctx.fillStyle = ctx.strokeStyle = '#34d399'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.arc(pxm, pym, 3, 0, Math.PI * 2); ctx.fill();
   ctx.beginPath(); ctx.moveTo(pxm, pym); ctx.lineTo(pxm + dirX * cell * 2.5, pym + dirY * cell * 2.5); ctx.stroke();
 
@@ -1178,16 +1216,6 @@ function drawHud(pw, ph) {
   }
 }
 
-function drawOverlay(pw, ph, title, lines, color) {
-  const u = ph / 400;
-  ctx.fillStyle = 'rgba(0,0,0,.69)'; ctx.fillRect(0, 0, pw, ph);
-  ctx.font = `bold ${Math.round(54 * u)}px ${SANS}`;
-  centered(title, pw, 110 * u, '#000', 4); centered(title, pw, 110 * u, color, 0);
-  ctx.font = `bold ${Math.round(15 * u)}px ${MONO}`;
-  let y = 160 * u;
-  for (const s of lines) { centered(s, pw, y, s[0] === '>' ? '#ffdc5a' : '#e1e1e1', 0); y += 21 * u; }
-}
-
 function paint() {
   renderScene();
   fctx.putImageData(img, 0, 0);
@@ -1199,31 +1227,6 @@ function paint() {
   } else ctx.drawImage(frameCv, 0, 0, pw, ph);
   drawHud(pw, ph);
 
-  if (state === ST_TITLE) {
-    const lines = touchMode ? [
-      'Survive endless waves of demons.', '',
-      'LEFT THUMB   move (push to the edge to run)',
-      'RIGHT THUMB  drag to look up / down / around',
-      'FIRE button  shoot (drag while holding to aim)',
-      'SWAP button  change weapon      II  pause', '',
-      'Best score: ' + highScore, '',
-      '> TAP to start <', 'Tip: Share > Add to Home Screen for full screen'
-    ] : [
-      'Survive endless waves of demons.', '',
-      'WASD  move / strafe      SHIFT  run',
-      'MOUSE  look up/down/around',
-      'LEFT CLICK / SPACE  fire',
-      '1 / 2 / 3 / Q / WHEEL  switch weapon',
-      'ESC pause  M mute  [ ] sensitivity  I invert Y', 'Best score: ' + highScore, '',
-      '> CLICK or press ENTER to start <'
-    ];
-    drawOverlay(pw, ph, 'RAYCAST ARENA', lines, '#eb3c28');
-  } else if (state === ST_DEAD) {
-    drawOverlay(pw, ph, 'YOU DIED', ['Score: ' + score + '      Kills: ' + kills + '      Wave: ' + wave, 'Best score: ' + highScore, '',
-      touchMode ? '> TAP to try again <' : '> Press ENTER or click to try again <'], '#dc1e1e');
-  } else if (paused) {
-    drawOverlay(pw, ph, 'PAUSED', [touchMode ? '> TAP to resume <' : '> Click or press ENTER to resume <'], '#f0f0f0');
-  }
 }
 
 // ------------------------------------------------------------------ layout
@@ -1395,9 +1398,8 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 document.getElementById('cardRay').addEventListener('click', showGame);
-const btnHomeEl = document.getElementById('btnHome');
-btnHomeEl.addEventListener('pointerdown', e => e.stopPropagation());
-btnHomeEl.addEventListener('click', e => { e.stopPropagation(); goHome(); });
+for (const id of ['rcPlay', 'rcResume', 'rcAgain']) document.getElementById(id).addEventListener('click', e => { e.stopPropagation(); activate(); });
+for (const id of ['rcStartMenu', 'rcPauseMenu', 'rcOverMenu']) document.getElementById(id).addEventListener('click', e => { e.stopPropagation(); goHome(); });
 reset();
 syncBody();
 document.getElementById('cardRay').focus();
@@ -1405,7 +1407,7 @@ requestAnimationFrame(frame);
 </script>
 <script>
 /* =====================================================================
- *  COMETCOMBAT  v0.9.2  -  1v1 top-down shooter (survev.io style)
+ *  COMETCOMBAT  v0.9.3  -  1v1 top-down shooter (survev.io style)
  *
  *  Networking: one player is the HOST and runs the authoritative simulation;
  *  the GUEST sends inputs and renders snapshots (with local movement prediction).

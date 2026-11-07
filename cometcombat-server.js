@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * CometCombat matchmaking + relay server  (v0.9.2)
+ * CometCombat matchmaking + relay server  (v0.9.3)
  *
  *   node cometcombat-server.js            # listens on :8080 (or $PORT)
  *
