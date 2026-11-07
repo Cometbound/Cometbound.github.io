@@ -21,6 +21,10 @@ const path = require('path');
 const PORT = +process.env.PORT || 8080;
 const HTML = path.join(__dirname, 'cometbound-games.html');
 const GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
+// Online mode is locked behind a developer password. Change it with:  DEV_PASSWORD=yourpassword node cometcombat-server.js
+const DEV_PASSWORD = process.env.DEV_PASSWORD || 'banana314';
+const sha = x => crypto.createHash('sha256').update(String(x)).digest();
+const passwordOk = pw => crypto.timingSafeEqual(sha(pw), sha(DEV_PASSWORD));
 const MAX_MSG = 64 * 1024, MAX_CLIENTS = 2000, MAX_RATE = 240;   // messages per second
 
 const clients = new Set();
@@ -28,7 +32,7 @@ let waiting = [];
 
 const server = http.createServer((req, res) => {
   const url = (req.url || '/').split('?')[0];
-  if (url === '/health') { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify({ ok: true, online: clients.size, waiting: waiting.length })); return; }
+  if (url === '/health') { res.writeHead(200, { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'no-store' }); res.end(JSON.stringify({ ok: true, online: clients.size, waiting: waiting.length })); return; }
   if (url === '/' || url === '/index.html') {
     fs.readFile(HTML, (err, data) => {
       if (err) { res.writeHead(404); res.end('cometbound-games.html not found next to the server'); return; }
@@ -91,6 +95,12 @@ class Client {
     let m; try { m = JSON.parse(text); } catch (e) { return; }
     if (!m || typeof m !== 'object') return;
     if (m.t === 'join' && this.state === 'new') {
+      if (!passwordOk(m.pw == null ? '' : m.pw)) {
+        this.state = 'rejected';
+        this.send({ t: 'error', code: 'auth', msg: 'Online mode is locked. Incorrect developer password.' });
+        setTimeout(() => this.kill(), 200);
+        return;
+      }
       this.name = String(m.name || 'Player').replace(/[\u0000-\u001f\u007f<>]/g, '').trim().slice(0, 16) || 'Player';
       this.state = 'waiting'; waiting.push(this); pair();
     } else if (m.t === 'msg' && this.state === 'matched' && this.peer && m.d && typeof m.d === 'object') {
@@ -136,4 +146,5 @@ setInterval(() => {                                           // lobby info + li
   }
 }, 2000);
 
+server.on('error', e => { console.error(e.code === 'EADDRINUSE' ? `Port ${PORT} is already in use. Is the server already running? Try: PORT=8081 node cometcombat-server.js` : e); process.exit(1); });
 server.listen(PORT, () => console.log(`CometCombat server on http://localhost:${PORT}  (WebSocket on the same port)`));

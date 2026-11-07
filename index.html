@@ -121,12 +121,14 @@
     background: linear-gradient(180deg, #fff 20%, #7fe0c0 60%, #35a7ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .ccPanel p { margin: 0; color: #a9bbe6; font-size: clamp(12px, 2.2vmin, 18px); max-width: 520px; }
   .ccPanel label { font-size: clamp(11px, 1.9vmin, 14px); letter-spacing: .14em; text-transform: uppercase; color: #8fa5d8; display: block; margin-bottom: .8vmin; }
-  .ccPanel input[type=text] {
+  .ccPanel input[type=text], .ccPanel input[type=password] {
     width: min(78vw, 360px); box-sizing: border-box; padding: 1.8vmin 2.2vmin; font: 700 clamp(16px, 3vmin, 24px) -apple-system, system-ui, sans-serif; text-align: center;
     color: #fff; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.25); border-radius: 12px; outline: none; user-select: text; -webkit-user-select: text;
   }
-  .ccPanel input[type=text]:focus { border-color: #35a7ff; }
+  .ccPanel input[type=text]:focus, .ccPanel input[type=password]:focus { border-color: #35a7ff; }
   #ccServer { font-size: clamp(13px, 2.2vmin, 17px) !important; font-weight: 500 !important; }
+  .ccSrv { margin-top: 1vmin; min-height: 1.3em; font-size: clamp(11px, 1.9vmin, 15px); color: #9db4e8; max-width: 440px; }
+  .ccSrv.ok { color: #6ee7a8; } .ccSrv.bad { color: #ffb4a0; }
   .ccErr { min-height: 1.4em; color: #ff8a8a; font-size: clamp(12px, 2vmin, 16px); max-width: 480px; }
   .ccBtn {
     font: 800 clamp(14px, 2.6vmin, 20px) -apple-system, system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #fff; cursor: pointer;
@@ -216,7 +218,7 @@
     <div><label for="ccUser">Username</label><input id="ccUser" type="text" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Enter a username"></div>
     <div class="ccSeg"><button id="ccModeOnline" type="button">ONLINE</button><button id="ccModeLocal" type="button">SAME DEVICE</button></div>
     <p id="ccModeHelp"></p>
-    <div id="ccServerRow"><label for="ccServer">Server</label><input id="ccServer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div id="ccServerRow"><label for="ccServer">Server</label><input id="ccServer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="ccServerStatus" class="ccSrv"></div></div>
     <div id="ccUserErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccFind" class="ccBtn primary" type="button">Find match</button><button id="ccBack" class="ccBtn" type="button">Back</button></div>
     <div class="ccver">v0.9.2</div>
@@ -245,10 +247,19 @@
     <div class="ccRow"><button id="ccResume" class="ccBtn primary" type="button">Resume</button><button id="ccLeaveGo" class="ccBtn danger" type="button">Leave</button></div>
   </div>
 
+  <div id="ccDev" class="ccPanel">
+    <h2>Developers only</h2>
+    <p>Online mode is locked for now. Enter the developer password to unlock it. Same device mode stays open to everyone.</p>
+    <div><label for="ccDevPw">Developer password</label><input id="ccDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div id="ccDevErr" class="ccErr" role="alert"></div>
+    <div class="ccRow"><button id="ccDevOk" class="ccBtn primary" type="button">Unlock</button><button id="ccDevCancel" class="ccBtn" type="button">Cancel</button></div>
+    <div class="ccver">v0.9.2</div>
+  </div>
+
   <div id="ccError" class="ccPanel">
     <h2>Oops</h2>
     <p id="ccErrMsg"></p>
-    <div class="ccRow"><button id="ccErrRetry" class="ccBtn primary" type="button">Try again</button><button id="ccErrBack" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccRow"><button id="ccErrRetry" class="ccBtn primary" type="button">Try again</button><button id="ccErrLocal" class="ccBtn" type="button">Use Same device mode</button><button id="ccErrBack" class="ccBtn" type="button">Menu</button></div>
     <div class="ccver">v0.9.2</div>
   </div>
 </div>
@@ -1360,7 +1371,7 @@ const CC = (() => {
   const VER = 'v0.9.2';
   const $ = id => document.getElementById(id);
   const root = $('cc'), cv = $('ccCanvas'), g = cv.getContext('2d');
-  const panels = { name: $('ccName'), lobby: $('ccLobby'), result: $('ccResult'), leave: $('ccLeave'), error: $('ccError') };
+  const panels = { name: $('ccName'), lobby: $('ccLobby'), result: $('ccResult'), leave: $('ccLeave'), error: $('ccError'), dev: $('ccDev') };
   const showPanel = n => { for (const k in panels) panels[k].classList.toggle('show', k === n); };
   const noticeEl = $('ccNotice');
   const setNotice = t => { noticeEl.textContent = t || ''; noticeEl.classList.toggle('show', !!t); };
@@ -1868,24 +1879,48 @@ const CC = (() => {
     sock.onclose = () => { if (!c.closed && c.onclose) c.onclose('closed'); };
     return c;
   }
+  // Ask the server's /health endpoint whether it is there (CORS-enabled in cometcombat-server.js).
+  function probeServer(url) {
+    return new Promise(resolve => {
+      let httpUrl;
+      try { httpUrl = url.replace(/^ws/i, 'http').replace(/\/+$/, '') + '/health'; new URL(httpUrl); } catch (e) { resolve(null); return; }
+      const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null, t = setTimeout(() => ctl && ctl.abort(), 4000);
+      fetch(httpUrl, { cache: 'no-store', signal: ctl ? ctl.signal : undefined }).then(r => r.json()).then(j => { clearTimeout(t); resolve(j && j.ok ? j : null); }).catch(() => { clearTimeout(t); resolve(null); });
+    });
+  }
+  function diagnose(url) {
+    const hostIsLocal = /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])/i.test(url);
+    if (location.protocol === 'https:' && /^ws:\/\//i.test(url))
+      return Promise.resolve('This page is loaded over HTTPS, so the browser blocks the unencrypted server address ' + url + '. Use a wss:// address, or Same device mode.');
+    return probeServer(url).then(j => {
+      if (j) return 'A CometCombat server answered at ' + url + ' but the live (WebSocket) connection was refused. If it sits behind a proxy, enable WebSocket upgrades.';
+      let m = 'No CometCombat server found at ' + url + '. Start it with "node cometcombat-server.js", or fix the address.';
+      if (hostIsLocal && (touchUI || (location.hostname && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))))
+        m += ' ("localhost" means this device itself. Use the address of the computer running the server.)';
+      return m + ' You can also play on one device with Same device mode.';
+    });
+  }
   function matchWS(url, name, cb) {
-    let ws = null, done = false, tries = 0, retryT = 0;
+    let ws = null, done = false, tries = 0, retryT = 0, everOpened = false;
     function open() {
       if (done) return;
       let sock;
       try { sock = ws = new WebSocket(url); } catch (e) { done = true; cb.onFail('That server address is not valid.'); return; }
       let matched = false;
-      sock.onopen = () => { tries = 0; cb.onStatus('Connected. Looking for an opponent…'); sock.send(JSON.stringify({ t: 'join', name, v: VER })); };
+      cb.onStatus(everOpened ? 'Reconnecting…' : 'Connecting to ' + url + '…');
+      sock.onopen = () => { tries = 0; everOpened = true; cb.onStatus('Connected. Looking for an opponent…'); sock.send(JSON.stringify({ t: 'join', name, v: VER, pw: devPw })); };
       sock.onmessage = ev => {
         let m; try { m = JSON.parse(ev.data); } catch (e) { return; }
         if (!m || matched) return;
+        if (m.t === 'error') { done = true; if (m.code === 'auth') devLock(); cb.onFail(String(m.msg || 'The server refused the connection.'), m.code === 'auth'); return; }
         if (m.t === 'lobby') cb.onStatus('Connected · ' + (m.online | 0) + ' online · ' + (m.waiting | 0) + ' waiting');
         else if (m.t === 'matched') { matched = true; done = true; cb.onMatch(wsConn(sock), { role: m.role === 'host' ? 'host' : 'guest', opp: cleanName(m.opp) }); }
       };
       sock.onerror = () => { /* onclose follows */ };
       sock.onclose = () => {
         if (matched || done) return;
-        if (++tries > 5) { done = true; cb.onFail('Could not reach the server. Check the address, or use Same device mode.'); return; }
+        if (!everOpened) { done = true; diagnose(url).then(msg => cb.onFail(msg)); return; }       // never connected: fail fast, say why
+        if (++tries > 5) { done = true; cb.onFail('Lost the connection to the server and could not reconnect.'); return; }
         cb.onStatus('Connection lost. Retrying (' + tries + '/5)…');
         retryT = setTimeout(open, Math.min(4000, 1000 * tries));
       };
@@ -1951,7 +1986,32 @@ const CC = (() => {
   let rafId = 0, lastT = 0, acc = 0, lastInSend = 0, matchStart = 0;
   let overInfo = null;
 
-  const defaultServer = () => /^https?:$/.test(location.protocol) ? (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host : 'ws://localhost:8080';
+  // ---- developer lock for ONLINE mode.
+  // The check below is only a convenience gate (anything in a web page can be read). The real enforcement
+  // is in cometcombat-server.js, which rejects joins that do not carry the right password (env DEV_PASSWORD).
+  const DEV_HASH = 2740183783595544;
+  function cyrb53(str, seed = 0) {
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+  }
+  const pwOk = pw => cyrb53('cometcombat:' + pw) === DEV_HASH;
+  let devPw = '';
+  try { const sp = sessionStorage.getItem('cc.dev') || ''; if (sp && pwOk(sp)) devPw = sp; } catch (e) { /* ignore */ }
+  const devUnlocked = () => !!devPw;
+  function devLock() { devPw = ''; try { sessionStorage.removeItem('cc.dev'); } catch (e) { /* ignore */ } }
+
+  // >>> Hosting the game on GitHub Pages? Put your server's address here, e.g. 'wss://cometcombat.onrender.com'
+  const CONFIGURED_SERVER = '';
+  const defaultServer = () => {
+    const q = new URLSearchParams(location.search).get('server');           // also: https://you.github.io/game/?server=wss://host
+    if (q && /^wss?:\/\/[^\s]+$/i.test(q)) return q;
+    const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+    if (CONFIGURED_SERVER && !local) return CONFIGURED_SERVER;
+    return /^https?:$/.test(location.protocol) ? (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host : 'ws://localhost:8080';
+  };
 
   function stopMatchTimers() { clearInterval(hbTimer); clearTimeout(startTimer); hbTimer = 0; }
   function cleanupNet() {
@@ -1968,9 +2028,12 @@ const CC = (() => {
   function open() {
     active = true; phase = 'name';
     $('ccUser').value = store.get('cc.name', '');
-    mode = store.get('cc.mode', 'online') === 'local' ? 'local' : 'online';
-    $('ccServer').value = store.get('cc.server', '') || defaultServer();
-    refreshMode(); $('ccUserErr').textContent = '';
+    mode = store.get('cc.mode', 'local') === 'online' && devUnlocked() ? 'online' : 'local';
+    let saved = store.get('cc.server', '');
+    // a saved localhost address is useless when the page is served from some other host
+    if (/^wss?:\/\/(localhost|127\.)/i.test(saved) && /^https?:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname)) saved = '';
+    $('ccServer').value = saved || defaultServer();
+    refreshMode(); $('ccUserErr').textContent = ''; checkServer();
     showPanel('name'); resetMatchState();
     lastT = performance.now(); cancelAnimationFrame(rafId); rafId = requestAnimationFrame(frame);
     setTimeout(() => { try { $('ccUser').focus(); } catch (e) { /* ignore */ } }, 50);
@@ -1985,24 +2048,39 @@ const CC = (() => {
     try { $('cardCombat').focus(); } catch (e) { /* ignore */ }
   }
 
+  let checkSeq = 0, checkT = 0;
+  function checkServer() {
+    const el = $('ccServerStatus'), seq = ++checkSeq;
+    if (mode !== 'online') { el.textContent = ''; return; }
+    const url = $('ccServer').value.trim();
+    if (!/^wss?:\/\/[^\s]+$/i.test(url)) { el.className = 'ccSrv bad'; el.textContent = 'Enter a server address like ws://localhost:8080'; return; }
+    el.className = 'ccSrv'; el.textContent = 'Checking server…';
+    probeServer(url).then(j => {
+      if (seq !== checkSeq || phase !== 'name') return;
+      if (j) { el.className = 'ccSrv ok'; el.textContent = '✓ Server online · ' + (j.online | 0) + ' connected, ' + (j.waiting | 0) + ' waiting'; }
+      else { el.className = 'ccSrv bad'; el.textContent = '✗ No server found at this address. Start "node cometcombat-server.js" or use Same device mode.'; }
+    });
+  }
   function refreshMode() {
+    $('ccModeOnline').textContent = devUnlocked() ? 'ONLINE' : 'ONLINE \u{1F512}';
     $('ccModeOnline').classList.toggle('on', mode === 'online');
     $('ccModeLocal').classList.toggle('on', mode === 'local');
     $('ccServerRow').style.display = mode === 'online' ? 'block' : 'none';
     $('ccModeHelp').textContent = mode === 'online'
       ? 'Match with another player through the CometCombat server.'
-      : 'Open this page in two tabs or windows of the same browser, then find a match in both.';
+      : 'Open this page in two tabs or windows of the same browser, then find a match in both.' + (devUnlocked() ? '' : ' Online mode is locked (developers only).');
   }
 
   function submitName() {
     ensureSnd();
     const raw = $('ccUser').value.trim();
     if (!NAME_RE.test(raw)) { $('ccUserErr').textContent = 'Username must be 2-16 characters: letters, numbers, spaces, _ . -'; return; }
+    if (mode === 'online' && !devUnlocked()) { mode = 'local'; refreshMode(); }
     myName = cleanName(raw); store.set('cc.name', myName); store.set('cc.mode', mode);
     const srv = $('ccServer').value.trim();
     if (mode === 'online') {
       if (!/^wss?:\/\/[^\s]+$/i.test(srv)) { $('ccUserErr').textContent = 'Enter a server address like ws://localhost:8080'; return; }
-      store.set('cc.server', srv);
+      if (srv !== defaultServer()) store.set('cc.server', srv); else store.set('cc.server', '');
     }
     $('ccUserErr').textContent = '';
     startLobby();
@@ -2018,15 +2096,16 @@ const CC = (() => {
     const cb = {
       onStatus: t => { if (phase === 'lobby') $('ccLobbyStatus').textContent = t; },
       onMatch: (c, info) => beginMatch(c, info),
-      onFail: msg => showError(msg, true),
+      onFail: (msg, locked) => { if (locked) mode = 'local'; showError(msg, true, mode === 'online' || !!locked); },
     };
     mm = mode === 'online' ? matchWS($('ccServer').value.trim(), myName, cb) : matchLocal(myName, cb);
   }
   function cancelLobby() { cleanupNet(); clearInterval(lobbyTimer); phase = 'name'; showPanel('name'); }
 
-  function showError(msg, retry) {
+  function showError(msg, retry, offerLocal) {
     cleanupNet(); clearInterval(lobbyTimer); resetMatchState();
-    phase = 'error'; $('ccErrMsg').textContent = msg; $('ccErrRetry').style.display = retry ? '' : 'none'; showPanel('error');
+    phase = 'error'; $('ccErrMsg').textContent = msg; $('ccErrRetry').style.display = retry ? '' : 'none';
+    $('ccErrLocal').style.display = offerLocal ? '' : 'none'; showPanel('error');
   }
   function fatal(msg) { try { sendLeave(); } catch (e) { /* ignore */ } showError(msg, true); }
 
@@ -2153,12 +2232,12 @@ const CC = (() => {
 
   window.addEventListener('keydown', e => {
     if (!active) return;
-    if (e.target && e.target.tagName === 'INPUT') { if (e.code === 'Enter' && phase === 'name') submitName(); return; }
+    if (e.target && e.target.tagName === 'INPUT') { if (e.code === 'Enter') { if (e.target.id === 'ccDevPw') submitDev(); else if (phase === 'name') submitName(); } return; }
     if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.code)) e.preventDefault();
     keys[e.code] = true;
     if (e.repeat) return;
     if (e.code === 'KeyM') soundOn = !soundOn;
-    if (phase === 'name' && e.code === 'Escape') { exit(); return; }
+    if (phase === 'name' && e.code === 'Escape') { if (panels.dev.classList.contains('show')) showPanel('name'); else exit(); return; }
     if (phase === 'lobby' && e.code === 'Escape') { cancelLobby(); return; }
     if (phase === 'match') {
       if (e.code === 'Escape') { showPanel(panels.leave.classList.contains('show') ? null : 'leave'); return; }
@@ -2443,15 +2522,28 @@ const CC = (() => {
   }
 
   // ------------------------------------------------------------------ UI wiring
-  $('ccModeOnline').addEventListener('click', () => { mode = 'online'; refreshMode(); });
-  $('ccModeLocal').addEventListener('click', () => { mode = 'local'; refreshMode(); });
+  $('ccModeOnline').addEventListener('click', () => {
+    if (!devUnlocked()) { $('ccDevPw').value = ''; $('ccDevErr').textContent = ''; showPanel('dev'); setTimeout(() => { try { $('ccDevPw').focus(); } catch (e) { /* ignore */ } }, 50); return; }
+    mode = 'online'; refreshMode(); checkServer();
+  });
+  function submitDev() {
+    const v = $('ccDevPw').value;
+    if (!pwOk(v)) { $('ccDevErr').textContent = 'Incorrect password.'; $('ccDevPw').select(); return; }
+    devPw = v; try { sessionStorage.setItem('cc.dev', v); } catch (e) { /* ignore */ }
+    mode = 'online'; store.set('cc.mode', 'online'); showPanel('name'); refreshMode(); checkServer();
+  }
+  $('ccDevOk').addEventListener('click', submitDev);
+  $('ccDevCancel').addEventListener('click', () => showPanel('name'));
+  $('ccModeLocal').addEventListener('click', () => { mode = 'local'; refreshMode(); checkServer(); });
+  $('ccServer').addEventListener('input', () => { clearTimeout(checkT); checkT = setTimeout(checkServer, 500); });
+  $('ccErrLocal').addEventListener('click', () => { mode = 'local'; store.set('cc.mode', 'local'); startLobby(); });
   $('ccFind').addEventListener('click', submitName);
   $('ccBack').addEventListener('click', exit);
   $('ccCancel').addEventListener('click', cancelLobby);
   $('ccAgain').addEventListener('click', () => { startLobby(); });
   $('ccResMenu').addEventListener('click', exit);
   $('ccErrBack').addEventListener('click', exit);
-  $('ccErrRetry').addEventListener('click', () => { phase = 'name'; showPanel('name'); });
+  $('ccErrRetry').addEventListener('click', () => { phase = 'name'; if (mode === 'online' && !devUnlocked()) mode = 'local'; refreshMode(); checkServer(); showPanel('name'); });
   $('ccBtnLeave').addEventListener('click', e => { e.stopPropagation(); if (phase === 'match') showPanel('leave'); });
   $('ccResume').addEventListener('click', () => showPanel(null));
   $('ccLeaveGo').addEventListener('click', () => {
