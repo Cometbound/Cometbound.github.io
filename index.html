@@ -6,9 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Raycast Arena">
+<meta name="apple-mobile-web-app-title" content="Cometbound Games">
 <meta name="theme-color" content="#000000">
-<title>Raycast Arena</title>
+<title>Cometbound Games</title>
 <style>
   html, body {
     margin: 0; height: 100%; background: #000; overflow: hidden; overscroll-behavior: none;
@@ -48,9 +48,83 @@
   #joyBase, #joyKnob { position: absolute; border-radius: 50%; display: none; }
   #joyBase { width: 22vmin; height: 22vmin; border: 3px solid rgba(255,255,255,.4); background: rgba(255,255,255,.08); }
   #joyKnob { width: 10vmin; height: 10vmin; background: rgba(255,255,255,.4); border: 3px solid rgba(255,255,255,.7); }
+
+  /* ---------- home menu ---------- */
+  #home {
+    position: fixed; inset: 0; z-index: 20; overflow-y: auto; overflow-x: hidden; touch-action: pan-y;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    padding: calc(4vmin + env(safe-area-inset-top)) calc(4vmin + env(safe-area-inset-right)) calc(6vmin + env(safe-area-inset-bottom)) calc(4vmin + env(safe-area-inset-left));
+    box-sizing: border-box; color: #fff;
+    background:
+      radial-gradient(1.5px 1.5px at 12% 18%, #fff, transparent), radial-gradient(1px 1px at 28% 72%, #cde, transparent),
+      radial-gradient(1.5px 1.5px at 47% 33%, #fff, transparent), radial-gradient(1px 1px at 63% 81%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 78% 22%, #cde, transparent), radial-gradient(1px 1px at 91% 58%, #fff, transparent),
+      radial-gradient(1px 1px at 6% 90%, #fff, transparent), radial-gradient(1px 1px at 55% 8%, #cde, transparent),
+      radial-gradient(ellipse at 50% 0%, #1b2a5e 0%, #0a1030 45%, #04060f 100%);
+  }
+  body.home #home { display: flex; }
+  body.home #wrap, body.home #touch, body.home #btnHome { display: none; }
+  #home h1 {
+    margin: 0; display: flex; align-items: center; gap: 2.2vmin;
+    font-size: clamp(30px, 8vmin, 84px); font-weight: 900; letter-spacing: .08em; text-transform: uppercase; text-align: center;
+    background: linear-gradient(180deg, #fff 20%, #8fd0ff 60%, #5b7cff 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 18px rgba(110,160,255,.45));
+  }
+  #home h1 svg { width: clamp(34px, 9vmin, 92px); height: auto; flex: none; }
+  #home .sub { margin: 1.2vmin 0 5vmin; color: #9db4e8; letter-spacing: .3em; font-size: clamp(11px, 2vmin, 18px); text-transform: uppercase; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 22vmin, 240px), 1fr)); gap: 2.4vmin; width: min(100%, 1100px); }
+  .card {
+    position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: .6vmin; text-align: left;
+    aspect-ratio: 4 / 3.2; padding: 2vmin; border-radius: 14px; border: 2px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.05); color: #fff; font: inherit; overflow: hidden; box-sizing: border-box;
+  }
+  .card .thumb { position: absolute; inset: 0 0 38% 0; display: flex; align-items: center; justify-content: center; font-size: 7vmin; color: rgba(255,255,255,.18); font-weight: 800; }
+  .card .name { position: relative; font-size: clamp(14px, 2.7vmin, 24px); font-weight: 800; letter-spacing: .04em; }
+  .card .desc { position: relative; font-size: clamp(10px, 1.7vmin, 14px); color: #b8c6ea; }
+  .card .tag { position: absolute; top: 1.4vmin; right: 1.4vmin; font-size: clamp(9px, 1.5vmin, 12px); font-weight: 800; letter-spacing: .12em; padding: .5vmin 1.2vmin; border-radius: 99px; background: rgba(255,255,255,.1); color: #aab; }
+  .card.soon { border-style: dashed; opacity: .6; cursor: default; }
+  .card.play {
+    cursor: pointer; border-color: #ff6a3c; background: linear-gradient(160deg, rgba(255,90,50,.30), rgba(120,20,20,.35) 60%, rgba(10,10,30,.5));
+    box-shadow: 0 0 28px rgba(255,90,50,.25); transition: transform .15s, box-shadow .15s; -webkit-appearance: none; appearance: none;
+  }
+  .card.play .thumb { color: #fff; }
+  .card.play .tag { background: #ff6a3c; color: #fff; }
+  .card.play:hover, .card.play:focus-visible { transform: translateY(-4px) scale(1.02); box-shadow: 0 0 40px rgba(255,90,50,.5); outline: none; }
+  .card.play:active { transform: scale(.98); }
+  #ver { position: fixed; right: calc(12px + env(safe-area-inset-right)); bottom: calc(8px + env(safe-area-inset-bottom)); font-size: 11px; color: rgba(255,255,255,.55); letter-spacing: .05em; z-index: 30; pointer-events: none; }
+  body:not(.home) #ver { display: none; }
+
+  /* back-to-menu button shown on the in-game title / pause / death screens */
+  #btnHome {
+    display: none; position: fixed; z-index: 15; left: calc(2vmin + env(safe-area-inset-left)); top: calc(2vmin + env(safe-area-inset-top));
+    padding: 1.2vmin 2.4vmin; font: 800 clamp(12px, 2.2vmin, 18px) -apple-system, system-ui, sans-serif; letter-spacing: .08em; color: #fff;
+    border: 2px solid rgba(255,255,255,.55); border-radius: 99px; background: rgba(0,0,0,.55); touch-action: manipulation;
+  }
+  body.menu:not(.home) #btnHome { display: block; }
 </style>
 </head>
-<body>
+<body class="home">
+<div id="home">
+  <h1>
+    <svg viewBox="0 0 64 40" aria-hidden="true"><defs><linearGradient id="tail" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5b7cff" stop-opacity="0"/><stop offset="1" stop-color="#8fd0ff"/></linearGradient></defs>
+      <path d="M0 6 L44 15 Q50 20 44 25 L0 34 Q22 20 0 6Z" fill="url(#tail)"/><circle cx="48" cy="20" r="11" fill="#fff"/><circle cx="48" cy="20" r="7" fill="#8fd0ff"/></svg>
+    <span>Cometbound Games</span>
+  </h1>
+  <div class="sub">Pick a game</div>
+  <div class="cards">
+    <button class="card play" id="cardRay" type="button">
+      <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></svg></span>
+      <span class="tag">PLAY</span>
+      <span class="name">Raycast Arena</span>
+      <span class="desc">First-person shooter. Survive endless waves.</span>
+    </button>
+    <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
+    <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
+    <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
+  </div>
+</div>
+<div id="ver">v0.9.1</div>
+<button id="btnHome" type="button">&#8962; MENU</button>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
 <div id="touch">
   <div id="joyBase"></div><div id="joyKnob"></div>
@@ -61,7 +135,7 @@
 
 <script>
 /* =====================================================================
- *  RAYCAST ARENA  -  a first-person shooter in a single HTML file.
+ *  COMETBOUND GAMES v0.9.1  -  home menu + RAYCAST ARENA (first-person shooter), one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -432,7 +506,7 @@ function addPitch(v) { pitch = Math.max(-PITCH_MAX, Math.min(PITCH_MAX, pitch + 
 function startGame() { reset(); state = ST_PLAY; paused = false; capture(true); syncBody(); }
 function pause() {
   if (state !== ST_PLAY || paused) return;
-  paused = true; mouseDown = false; touchFire = false; joyX = joyY = 0;
+  paused = true; pausedAt = performance.now(); mouseDown = false; touchFire = false; joyX = joyY = 0;
   if (document.pointerLockElement) document.exitPointerLock();
   syncBody();
 }
@@ -982,6 +1056,22 @@ window.addEventListener('orientationchange', () => setTimeout(resize, 150));
 resize();
 
 // ------------------------------------------------------------------ input: keyboard / mouse
+let inHome = true, pausedAt = 0;
+function showGame() {
+  initAudio();
+  inHome = false; document.body.classList.remove('home');
+  state = ST_TITLE; paused = false; syncBody(); resize();
+  lastT = performance.now();
+}
+function goHome() {
+  if (document.pointerLockElement) document.exitPointerLock();
+  state = ST_TITLE; paused = false; mouseDown = false; touchFire = false; joyX = joyY = 0;
+  ptrs.clear(); joyBase.style.display = joyKnob.style.display = 'none'; btnFire.classList.remove('down');
+  for (const k in keys) keys[k] = false;
+  inHome = true; document.body.classList.add('home'); syncBody();
+  document.getElementById('cardRay').focus();
+}
+
 function activate() {
   initAudio();
   if (touchMode) {
@@ -993,12 +1083,16 @@ function activate() {
 }
 
 window.addEventListener('keydown', e => {
+  if (inHome) return;
   if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.code)) e.preventDefault();
   keys[e.code] = true;
   if (e.repeat) return;
   switch (e.code) {
     case 'Enter': activate(); break;
-    case 'Escape': pause(); break;
+    case 'Escape':
+      if (state === ST_PLAY && !paused) pause();
+      else if (performance.now() - pausedAt > 400) goHome();
+      break;
     case 'KeyM': soundOn = !soundOn; toast('SOUND ' + (soundOn ? 'ON' : 'OFF')); break;
     case 'Digit1': selectWeapon(0); break;
     case 'Digit2': selectWeapon(1); break;
@@ -1098,7 +1192,7 @@ window.addEventListener('pointerup', e => { if (e.pointerType === 'mouse') { if 
 window.addEventListener('pointercancel', e => { if (e.pointerType !== 'mouse') pointerEnd(e); });
 
 // stop iOS from scrolling / zooming / selecting
-document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+document.addEventListener('touchmove', e => { if (!e.target.closest || !e.target.closest('#home')) e.preventDefault(); }, { passive: false });
 document.addEventListener('touchstart', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault()));
 let lastTap = 0;
@@ -1109,13 +1203,20 @@ let lastT = performance.now();
 function frame(now) {
   const dt = Math.min(.05, (now - lastT) / 1000);
   lastT = now;
-  if (dt > 0) fps += (1 / dt - fps) * .05;
-  update(dt);
-  paint();
+  if (!inHome) {
+    if (dt > 0) fps += (1 / dt - fps) * .05;
+    update(dt);
+    paint();
+  }
   requestAnimationFrame(frame);
 }
+document.getElementById('cardRay').addEventListener('click', showGame);
+const btnHomeEl = document.getElementById('btnHome');
+btnHomeEl.addEventListener('pointerdown', e => e.stopPropagation());
+btnHomeEl.addEventListener('click', e => { e.stopPropagation(); goHome(); });
 reset();
 syncBody();
+document.getElementById('cardRay').focus();
 requestAnimationFrame(frame);
 </script>
 </body>
