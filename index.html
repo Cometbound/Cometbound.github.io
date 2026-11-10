@@ -93,10 +93,9 @@
   .card.play.combat .thumb { color: #c9ceda; }
   .card.play.combat .tag { background: #6b7280; }
   .card.play.combat:hover, .card.play.combat:focus-visible { box-shadow: 0 0 36px rgba(170,178,196,.4); }
-  .card.play.geo { border-color: #8b93a7; background: linear-gradient(160deg, rgba(150,158,176,.26), rgba(70,76,92,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 22px rgba(150,158,176,.16); }
-  .card.play.geo .thumb { color: #c9ceda; }
-  .card.play.geo .tag { background: #6b7280; }
-  .card.play.geo:hover, .card.play.geo:focus-visible { box-shadow: 0 0 36px rgba(170,178,196,.4); }
+  .card.play.geo { border-color: #35a7ff; background: linear-gradient(160deg, rgba(40,130,255,.30), rgba(15,60,120,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(53,167,255,.25); }
+  .card.play.geo .tag { background: #2f9bff; }
+  .card.play.geo:hover, .card.play.geo:focus-visible { box-shadow: 0 0 40px rgba(53,167,255,.5); }
   .card.play.invaders { border-color: #4ade80; background: linear-gradient(160deg, rgba(60,220,130,.26), rgba(15,90,60,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(74,222,128,.22); }
   .card.play.invaders .tag { background: #22c55e; }
   .card.play.invaders:hover, .card.play.invaders:focus-visible { box-shadow: 0 0 40px rgba(74,222,128,.5); }
@@ -227,6 +226,7 @@
     border: 2px solid rgba(255,255,255,.5); background: rgba(5,8,22,.78); white-space: nowrap; }
   .geoBtn { cursor: pointer; touch-action: manipulation; } .geoBtn:hover { background: rgba(40,60,120,.9); }
   .geoPill b { color: #ffe27a; }
+  .geoPill .urgent { color: #ff6b6b; }
   #geoShade { display: none; position: absolute; inset: 0; z-index: 4; background: rgba(5,8,22,.78); }
   #geo.result #geoShade { display: block; }
   #geoMapWrap { display: none; position: absolute; z-index: 5; right: calc(2vmin + env(safe-area-inset-right)); bottom: calc(2vmin + env(safe-area-inset-bottom)); width: min(44vw, 340px); flex-direction: column; gap: 1vmin; }
@@ -275,7 +275,7 @@
     </button>
     <button class="card play geo" id="cardGeo" type="button">
       <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="13" r="9"/><path d="M2 13h18M11 4c-3 2.5-3 15.5 0 18M11 4c3 2.5 3 15.5 0 18" opacity=".55"/><path d="M17 1.5a3.5 3.5 0 0 1 3.5 3.5c0 2.600-3.5 6-3.5 6s-3.5-3.400-3.5-6A3.5 3.5 0 0 1 17 1.5Z" fill="currentColor"/></svg></span>
-      <span class="tag">IN DEV</span>
+      <span class="tag">SOLO</span>
       <span class="name">CometGuessr</span>
       <span class="desc">Dropped somewhere on Earth in Street View. Guess where.</span>
     </button>
@@ -287,7 +287,7 @@
     </button>
   </div>
 </div>
-<div id="ver">v0.9.4-pre1</div>
+<div id="ver">v0.9.4</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -296,7 +296,7 @@
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
     <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
@@ -306,7 +306,7 @@
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="cc">
@@ -328,7 +328,7 @@
     <div id="ccServerRow"><label for="ccServer">Server</label><input id="ccServer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="ccServerStatus" class="ccSrv"></div></div>
     <div id="ccUserErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccFind" class="ccBtn primary" type="button">Find match</button><button id="ccBack" class="ccBtn" type="button">Back</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 
   <div id="ccLobby" class="ccPanel">
@@ -337,7 +337,7 @@
     <p>Playing as <b id="ccLobbyName"></b> · <span id="ccLobbyTime">0:00</span></p>
     <p id="ccLobbyStatus"></p>
     <button id="ccCancel" class="ccBtn" type="button">Cancel</button>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 
   <div id="ccResult" class="ccPanel">
@@ -345,7 +345,7 @@
     <p id="ccResReason"></p>
     <p id="ccResStats"></p>
     <div class="ccRow"><button id="ccAgain" class="ccBtn primary" type="button">Find new match</button><button id="ccResMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 
   <div id="ccLeave" class="ccPanel">
@@ -360,14 +360,14 @@
     <div><label for="ccDevPw">Developer password</label><input id="ccDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
     <div id="ccDevErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccDevOk" class="ccBtn primary" type="button">Unlock</button><button id="ccDevCancel" class="ccBtn" type="button">Cancel</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 
   <div id="ccError" class="ccPanel">
     <h2>Oops</h2>
     <p id="ccErrMsg"></p>
     <div class="ccRow"><button id="ccErrRetry" class="ccBtn primary" type="button">Try again</button><button id="ccErrBack" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="si">
@@ -387,7 +387,7 @@
     <p><b>Keyboard</b> &nbsp;A / D or arrows move, Space fires, 1-5 then click a platform to build<br><b>Mouse</b> &nbsp;move to steer, hold click to fire<br><b>Touch</b> &nbsp;drag to steer (auto-fire), build from the shop bar</p>
     <p id="siStartBest"></p>
     <div class="ccRow"><button id="siPlay" class="ccBtn primary" type="button">Play</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
   <div id="siPause" class="ccPanel">
     <h2>Paused</h2>
@@ -397,14 +397,14 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="geo">
   <div id="geoView"><span id="geoViewMsg">Loading Street View&hellip;</span><iframe id="geoFrame" title="Street View" src="about:blank" allow="accelerometer; gyroscope; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   <div id="geoBarL" class="geoBar"><button id="geoMenuBtn" class="geoBtn" type="button">&#10005; MENU</button></div>
   <div id="geoBarC" class="geoBar"><div class="geoPill" id="geoHud"></div></div>
-  <div id="geoBarR" class="geoBar"><button id="geoReset" class="geoBtn" type="button" title="Go back to where the round started">&#8634; START POINT</button><button id="geoSkip" class="geoBtn" type="button" title="Swap this location for another one (no penalty)">NO IMAGE? SKIP</button></div>
+  <div id="geoBarR" class="geoBar"><button id="geoReset" class="geoBtn" type="button" title="Go back to where the round started">&#8634; START POINT</button></div>
   <div id="geoShade"></div>
   <div id="geoMapWrap">
     <div id="geoRes"><div class="big" id="geoResBig"></div><div class="sm" id="geoResSm"></div></div>
@@ -412,22 +412,14 @@
     <div id="geoRow"><button id="geoGrow" class="ccBtn" type="button" aria-label="Enlarge map">&#10530;</button><button id="geoGuess" class="ccBtn primary" type="button" disabled>Place your pin on the map</button></div>
   </div>
 
-  <div id="geoDev" class="ccPanel">
-    <h2>Under development</h2>
-    <p>CometGuessr is still under development and is locked for now. Enter the developer password to continue.</p>
-    <div><label for="geoDevPw">Developer password</label><input id="geoDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
-    <div id="geoDevErr" class="ccErr" role="alert"></div>
-    <div class="ccRow"><button id="geoDevOk" class="ccBtn primary" type="button">Unlock</button><button id="geoDevCancel" class="ccBtn" type="button">Cancel</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
-  </div>
   <div id="geoStart" class="ccPanel">
     <h2>CometGuessr</h2>
-    <p>You are dropped somewhere on Earth in Google Street View. Look around, move along the roads, then place a pin on the world map where you think you are. Five rounds, up to 5,000 points each: the closer the pin, the higher the score.</p>
+    <p>You are dropped somewhere on Earth in Google Street View. Look around, move along the roads, then place a pin on the world map where you think you are. Five rounds of 45 seconds each, up to 5,000 points per round: the closer the pin, the higher the score. Run out of time and your pin is submitted, or the round scores 0 if you never placed one.</p>
     <p><b>Look</b> &nbsp;drag the view &nbsp; <b>Move</b> &nbsp;click or tap the arrows on the road &nbsp; <b>Guess</b> &nbsp;open the map, drop a pin, press Guess</p>
     <p id="geoStartBest"></p>
     <div id="geoStartErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1 &middot; needs an internet connection</div>
+    <div class="ccver">v0.9.4 &middot; needs an internet connection</div>
   </div>
   <div id="geoOver" class="ccPanel">
     <h2>Final score</h2>
@@ -435,7 +427,7 @@
     <ul id="geoList"></ul>
     <p id="geoOverBest"></p>
     <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4-pre1</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -448,7 +440,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.4-pre1  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS + COMETGUESSR, one HTML file.
+ *  COMETBOUND GAMES v0.9.4  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS + COMETGUESSR, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -1515,7 +1507,7 @@ requestAnimationFrame(frame);
 </script>
 <script>
 /* =====================================================================
- *  COMETCOMBAT  v0.9.4-pre1  -  1v1 top-down shooter (survev.io style)
+ *  COMETCOMBAT  v0.9.4  -  1v1 top-down shooter (survev.io style)
  *
  *  Networking: one player is the HOST and runs the authoritative simulation;
  *  the GUEST sends inputs and renders snapshots (with local movement prediction).
@@ -1524,7 +1516,7 @@ requestAnimationFrame(frame);
  * ===================================================================== */
 'use strict';
 const CC = (() => {
-  const VER = 'v0.9.4-pre1';
+  const VER = 'v0.9.4';
   const $ = id => document.getElementById(id);
   const root = $('cc'), cv = $('ccCanvas'), g = cv.getContext('2d');
   const panels = { name: $('ccName'), lobby: $('ccLobby'), result: $('ccResult'), leave: $('ccLeave'), error: $('ccError'), dev: $('ccDev') };
@@ -3456,7 +3448,7 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  COMETGUESSR  v0.9.4-pre1  -  guess where you are from Google Street View
+ *  COMETGUESSR  v0.9.4  -  guess where you are from Google Street View
  *
  *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
  *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
@@ -3468,8 +3460,9 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 const GEO = (() => {
   'use strict';
   const $ = id => document.getElementById(id);
+  const CARTO_KEY = 'cb1_56i7_1_3967cc172856bfd10117dcc5';   // CARTO basemaps key: map tiles on the guess map
   const GOOGLE_MAPS_KEY = '';
-  const ROUNDS = 5, MAX_PTS = 5000;
+  const ROUNDS = 5, MAX_PTS = 5000, ROUND_SECS = 45;
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } },
@@ -3515,26 +3508,6 @@ const GEO = (() => {
     ['https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'],
   ];
 
-  // Developer lock: same password and same remembered unlock (sessionStorage 'cc.dev') as CometCombat.
-  const DEV_HASH = 2740183783595544;
-  function cyrb53(str, seed = 0) {
-    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-    for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
-    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-  }
-  const pwOk = pw => cyrb53('cometcombat:' + pw) === DEV_HASH;
-  let unlocked = false;
-  try { const sp = sessionStorage.getItem('cc.dev') || ''; if (sp && pwOk(sp)) unlocked = true; } catch (e) { /* ignore */ }
-  function submitDev() {
-    const v = $('geoDevPw').value;
-    if (!pwOk(v)) { $('geoDevErr').textContent = 'Incorrect password.'; $('geoDevPw').select(); return; }
-    unlocked = true; try { sessionStorage.setItem('cc.dev', v); } catch (e) { /* ignore */ }
-    $('geoDevErr').textContent = ''; showPanel('Start'); refreshBest();
-  }
-  function showDev() { $('geoDevPw').value = ''; $('geoDevErr').textContent = ''; showPanel('Dev'); setTimeout(() => { try { $('geoDevPw').focus(); } catch (e) { /* ignore */ } }, 50); }
-
   const root = $('geo'), frameEl = $('geoFrame'), wrap = $('geoMapWrap'), guessBtn = $('geoGuess');
   let active = false, state = 'title';                 // title | guess | result | over
   let map = null, layer = null, loadP = null, rounds = [], ri = 0, total = 0, guess = null, used = new Set(), curURL = '';
@@ -3559,7 +3532,7 @@ const GEO = (() => {
     const L = window.L;
     map = L.map('geoMap', { worldCopyJump: true, minZoom: 1, maxZoom: 18, zoomSnap: .5, attributionControl: true }).setView([20, 0], 1);
     map.attributionControl.setPrefix(false);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', maxZoom: 20, attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=' + encodeURIComponent(CARTO_KEY), { subdomains: 'abcd', maxZoom: 20, attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(map);
     layer = L.layerGroup().addTo(map);
     map.on('click', e => { if (state === 'guess') setGuess(e.latlng.wrap()); });
     if (window.ResizeObserver) new ResizeObserver(() => { if (map) map.invalidateSize({ animate: false }); }).observe($('geoMap'));
@@ -3593,8 +3566,23 @@ const GEO = (() => {
     used.add(i); seen.push(i); store.set('geo.seen', JSON.stringify(seen.slice(-Math.floor(LOCS.length * .6))));
     return { loc: LOCS[i], heading: Math.floor(Math.random() * 360) };
   }
-  function showPanel(which) { for (const p of ['Dev', 'Start', 'Over']) $('geo' + p).classList.toggle('show', which === p); }
-  function hud() { $('geoHud').innerHTML = 'ROUND <b>' + (ri + 1) + '</b> / ' + ROUNDS + ' &nbsp;&middot;&nbsp; <b>' + fmt(total) + '</b> PTS'; }
+  function showPanel(which) { for (const p of ['Start', 'Over']) $('geo' + p).classList.toggle('show', which === p); }
+  let timerEnd = 0, timerId = 0;
+  function timeLeft() { return Math.max(0, Math.ceil((timerEnd - Date.now()) / 1000)); }
+  function hud() {
+    let t = '';
+    if (state === 'guess') { const l = timeLeft(); t = ' &nbsp;&middot;&nbsp; <span class="' + (l <= 10 ? 'urgent' : '') + '">' + Math.floor(l / 60) + ':' + String(l % 60).padStart(2, '0') + '</span>'; }
+    $('geoHud').innerHTML = 'ROUND <b>' + (ri + 1) + '</b> / ' + ROUNDS + ' &nbsp;&middot;&nbsp; <b>' + fmt(total) + '</b> PTS' + t;
+  }
+  function stopTimer() { clearInterval(timerId); timerId = 0; }
+  function startTimer() {
+    stopTimer(); timerEnd = Date.now() + ROUND_SECS * 1000;
+    timerId = setInterval(() => {
+      if (state !== 'guess') { stopTimer(); return; }
+      if (timeLeft() <= 0) { stopTimer(); makeGuess(); return; }
+      hud();
+    }, 250);
+  }
   function bestText() { const b = +store.get('geo.best', 0) || 0; return b ? 'Best: ' + fmt(b) + ' / ' + fmt(ROUNDS * MAX_PTS) : 'No record yet'; }
 
   // ------------------------------------------------------------------ game flow
@@ -3602,11 +3590,10 @@ const GEO = (() => {
   function startRound() {
     state = 'guess'; guess = null; root.classList.remove('result'); root.classList.add('playing'); wrap.classList.remove('open');
     layer.clearLayers(); guessBtn.disabled = true; guessBtn.textContent = 'Place your pin on the map';
-    hud(); loadView();
+    hud(); loadView(); startTimer();
     requestAnimationFrame(() => { map.invalidateSize({ animate: false }); map.setView([20, 0], 1, { animate: false }); });
   }
   function start() {
-    if (!unlocked) { showDev(); return; }
     $('geoStartErr').textContent = ''; $('geoPlay').disabled = true;
     loadLeaflet().then(() => {
       $('geoPlay').disabled = false; if (!active) return;
@@ -3614,51 +3601,61 @@ const GEO = (() => {
       ri = 0; total = 0; showPanel(null); startRound();
     }, () => { $('geoPlay').disabled = false; $('geoStartErr').textContent = 'Could not load the map. Check your internet connection and try again.'; });
   }
-  function skip() { if (state !== 'guess') return; rounds[ri] = pickLoc(); loadView(); }
   function makeGuess() {
-    if (state !== 'guess' || !guess) return;
-    const r = rounds[ri], actual = { lat: r.loc[0], lng: r.loc[1] };
-    r.dist = distKm(guess, actual); r.pts = pointsFor(r.dist); total += r.pts; state = 'result';
-    root.classList.add('result'); wrap.classList.remove('open'); hud();
-    $('geoResBig').innerHTML = fmtDist(r.dist) + ' away &nbsp;&middot;&nbsp; <b>+' + fmt(r.pts) + '</b>';
-    $('geoResSm').textContent = 'It was ' + r.loc[2] + '  ·  ' + fmt(r.dist * .621371) + ' mi';
-    guessBtn.textContent = ri + 1 < ROUNDS ? 'Next round' : 'See final score';
-    const L = window.L; let lng = actual.lng; if (lng - guess.lng > 180) lng -= 360; else if (lng - guess.lng < -180) lng += 360;
+    if (state !== 'guess') return;
+    stopTimer();
+    const r = rounds[ri], actual = { lat: r.loc[0], lng: r.loc[1] }, L = window.L;
+    state = 'result'; root.classList.add('result'); wrap.classList.remove('open');
+    let lng = actual.lng;
     layer.clearLayers();
-    L.polyline([[guess.lat, guess.lng], [actual.lat, lng]], { color: '#111827', weight: 3, dashArray: '6 8' }).addTo(layer);
-    L.marker([guess.lat, guess.lng], { icon: pin('g'), interactive: false }).addTo(layer);
+    if (guess) {
+      r.dist = distKm(guess, actual); r.pts = pointsFor(r.dist);
+      if (lng - guess.lng > 180) lng -= 360; else if (lng - guess.lng < -180) lng += 360;
+      L.polyline([[guess.lat, guess.lng], [actual.lat, lng]], { color: '#111827', weight: 3, dashArray: '6 8' }).addTo(layer);
+      L.marker([guess.lat, guess.lng], { icon: pin('g'), interactive: false }).addTo(layer);
+      $('geoResBig').innerHTML = fmtDist(r.dist) + ' away &nbsp;&middot;&nbsp; <b>+' + fmt(r.pts) + '</b>';
+      $('geoResSm').textContent = 'It was ' + r.loc[2] + '  ·  ' + fmt(r.dist * .621371) + ' mi';
+    } else {
+      r.dist = null; r.pts = 0;
+      $('geoResBig').innerHTML = "Time's up &nbsp;&middot;&nbsp; <b>+0</b>";
+      $('geoResSm').textContent = 'No pin was placed. It was ' + r.loc[2] + '.';
+    }
+    total += r.pts; hud();
     L.marker([actual.lat, lng], { icon: pin('a'), interactive: false }).addTo(layer);
-    requestAnimationFrame(() => { map.invalidateSize({ animate: false }); map.fitBounds(L.latLngBounds([[guess.lat, guess.lng], [actual.lat, lng]]).pad(.35), { maxZoom: 14, animate: false }); });
+    guessBtn.disabled = false; guessBtn.textContent = ri + 1 < ROUNDS ? 'Next round' : 'See final score';
+    requestAnimationFrame(() => {
+      map.invalidateSize({ animate: false });
+      if (guess) map.fitBounds(L.latLngBounds([[guess.lat, guess.lng], [actual.lat, lng]]).pad(.35), { maxZoom: 14, animate: false });
+      else map.setView([actual.lat, lng], 5, { animate: false });
+    });
   }
   function next() {
     if (state !== 'result') return;
+    stopTimer();
     if (ri + 1 < ROUNDS) { ri++; startRound(); return; }
-    state = 'over'; root.classList.remove('result', 'playing'); frameEl.src = 'about:blank';
+    stopTimer(); state = 'over'; root.classList.remove('result', 'playing'); frameEl.src = 'about:blank';
     const prev = +store.get('geo.best', 0) || 0, nb = total > prev; if (nb) store.set('geo.best', String(total));
     $('geoOverScore').textContent = fmt(total) + ' / ' + fmt(ROUNDS * MAX_PTS);
     const ul = $('geoList'); ul.innerHTML = '';
-    for (const r of rounds) { const li = document.createElement('li'), a = document.createElement('span'), b = document.createElement('span'); a.textContent = r.loc[2] + '  ·  ' + fmtDist(r.dist); b.textContent = fmt(r.pts); li.append(a, b); ul.appendChild(li); }
+    for (const r of rounds) { const li = document.createElement('li'), a = document.createElement('span'), b = document.createElement('span'); a.textContent = r.loc[2] + '  ·  ' + (r.dist == null ? 'no pin' : fmtDist(r.dist)); b.textContent = fmt(r.pts); li.append(a, b); ul.appendChild(li); }
     $('geoOverBest').textContent = nb ? 'New best!' : 'Best: ' + fmt(prev);
     showPanel('Over');
   }
   function refreshBest() { $('geoStartBest').textContent = bestText(); $('geoStartErr').textContent = ''; }
   function open() {
     active = true; state = 'title'; root.classList.remove('playing', 'result');
-    if (unlocked) { refreshBest(); showPanel('Start'); } else showDev();
+    refreshBest(); showPanel('Start');
     loadLeaflet().catch(() => { /* reported when Play is pressed */ });
   }
   function exit() {
-    active = false; state = 'title'; root.classList.remove('playing', 'result'); showPanel(null); frameEl.src = 'about:blank';
+    stopTimer(); active = false; state = 'title'; root.classList.remove('playing', 'result'); showPanel(null); frameEl.src = 'about:blank';
     document.body.classList.remove('geo'); document.body.classList.add('home');
     try { $('cardGeo').focus(); } catch (e) { /* ignore */ }
   }
 
   guessBtn.addEventListener('click', () => { if (state === 'guess') makeGuess(); else next(); });
   $('geoGrow').addEventListener('click', () => wrap.classList.toggle('open'));
-  $('geoSkip').addEventListener('click', skip);
   $('geoReset').addEventListener('click', () => { if (state === 'guess') { frameEl.src = 'about:blank'; setTimeout(() => { if (state === 'guess') frameEl.src = curURL; }, 60); } });
-  $('geoDevOk').addEventListener('click', submitDev); $('geoDevCancel').addEventListener('click', exit);
-  $('geoDevPw').addEventListener('keydown', e => { if (e.code === 'Enter') { e.preventDefault(); submitDev(); } });
   $('geoPlay').addEventListener('click', start); $('geoAgain').addEventListener('click', start);
   for (const id of ['geoMenuBtn', 'geoStartMenu', 'geoOverMenu']) $(id).addEventListener('click', exit);
   window.addEventListener('keydown', e => {
@@ -3667,7 +3664,7 @@ const GEO = (() => {
     if (e.code === 'Enter' || e.code === 'Space') {
       if (e.target && (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT')) return;
       e.preventDefault();
-      if (state === 'title' || state === 'over') { if (unlocked) start(); else showDev(); } else if (state === 'guess') makeGuess(); else next();
+      if (state === 'title' || state === 'over') start(); else if (state === 'guess') makeGuess(); else next();
     }
   });
   return { open, exit, api: { state: () => state, rounds: () => rounds, total: () => total, setGuess: (lat, lng) => setGuess({ lat, lng }), locs: LOCS, map: () => map, url: () => curURL } };
