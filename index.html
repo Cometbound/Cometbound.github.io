@@ -89,9 +89,14 @@
   }
   .card.play .thumb { color: #fff; }
   .card.play .tag { background: #ff6a3c; color: #fff; }
-  .card.play.combat { border-color: #35a7ff; background: linear-gradient(160deg, rgba(40,130,255,.30), rgba(15,60,120,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(53,167,255,.25); }
-  .card.play.combat .tag { background: #2f9bff; }
-  .card.play.combat:hover, .card.play.combat:focus-visible { box-shadow: 0 0 40px rgba(53,167,255,.5); }
+  .card.play.combat { border-color: #8b93a7; background: linear-gradient(160deg, rgba(150,158,176,.26), rgba(70,76,92,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 22px rgba(150,158,176,.16); }
+  .card.play.combat .thumb { color: #c9ceda; }
+  .card.play.combat .tag { background: #6b7280; }
+  .card.play.combat:hover, .card.play.combat:focus-visible { box-shadow: 0 0 36px rgba(170,178,196,.4); }
+  .card.play.geo { border-color: #8b93a7; background: linear-gradient(160deg, rgba(150,158,176,.26), rgba(70,76,92,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 22px rgba(150,158,176,.16); }
+  .card.play.geo .thumb { color: #c9ceda; }
+  .card.play.geo .tag { background: #6b7280; }
+  .card.play.geo:hover, .card.play.geo:focus-visible { box-shadow: 0 0 36px rgba(170,178,196,.4); }
   .card.play.invaders { border-color: #4ade80; background: linear-gradient(160deg, rgba(60,220,130,.26), rgba(15,90,60,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(74,222,128,.22); }
   .card.play.invaders .tag { background: #22c55e; }
   .card.play.invaders:hover, .card.play.invaders:focus-visible { box-shadow: 0 0 40px rgba(74,222,128,.5); }
@@ -105,7 +110,7 @@
   #rc { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
   #rc .ccPanel { z-index: 3; background: radial-gradient(ellipse at 50% 0%, rgba(24,44,100,.82), rgba(5,8,22,.9) 70%); }
   #rc .ccPanel.show { pointer-events: auto; }
-  body.home #rc, body.cc #rc, body.si #rc { display: none; }
+  body.home #rc, body.cc #rc, body.si #rc, body.geo #rc { display: none; }
   .rcTouch { display: none; } body.touch .rcTouch { display: block; } body.touch .rcDesk { display: none; }
   #rcOver h2 { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
@@ -206,6 +211,45 @@
   .siT.off { opacity: .45; } .siT.on { border-color: #7cf0c8; background: rgba(40,120,100,.75); }
   .siT.go { border-color: #ffe27a; background: rgba(120,90,10,.75); }
   #siMoney { cursor: default; font-size: clamp(12px, 2.4vmin, 18px); color: #ffe27a; min-width: clamp(58px, 11vmin, 100px); }
+
+  /* ---------- CometGuessr ---------- */
+  #geo { display: none; position: fixed; inset: 0; z-index: 10; background: #050816; color: #fff; overflow: hidden; --crop: 150px; }
+  body.geo #geo { display: block; }
+  body.geo #wrap, body.geo #touch, body.geo #btnHome { display: none !important; }
+  #geoView { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(ellipse at 50% 0%, #14224f, #050816 70%); display: flex; align-items: center; justify-content: center; color: #8fa5d8; font-size: clamp(12px, 2.2vmin, 18px); }
+  /* the top strip of the embed (which carries the address card) is pushed off-screen */
+  #geoFrame { position: absolute; left: 0; top: calc(-1 * var(--crop)); width: 100%; height: calc(100% + var(--crop)); border: 0; }
+  .geoBar { position: absolute; z-index: 4; top: calc(2vmin + env(safe-area-inset-top)); display: none; gap: 1vmin; align-items: center; }
+  #geo.playing .geoBar { display: flex; }
+  #geoBarL { left: calc(2vmin + env(safe-area-inset-left)); } #geoBarR { right: calc(2vmin + env(safe-area-inset-right)); }
+  #geoBarC { left: 50%; transform: translateX(-50%); }
+  .geoBtn, .geoPill { font: 800 clamp(11px, 2vmin, 15px) -apple-system, system-ui, sans-serif; letter-spacing: .06em; color: #fff; padding: 1.1vmin 2vmin; border-radius: 99px;
+    border: 2px solid rgba(255,255,255,.5); background: rgba(5,8,22,.78); white-space: nowrap; }
+  .geoBtn { cursor: pointer; touch-action: manipulation; } .geoBtn:hover { background: rgba(40,60,120,.9); }
+  .geoPill b { color: #ffe27a; }
+  #geoShade { display: none; position: absolute; inset: 0; z-index: 4; background: rgba(5,8,22,.78); }
+  #geo.result #geoShade { display: block; }
+  #geoMapWrap { display: none; position: absolute; z-index: 5; right: calc(2vmin + env(safe-area-inset-right)); bottom: calc(2vmin + env(safe-area-inset-bottom)); width: min(44vw, 340px); flex-direction: column; gap: 1vmin; }
+  #geo.playing #geoMapWrap { display: flex; }
+  #geoMap { position: relative; z-index: 0; height: min(32vh, 230px); border-radius: 12px; border: 2px solid rgba(255,255,255,.55); background: #aad3df; overflow: hidden; cursor: crosshair; box-shadow: 0 6px 30px rgba(0,0,0,.5); }
+  #geoMapWrap.open { width: min(80vw, 760px); } #geoMapWrap.open #geoMap { height: min(62vh, 520px); }
+  @media (hover: hover) and (pointer: fine) { #geoMapWrap:hover { width: min(70vw, 760px); } #geoMapWrap:hover #geoMap { height: min(62vh, 520px); } }
+  #geo.result #geoMapWrap { right: auto; bottom: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(94vw, 980px); }
+  #geo.result #geoMap { height: min(58vh, 600px); cursor: grab; }
+  #geoRow { display: flex; gap: 1vmin; } #geoRow .ccBtn { margin: 0; }
+  #geoGuess { flex: 1; } #geoGuess:disabled { opacity: .55; cursor: default; }
+  #geoGrow { flex: none; min-width: 0; padding-left: 2vmin; padding-right: 2vmin; }
+  #geoRes { display: none; text-align: center; background: rgba(8,14,36,.92); border: 2px solid rgba(255,255,255,.25); border-radius: 12px; padding: 1.4vmin 2vmin; }
+  #geo.result #geoRes { display: block; } #geo.result #geoGrow { display: none; }
+  #geoRes .big { font-size: clamp(16px, 3.4vmin, 30px); font-weight: 900; } #geoRes .big b { color: #ffe27a; }
+  #geoRes .sm { color: #a9bbe6; font-size: clamp(12px, 2.1vmin, 17px); margin-top: .4vmin; }
+  #geo .ccPanel { z-index: 7; }
+  #geo:not(.playing) #geoViewMsg { display: none; }
+  #geoList { list-style: none; margin: 0; padding: 0; width: min(92vw, 560px); text-align: left; font-size: clamp(12px, 2.1vmin, 17px); color: #cdd8f5; }
+  #geoList li { display: flex; justify-content: space-between; gap: 2vmin; padding: .7vmin 0; border-bottom: 1px solid rgba(255,255,255,.12); }
+  #geoList li span:last-child { color: #ffe27a; font-weight: 800; white-space: nowrap; }
+  .geoPin { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.6); box-sizing: border-box; }
+  .geoPin.g { background: #2f6bff; } .geoPin.a { background: #22c55e; }
 </style>
 </head>
 <body class="home">
@@ -219,15 +263,9 @@
   <div class="cards">
     <button class="card play" id="cardRay" type="button">
       <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></svg></span>
-      <span class="tag">PLAY</span>
+      <span class="tag">SOLO</span>
       <span class="name">Raycast Arena</span>
       <span class="desc">First-person shooter. Survive endless waves.</span>
-    </button>
-    <button class="card play combat" id="cardCombat" type="button">
-      <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="8" r="3.6" fill="currentColor"/><path d="M13.4 10.6 3.5 20.5M15.2 12.2 8 21M11.6 8.8 3 12.5"/><path d="M16 1.5v2M22.5 8h-2M16 14.5v-2" /></svg></span>
-      <span class="tag">1v1</span>
-      <span class="name">CometCombat</span>
-      <span class="desc">Top-down duel. Loot, shoot, outlast the zone.</span>
     </button>
     <button class="card play invaders" id="cardInvaders" type="button">
       <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 22.5a15 15 0 0 1 22 0"/><circle cx="17" cy="6" r="2.6" fill="currentColor"/><path d="M15.2 8 8 15.5M17.4 8.8 12.5 16M14.4 6 6.5 9"/></svg></span>
@@ -235,10 +273,21 @@
       <span class="name">Comet Invaders</span>
       <span class="desc">Defend Earth from raining comets. Build autoshooters.</span>
     </button>
-    <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
+    <button class="card play geo" id="cardGeo" type="button">
+      <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="13" r="9"/><path d="M2 13h18M11 4c-3 2.5-3 15.5 0 18M11 4c3 2.5 3 15.5 0 18" opacity=".55"/><path d="M17 1.5a3.5 3.5 0 0 1 3.5 3.5c0 2.600-3.5 6-3.5 6s-3.5-3.400-3.5-6A3.5 3.5 0 0 1 17 1.5Z" fill="currentColor"/></svg></span>
+      <span class="tag">IN DEV</span>
+      <span class="name">CometGuessr</span>
+      <span class="desc">Dropped somewhere on Earth in Street View. Guess where.</span>
+    </button>
+    <button class="card play combat" id="cardCombat" type="button">
+      <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="8" r="3.6" fill="currentColor"/><path d="M13.4 10.6 3.5 20.5M15.2 12.2 8 21M11.6 8.8 3 12.5"/><path d="M16 1.5v2M22.5 8h-2M16 14.5v-2" /></svg></span>
+      <span class="tag">IN DEV</span>
+      <span class="name">CometCombat</span>
+      <span class="desc">1v1 top-down duel. Under development.</span>
+    </button>
   </div>
 </div>
-<div id="ver">v0.9.3</div>
+<div id="ver">v0.9.4-pre1</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -247,7 +296,7 @@
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
     <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
@@ -257,7 +306,7 @@
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 </div>
 <div id="cc">
@@ -279,7 +328,7 @@
     <div id="ccServerRow"><label for="ccServer">Server</label><input id="ccServer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="ccServerStatus" class="ccSrv"></div></div>
     <div id="ccUserErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccFind" class="ccBtn primary" type="button">Find match</button><button id="ccBack" class="ccBtn" type="button">Back</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 
   <div id="ccLobby" class="ccPanel">
@@ -288,7 +337,7 @@
     <p>Playing as <b id="ccLobbyName"></b> · <span id="ccLobbyTime">0:00</span></p>
     <p id="ccLobbyStatus"></p>
     <button id="ccCancel" class="ccBtn" type="button">Cancel</button>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 
   <div id="ccResult" class="ccPanel">
@@ -296,7 +345,7 @@
     <p id="ccResReason"></p>
     <p id="ccResStats"></p>
     <div class="ccRow"><button id="ccAgain" class="ccBtn primary" type="button">Find new match</button><button id="ccResMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 
   <div id="ccLeave" class="ccPanel">
@@ -306,19 +355,19 @@
   </div>
 
   <div id="ccDev" class="ccPanel">
-    <h2>Developers only</h2>
-    <p>CometCombat is online-only and is locked for now. Enter the developer password to continue.</p>
+    <h2>Under development</h2>
+    <p>CometCombat is still under development and is locked for now. Enter the developer password to continue.</p>
     <div><label for="ccDevPw">Developer password</label><input id="ccDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
     <div id="ccDevErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="ccDevOk" class="ccBtn primary" type="button">Unlock</button><button id="ccDevCancel" class="ccBtn" type="button">Cancel</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 
   <div id="ccError" class="ccPanel">
     <h2>Oops</h2>
     <p id="ccErrMsg"></p>
     <div class="ccRow"><button id="ccErrRetry" class="ccBtn primary" type="button">Try again</button><button id="ccErrBack" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 </div>
 <div id="si">
@@ -330,7 +379,7 @@
 
   <div id="siStart" class="ccPanel">
     <h2>Comet Invaders</h2>
-    <p>Comets are raining down on Earth. Fly your rocket to blast them, catch the crystals they leave behind, and spend them on autoshooters to hold the line through endless, escalating waves.</p>
+    <p>Comets are raining down on Earth. Fly your rocket to blast them, catch the crystals they leave behind (or buy the Auto-collector to gather them all at full value), and spend them on autoshooters to hold the line through endless, escalating waves.</p>
     <div class="siDiffRow">
       <button class="siDiff" data-diff="easy" type="button">Easy</button><button class="siDiff" data-diff="medium" type="button">Medium</button><button class="siDiff" data-diff="hard" type="button">Difficult</button><button class="siDiff ev" data-diff="event" type="button">Event Horizon</button>
     </div>
@@ -338,7 +387,7 @@
     <p><b>Keyboard</b> &nbsp;A / D or arrows move, Space fires, 1-5 then click a platform to build<br><b>Mouse</b> &nbsp;move to steer, hold click to fire<br><b>Touch</b> &nbsp;drag to steer (auto-fire), build from the shop bar</p>
     <p id="siStartBest"></p>
     <div class="ccRow"><button id="siPlay" class="ccBtn primary" type="button">Play</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
   <div id="siPause" class="ccPanel">
     <h2>Paused</h2>
@@ -348,7 +397,45 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.3</div>
+    <div class="ccver">v0.9.4-pre1</div>
+  </div>
+</div>
+<div id="geo">
+  <div id="geoView"><span id="geoViewMsg">Loading Street View&hellip;</span><iframe id="geoFrame" title="Street View" src="about:blank" allow="accelerometer; gyroscope; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+  <div id="geoBarL" class="geoBar"><button id="geoMenuBtn" class="geoBtn" type="button">&#10005; MENU</button></div>
+  <div id="geoBarC" class="geoBar"><div class="geoPill" id="geoHud"></div></div>
+  <div id="geoBarR" class="geoBar"><button id="geoReset" class="geoBtn" type="button" title="Go back to where the round started">&#8634; START POINT</button><button id="geoSkip" class="geoBtn" type="button" title="Swap this location for another one (no penalty)">NO IMAGE? SKIP</button></div>
+  <div id="geoShade"></div>
+  <div id="geoMapWrap">
+    <div id="geoRes"><div class="big" id="geoResBig"></div><div class="sm" id="geoResSm"></div></div>
+    <div id="geoMap"></div>
+    <div id="geoRow"><button id="geoGrow" class="ccBtn" type="button" aria-label="Enlarge map">&#10530;</button><button id="geoGuess" class="ccBtn primary" type="button" disabled>Place your pin on the map</button></div>
+  </div>
+
+  <div id="geoDev" class="ccPanel">
+    <h2>Under development</h2>
+    <p>CometGuessr is still under development and is locked for now. Enter the developer password to continue.</p>
+    <div><label for="geoDevPw">Developer password</label><input id="geoDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div id="geoDevErr" class="ccErr" role="alert"></div>
+    <div class="ccRow"><button id="geoDevOk" class="ccBtn primary" type="button">Unlock</button><button id="geoDevCancel" class="ccBtn" type="button">Cancel</button></div>
+    <div class="ccver">v0.9.4-pre1</div>
+  </div>
+  <div id="geoStart" class="ccPanel">
+    <h2>CometGuessr</h2>
+    <p>You are dropped somewhere on Earth in Google Street View. Look around, move along the roads, then place a pin on the world map where you think you are. Five rounds, up to 5,000 points each: the closer the pin, the higher the score.</p>
+    <p><b>Look</b> &nbsp;drag the view &nbsp; <b>Move</b> &nbsp;click or tap the arrows on the road &nbsp; <b>Guess</b> &nbsp;open the map, drop a pin, press Guess</p>
+    <p id="geoStartBest"></p>
+    <div id="geoStartErr" class="ccErr" role="alert"></div>
+    <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v0.9.4-pre1 &middot; needs an internet connection</div>
+  </div>
+  <div id="geoOver" class="ccPanel">
+    <h2>Final score</h2>
+    <p id="geoOverScore" style="font-size:clamp(18px,4vmin,34px);font-weight:900;color:#ffe27a"></p>
+    <ul id="geoList"></ul>
+    <p id="geoOverBest"></p>
+    <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v0.9.4-pre1</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -361,7 +448,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.3  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS, one HTML file.
+ *  COMETBOUND GAMES v0.9.4-pre1  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS + COMETGUESSR, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -1428,7 +1515,7 @@ requestAnimationFrame(frame);
 </script>
 <script>
 /* =====================================================================
- *  COMETCOMBAT  v0.9.3  -  1v1 top-down shooter (survev.io style)
+ *  COMETCOMBAT  v0.9.4-pre1  -  1v1 top-down shooter (survev.io style)
  *
  *  Networking: one player is the HOST and runs the authoritative simulation;
  *  the GUEST sends inputs and renders snapshots (with local movement prediction).
@@ -1437,7 +1524,7 @@ requestAnimationFrame(frame);
  * ===================================================================== */
 'use strict';
 const CC = (() => {
-  const VER = 'v0.9.3';
+  const VER = 'v0.9.4-pre1';
   const $ = id => document.getElementById(id);
   const root = $('cc'), cv = $('ccCanvas'), g = cv.getContext('2d');
   const panels = { name: $('ccName'), lobby: $('ccLobby'), result: $('ccResult'), leave: $('ccLeave'), error: $('ccError'), dev: $('ccDev') };
@@ -2622,10 +2709,10 @@ const SI = (() => {
 
   // ------------------------------------------------------------------ configuration
   const DIFF = {
-    easy:   { key: 'easy',   name: 'Easy',          earth: 160, money: 1.3, comets: .7,  speed: .85, hp: .85, dmg: .7, price: .9,  start: 160, heal: 8, cluster: 0,   desc: 'Relaxed: a sturdy Earth, richer harvests, fewer and slower comets.' },
-    medium: { key: 'medium', name: 'Medium',        earth: 120, money: 1,   comets: 1,   speed: 1,   hp: 1,   dmg: 1,  price: 1,   start: 110, heal: 5, cluster: 0,   desc: 'The intended experience.' },
-    hard:   { key: 'hard',   name: 'Difficult',     earth: 105, money: .88, comets: 1.3, speed: 1.12, hp: 1.2, dmg: 1.25, price: 1.1, start: 100, heal: 2, cluster: .08, desc: 'Faster, sturdier and more numerous comets. Resources are tighter.' },
-    event:  { key: 'event',  name: 'Event Horizon', earth: 100, money: .85, comets: 1.3, speed: 1.2, hp: 1.3, dmg: 1.4, price: 1.15, start: 120, heal: 0, cluster: .22, desc: 'Very hard. Swarms and clusters, brutal impacts, a fragile Earth and scarce resources.' },
+    easy:   { key: 'easy', auto: 750,   name: 'Easy',          earth: 160, money: 1.3, comets: .7,  speed: .85, hp: .85, dmg: .7, price: .9,  start: 160, heal: 8, cluster: 0,   desc: 'Relaxed: a sturdy Earth, richer harvests, fewer and slower comets.' },
+    medium: { key: 'medium', auto: 1000, name: 'Medium',        earth: 120, money: 1,   comets: 1,   speed: 1,   hp: 1,   dmg: 1,  price: 1,   start: 110, heal: 5, cluster: 0,   desc: 'The intended experience.' },
+    hard:   { key: 'hard', auto: 1250,   name: 'Difficult',     earth: 105, money: .88, comets: 1.3, speed: 1.12, hp: 1.2, dmg: 1.25, price: 1.1, start: 100, heal: 2, cluster: .08, desc: 'Faster, sturdier and more numerous comets. Resources are tighter.' },
+    event:  { key: 'event', auto: 1500,  name: 'Event Horizon', earth: 100, money: .85, comets: 1.3, speed: 1.2, hp: 1.3, dmg: 1.4, price: 1.15, start: 120, heal: 0, cluster: .22, desc: 'Very hard. Swarms and clusters, brutal impacts, a fragile Earth and scarce resources.' },
   };
   const TURRETS = [
     { n: 'Pulse',   price: 60,   dmg: 1.2, rate: .5,  range: 240, col: '#7cf0c8', kind: 'bullet', bspeed: 540, info: 'Cheap and steady' },
@@ -2656,7 +2743,7 @@ const SI = (() => {
   let diffKey = store.get('ci.diff', 'medium'), D = DIFF[DIFF[diffKey] ? diffKey : 'medium'];
   let R = Math.random, seed = 0, earthCv = null, stars = [];
   let wave = 0, score = 0, money = 0, earthHp = 0, earthMax = 0, kills = 0, time = 0, phase = 'prep', prepT = 0, waveT = 0;
-  let plan = null, queue = [], forecast = null, rocketLvl = 0, moneyEarned = 0;
+  let plan = null, queue = [], forecast = null, rocketLvl = 0, moneyEarned = 0, autoCollect = false;
   let ship, rockets, bullets, comets, crystals, parts, rings, pops, beams, craters, slots;
   let placing = -1, sellMode = false, hoverSlot = -1, toastMsg = '', toastT = 0, shake = 0, flashT = 0, bannerT = 0, banner = '', endT = 0;
   const keys = {};
@@ -2971,7 +3058,10 @@ const SI = (() => {
     // crystals (resources)
     for (const k of crystals) {
       k.t += dt; k.ph += dt * 4;
-      if (!k.landed) {
+      if (autoCollect && (k.age = (k.age || 0) + dt) > .3) {                 // auto-collector: crystals fly to the rocket for full value
+        const dx = ship.x - k.x, dy = SHIP_Y - k.y, d = Math.hypot(dx, dy) || 1, st = Math.min(d, (380 + k.age * 500) * dt);
+        k.x += dx / d * st; k.y += dy / d * st; k.landed = false; k.t = 0;
+      } else if (!k.landed) {
         k.x += (k.vx + Math.sin(k.ph) * 14) * dt; k.y += k.vy * dt; k.vx *= .99;
         if (k.y >= surfY(clamp(k.x, 0, W)) - 3) { k.landed = true; k.t = 0; k.y = surfY(clamp(k.x, 0, W)) - 3; }
       } else if (k.t > 3.5) { const v = Math.max(1, Math.round(k.val * .5)); money += v; moneyEarned += v; addPop(k.x, k.y - 10, '+' + v, '#9bd1ff'); k.val = 0; }
@@ -3021,6 +3111,11 @@ const SI = (() => {
     const c = repairCost(); if (money < c) { toast('Need ' + (c - money) + ' more ◆'); return; }
     money -= c; earthHp = Math.min(earthMax, earthHp + REPAIR_AMT); craters.splice(0, 4); beep(500, 1000, .2, 'triangle', .08); addPop(W / 2, surf.top - 30, '+' + REPAIR_AMT + ' EARTH', '#4ade80');
   }
+  function buyAuto() {
+    if (autoCollect) { toast('Auto-collector already installed'); return; }
+    const c = D.auto; if (money < c) { toast('Need ' + (c - Math.floor(money)) + ' more ◆'); return; }
+    money -= c; autoCollect = true; beep(600, 1600, .3, 'triangle', .09); addPop(ship.x, SHIP_Y - 30, 'AUTO-COLLECT ON', '#ffe27a');
+  }
   function upgradeRocket() {
     if (rocketLvl >= MAX_ROCKET) { toast('Rocket fully upgraded'); return; }
     const c = rocketCost(); if (money < c) { toast('Need ' + (c - money) + ' more ◆'); return; }
@@ -3033,7 +3128,7 @@ const SI = (() => {
     D = DIFF[diffKey] || DIFF.medium;
     seed = (Math.random() * 4294967295) >>> 0; R = mulberry(seed);
     buildEarth();
-    wave = 0; score = 0; money = D.start; moneyEarned = 0; earthMax = D.earth; earthHp = earthMax; kills = 0; time = 0; rocketLvl = 0;
+    wave = 0; score = 0; money = D.start; moneyEarned = 0; earthMax = D.earth; earthHp = earthMax; kills = 0; time = 0; rocketLvl = 0; autoCollect = false;
     ship = { x: W / 2, cd: 0, stun: 0 };
     rockets = []; bullets = []; comets = []; crystals = []; parts = []; rings = []; pops = []; beams = []; craters = []; spawned = [];
     slots = makeSlots(); placing = -1; sellMode = false; hoverSlot = -1; shake = flashT = 0; targetX = null; endT = 0;
@@ -3060,7 +3155,7 @@ const SI = (() => {
   function resume() { if (state === 'pause') { state = 'play'; last = performance.now(); showPanel(null); } }
   function refreshStartPanel() {
     for (const b of document.querySelectorAll('.siDiff')) b.classList.toggle('on', b.dataset.diff === D.key);
-    $('siDiffDesc').textContent = D.desc;
+    $('siDiffDesc').textContent = D.desc + ' Auto-collector: ' + D.auto + '◆.';
     const best = JSON.parse(store.get('ci.best.' + D.key, '{"wave":0,"score":0}'));
     $('siStartBest').textContent = best.wave ? 'Best on ' + D.name + ': wave ' + best.wave + ' · score ' + best.score : 'No record on ' + D.name + ' yet';
   }
@@ -3069,7 +3164,7 @@ const SI = (() => {
     D = DIFF[diffKey] || DIFF.medium; R = mulberry((Math.random() * 4294967295) >>> 0);
     stars = []; for (let i = 0; i < 90; i++) stars.push({ x: Math.random() * W, y: Math.random() * H, s: .3 + Math.random() * 1.2 });
     buildEarth(); slots = makeSlots(); comets = []; crystals = []; parts = []; rings = []; pops = []; beams = []; craters = []; rockets = []; bullets = [];
-    ship = { x: W / 2, cd: 0, stun: 0 }; wave = 0; score = 0; money = 0; earthHp = earthMax = D.earth; shake = flashT = bannerT = 0; phase = 'prep'; prepT = 0; placing = -1; sellMode = false;
+    ship = { x: W / 2, cd: 0, stun: 0 }; wave = 0; score = 0; money = 0; earthHp = earthMax = D.earth; shake = flashT = bannerT = 0; phase = 'prep'; prepT = 0; placing = -1; sellMode = false; autoCollect = false;
     refreshStartPanel(); showPanel('start'); root.classList.remove('playing');
     last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
   }
@@ -3235,6 +3330,7 @@ const SI = (() => {
     mk('siSell', '', '<small>X</small><b>Sell</b><span>60%</span>', () => { sellMode = !sellMode; placing = -1; });
     mk('siRepair', '', '<small>R</small><b>Repair</b><span></span>', repairEarth);
     mk('siRocket', '', '<small>U</small><b>Rocket</b><span></span>', upgradeRocket);
+    mk('siAuto', '', '<small>C</small><b>Auto-collect</b><span></span>', buyAuto);
     mk('siGo', 'go', '<small>N</small><b>Start wave</b><span></span>', startWave);
   }
   function toggleTier(i) {
@@ -3256,6 +3352,7 @@ const SI = (() => {
     set('sell', sellMode, v => $('siSell').classList.toggle('on', v));
     set('rep', repairCost() + '|' + (earthHp >= earthMax) + '|' + (money < repairCost()), () => { const c = repairCost(); $('siRepair').querySelector('span').textContent = (earthHp >= earthMax) ? 'full' : c; $('siRepair').classList.toggle('off', earthHp >= earthMax || money < c); });
     set('rkt', rocketLvl + '|' + (money < rocketCost()), () => { const c = rocketCost(); $('siRocket').querySelector('span').textContent = rocketLvl >= MAX_ROCKET ? 'MAX' : 'Lv' + (rocketLvl + 1) + ' · ' + c; $('siRocket').classList.toggle('off', rocketLvl >= MAX_ROCKET || money < c); });
+    set('auto', autoCollect + '|' + D.auto + '|' + (money < D.auto), () => { const el = $('siAuto'); el.querySelector('span').textContent = autoCollect ? 'ON' : D.auto; el.classList.toggle('on', autoCollect); el.classList.toggle('off', !autoCollect && money < D.auto); });
     set('go', phase === 'prep' && state === 'play', v => { $('siGo').style.display = v ? '' : 'none'; });
   }
 
@@ -3308,6 +3405,7 @@ const SI = (() => {
       if (e.code === 'KeyX') { sellMode = !sellMode; placing = -1; }
       if (e.code === 'KeyR') repairEarth();
       if (e.code === 'KeyU') upgradeRocket();
+      if (e.code === 'KeyC') buyAuto();
       if (e.code === 'KeyN') startWave();
     }
   });
@@ -3344,7 +3442,7 @@ const SI = (() => {
   // test hook (used by automated checks)
   const api = {
     state: () => state, diff: () => D.key, wave: () => wave, phase: () => phase, comets: () => comets.length, money: () => money, earth: () => earthHp,
-    setMoney: v => { money = v; }, buy: placeTurret, startWave, repair: repairEarth, upgrade: upgradeRocket, toggleTier, slots: () => slots,
+    setMoney: v => { money = v; }, buy: placeTurret, startWave, repair: repairEarth, upgrade: upgradeRocket, buyAuto, hasAuto: () => autoCollect, toggleTier, slots: () => slots,
     sim(n, dt = 1 / 30) { for (let i = 0; i < n && state === 'play'; i++) update(dt); },
     ship: () => ship, keysOn(v) { keys.Space = v; }, setX(x) { ship.x = x; }, cometsList: () => comets, kills: () => kills, score: () => score, setPlacing: v => { placing = v; }, crystalsList: () => crystals, setEarth: v => { earthHp = v; },
   };
@@ -3354,6 +3452,230 @@ const SI = (() => {
 document.getElementById('cardInvaders').addEventListener('click', () => {
   document.body.classList.remove('home'); document.body.classList.add('si');
   SI.open();
+});
+</script>
+<script>
+/* =====================================================================================
+ *  COMETGUESSR  v0.9.4-pre1  -  guess where you are from Google Street View
+ *
+ *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
+ *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
+ *  with CARTO / OpenStreetMap tiles, loaded on demand from a CDN.
+ *
+ *  Optional: put a Google Maps Embed API key in GOOGLE_MAPS_KEY to use the official
+ *  embed endpoint instead of the keyless one.
+ * ===================================================================================== */
+const GEO = (() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const GOOGLE_MAPS_KEY = '';
+  const ROUNDS = 5, MAX_PTS = 5000;
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } },
+  };
+  // [latitude, longitude, label]  - spots with Street View imagery
+  const LOCS = [
+    [48.8738, 2.2950, 'Paris, France'], [51.5080, -0.1281, 'London, United Kingdom'], [41.8910, 12.4905, 'Rome, Italy'], [52.5163, 13.3777, 'Berlin, Germany'],
+    [40.4169, -3.7035, 'Madrid, Spain'], [38.7075, -9.1364, 'Lisbon, Portugal'], [52.3731, 4.8926, 'Amsterdam, Netherlands'], [50.0875, 14.4213, 'Prague, Czechia'],
+    [47.5149, 19.0779, 'Budapest, Hungary'], [37.9755, 23.7348, 'Athens, Greece'], [59.3251, 18.0711, 'Stockholm, Sweden'], [59.9133, 10.7390, 'Oslo, Norway'],
+    [55.6798, 12.5914, 'Copenhagen, Denmark'], [60.1695, 24.9523, 'Helsinki, Finland'], [64.1420, -21.9266, 'Reykjavik, Iceland'], [53.3498, -6.2603, 'Dublin, Ireland'],
+    [55.9496, -3.1900, 'Edinburgh, United Kingdom'], [41.4036, 2.1744, 'Barcelona, Spain'], [41.0054, 28.9768, 'Istanbul, Türkiye'], [52.2319, 21.0067, 'Warsaw, Poland'],
+    [50.4501, 30.5234, 'Kyiv, Ukraine'], [55.7539, 37.6208, 'Moscow, Russia'], [59.9343, 30.3351, 'Saint Petersburg, Russia'], [46.6863, 7.8632, 'Interlaken, Switzerland'],
+    [69.6492, 18.9553, 'Tromsø, Norway'], [42.6410, 18.1106, 'Dubrovnik, Croatia'], [44.4268, 26.1025, 'Bucharest, Romania'], [42.6977, 23.3219, 'Sofia, Bulgaria'],
+    [59.4370, 24.7453, 'Tallinn, Estonia'], [56.9496, 24.1052, 'Riga, Latvia'], [54.6872, 25.2797, 'Vilnius, Lithuania'], [35.8989, 14.5146, 'Valletta, Malta'],
+    [62.0107, -6.7741, 'Tórshavn, Faroe Islands'], [78.2232, 15.6267, 'Longyearbyen, Svalbard'],
+    [40.7580, -73.9855, 'New York City, USA'], [37.8021, -122.4187, 'San Francisco, USA'], [34.1016, -118.3267, 'Los Angeles, USA'], [41.8827, -87.6233, 'Chicago, USA'],
+    [36.1147, -115.1728, 'Las Vegas, USA'], [25.7814, -80.1300, 'Miami Beach, USA'], [29.9584, -90.0654, 'New Orleans, USA'], [38.8977, -77.0366, 'Washington, D.C., USA'],
+    [21.2766, -157.8275, 'Honolulu, Hawaii, USA'], [61.2176, -149.8997, 'Anchorage, Alaska, USA'], [37.1017, -109.9907, 'Monument Valley, USA'],
+    [43.6561, -79.3802, 'Toronto, Canada'], [49.2844, -123.1089, 'Vancouver, Canada'], [45.5046, -73.5560, 'Montreal, Canada'], [46.8123, -71.2052, 'Quebec City, Canada'],
+    [51.1784, -115.5708, 'Banff, Canada'], [19.4326, -99.1332, 'Mexico City, Mexico'], [21.1333, -86.7467, 'Cancún, Mexico'], [18.4663, -66.1164, 'San Juan, Puerto Rico'],
+    [4.5981, -74.0760, 'Bogotá, Colombia'], [-12.0464, -77.0428, 'Lima, Peru'], [-13.5167, -71.9787, 'Cusco, Peru'], [-0.2202, -78.5123, 'Quito, Ecuador'],
+    [-33.4372, -70.6506, 'Santiago, Chile'], [-34.6037, -58.3816, 'Buenos Aires, Argentina'], [-34.9060, -56.1996, 'Montevideo, Uruguay'], [-22.9711, -43.1822, 'Rio de Janeiro, Brazil'],
+    [-23.5614, -46.6560, 'São Paulo, Brazil'], [-12.9730, -38.5108, 'Salvador, Brazil'], [-54.8069, -68.3073, 'Ushuaia, Argentina'], [-16.4958, -68.1336, 'La Paz, Bolivia'],
+    [14.5573, -90.7332, 'Antigua, Guatemala'], [8.9520, -79.5350, 'Panama City, Panama'], [9.9333, -84.0796, 'San José, Costa Rica'], [-53.1627, -70.9081, 'Punta Arenas, Chile'],
+    [64.1767, -51.7361, 'Nuuk, Greenland'],
+    [35.6595, 139.7005, 'Tokyo, Japan'], [35.0037, 135.7751, 'Kyoto, Japan'], [34.6687, 135.5013, 'Osaka, Japan'], [37.5725, 126.9769, 'Seoul, South Korea'],
+    [25.0336, 121.5646, 'Taipei, Taiwan'], [22.2988, 114.1722, 'Hong Kong'], [1.2839, 103.8590, 'Singapore'], [13.7589, 100.4974, 'Bangkok, Thailand'],
+    [3.1466, 101.7113, 'Kuala Lumpur, Malaysia'], [-6.1866, 106.8229, 'Jakarta, Indonesia'], [-8.5069, 115.2625, 'Ubud, Bali, Indonesia'], [14.5896, 120.9747, 'Manila, Philippines'],
+    [11.5637, 104.9312, 'Phnom Penh, Cambodia'], [47.9189, 106.9176, 'Ulaanbaatar, Mongolia'], [28.6129, 77.2295, 'New Delhi, India'], [18.9440, 72.8231, 'Mumbai, India'],
+    [6.9271, 79.8450, 'Colombo, Sri Lanka'], [23.7340, 90.3928, 'Dhaka, Bangladesh'], [27.4728, 89.6390, 'Thimphu, Bhutan'], [25.1972, 55.2744, 'Dubai, United Arab Emirates'],
+    [31.7767, 35.2276, 'Jerusalem'], [32.0745, 34.7668, 'Tel Aviv, Israel'], [31.9516, 35.9340, 'Amman, Jordan'], [25.2910, 51.5330, 'Doha, Qatar'],
+    [43.2380, 76.9455, 'Almaty, Kazakhstan'], [42.8760, 74.6037, 'Bishkek, Kyrgyzstan'], [43.1155, 131.8855, 'Vladivostok, Russia'],
+    [-33.9226, 18.4190, 'Cape Town, South Africa'], [-26.1076, 28.0567, 'Johannesburg, South Africa'], [-1.2850, 36.8219, 'Nairobi, Kenya'], [14.6708, -17.4381, 'Dakar, Senegal'],
+    [5.5479, -0.1925, 'Accra, Ghana'], [6.4474, 3.4021, 'Lagos, Nigeria'], [0.3136, 32.5811, 'Kampala, Uganda'], [-24.6580, 25.9122, 'Gaborone, Botswana'],
+    [36.7996, 10.1800, 'Tunis, Tunisia'], [-1.9499, 30.0589, 'Kigali, Rwanda'], [-18.9100, 47.5255, 'Antananarivo, Madagascar'], [29.9773, 31.1325, 'Giza, Egypt'],
+    [-26.3186, 31.1410, 'Mbabane, Eswatini'], [-29.3151, 27.4869, 'Maseru, Lesotho'],
+    [-33.8610, 151.2108, 'Sydney, Australia'], [-37.8183, 144.9671, 'Melbourne, Australia'], [-23.6993, 133.8822, 'Alice Springs, Australia'], [-31.9554, 115.8586, 'Perth, Australia'],
+    [-42.8826, 147.3304, 'Hobart, Australia'], [-16.9203, 145.7781, 'Cairns, Australia'], [-36.8485, 174.7650, 'Auckland, New Zealand'], [-45.0326, 168.6608, 'Queenstown, New Zealand'],
+    [-41.2889, 174.7772, 'Wellington, New Zealand'],
+  ];
+  const CDN = [
+    ['https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'],
+    ['https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'],
+  ];
+
+  // Developer lock: same password and same remembered unlock (sessionStorage 'cc.dev') as CometCombat.
+  const DEV_HASH = 2740183783595544;
+  function cyrb53(str, seed = 0) {
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+  }
+  const pwOk = pw => cyrb53('cometcombat:' + pw) === DEV_HASH;
+  let unlocked = false;
+  try { const sp = sessionStorage.getItem('cc.dev') || ''; if (sp && pwOk(sp)) unlocked = true; } catch (e) { /* ignore */ }
+  function submitDev() {
+    const v = $('geoDevPw').value;
+    if (!pwOk(v)) { $('geoDevErr').textContent = 'Incorrect password.'; $('geoDevPw').select(); return; }
+    unlocked = true; try { sessionStorage.setItem('cc.dev', v); } catch (e) { /* ignore */ }
+    $('geoDevErr').textContent = ''; showPanel('Start'); refreshBest();
+  }
+  function showDev() { $('geoDevPw').value = ''; $('geoDevErr').textContent = ''; showPanel('Dev'); setTimeout(() => { try { $('geoDevPw').focus(); } catch (e) { /* ignore */ } }, 50); }
+
+  const root = $('geo'), frameEl = $('geoFrame'), wrap = $('geoMapWrap'), guessBtn = $('geoGuess');
+  let active = false, state = 'title';                 // title | guess | result | over
+  let map = null, layer = null, loadP = null, rounds = [], ri = 0, total = 0, guess = null, used = new Set(), curURL = '';
+
+  // ------------------------------------------------------------------ map library
+  function loadLeaflet() {
+    if (window.L && window.L.map) return Promise.resolve();
+    if (loadP) return loadP;
+    const tryOne = i => new Promise((res, rej) => {
+      if (i >= CDN.length) return rej(new Error('map library unavailable'));
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = CDN[i][0]; document.head.appendChild(css);
+      const s = document.createElement('script'); s.src = CDN[i][1]; s.async = true;
+      s.onload = () => (window.L && window.L.map) ? res() : tryOne(i + 1).then(res, rej);
+      s.onerror = () => { css.remove(); s.remove(); tryOne(i + 1).then(res, rej); };
+      document.head.appendChild(s);
+    });
+    loadP = tryOne(0); loadP.catch(() => { loadP = null; });
+    return loadP;
+  }
+  function initMap() {
+    if (map) return;
+    const L = window.L;
+    map = L.map('geoMap', { worldCopyJump: true, minZoom: 1, maxZoom: 18, zoomSnap: .5, attributionControl: true }).setView([20, 0], 1);
+    map.attributionControl.setPrefix(false);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', maxZoom: 20, attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(map);
+    layer = L.layerGroup().addTo(map);
+    map.on('click', e => { if (state === 'guess') setGuess(e.latlng.wrap()); });
+    if (window.ResizeObserver) new ResizeObserver(() => { if (map) map.invalidateSize({ animate: false }); }).observe($('geoMap'));
+  }
+  const pin = cls => window.L.divIcon({ className: '', html: '<div class="geoPin ' + cls + '"></div>', iconSize: [18, 18], iconAnchor: [9, 9] });
+  function setGuess(ll) {
+    guess = { lat: ll.lat, lng: ll.lng };
+    layer.clearLayers(); window.L.marker([guess.lat, guess.lng], { icon: pin('g'), interactive: false }).addTo(layer);
+    guessBtn.disabled = false; guessBtn.textContent = 'Guess';
+  }
+
+  // ------------------------------------------------------------------ helpers
+  function svURL(loc, heading) {
+    return GOOGLE_MAPS_KEY
+      ? 'https://www.google.com/maps/embed/v1/streetview?key=' + encodeURIComponent(GOOGLE_MAPS_KEY) + '&location=' + loc[0] + ',' + loc[1] + '&heading=' + heading + '&pitch=0&fov=90'
+      : 'https://www.google.com/maps?q=&layer=c&cbll=' + loc[0] + ',' + loc[1] + '&cbp=12,' + heading + ',0,0,0&source=embed&output=svembed';
+  }
+  function distKm(a, b) {
+    const r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLng = (b.lng - a.lng) * r;
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLng / 2) ** 2;
+    return 6371 * 2 * Math.asin(Math.min(1, Math.sqrt(h)));
+  }
+  const pointsFor = d => d < .15 ? MAX_PTS : Math.round(MAX_PTS * Math.exp(-d / 2000));
+  const fmt = n => Math.round(n).toLocaleString('en-US');
+  const fmtDist = d => d < 1 ? fmt(d * 1000) + ' m' : (d < 10 ? d.toFixed(1) : fmt(d)) + ' km';
+  function pickLoc() {
+    let seen = []; try { seen = JSON.parse(store.get('geo.seen', '[]')); } catch (e) { seen = []; }
+    let pool = LOCS.map((_, i) => i).filter(i => !used.has(i) && !seen.includes(i));
+    if (!pool.length) pool = LOCS.map((_, i) => i).filter(i => !used.has(i));
+    const i = pool[Math.floor(Math.random() * pool.length)];
+    used.add(i); seen.push(i); store.set('geo.seen', JSON.stringify(seen.slice(-Math.floor(LOCS.length * .6))));
+    return { loc: LOCS[i], heading: Math.floor(Math.random() * 360) };
+  }
+  function showPanel(which) { for (const p of ['Dev', 'Start', 'Over']) $('geo' + p).classList.toggle('show', which === p); }
+  function hud() { $('geoHud').innerHTML = 'ROUND <b>' + (ri + 1) + '</b> / ' + ROUNDS + ' &nbsp;&middot;&nbsp; <b>' + fmt(total) + '</b> PTS'; }
+  function bestText() { const b = +store.get('geo.best', 0) || 0; return b ? 'Best: ' + fmt(b) + ' / ' + fmt(ROUNDS * MAX_PTS) : 'No record yet'; }
+
+  // ------------------------------------------------------------------ game flow
+  function loadView() { const r = rounds[ri]; curURL = svURL(r.loc, r.heading); frameEl.src = curURL; }
+  function startRound() {
+    state = 'guess'; guess = null; root.classList.remove('result'); root.classList.add('playing'); wrap.classList.remove('open');
+    layer.clearLayers(); guessBtn.disabled = true; guessBtn.textContent = 'Place your pin on the map';
+    hud(); loadView();
+    requestAnimationFrame(() => { map.invalidateSize({ animate: false }); map.setView([20, 0], 1, { animate: false }); });
+  }
+  function start() {
+    if (!unlocked) { showDev(); return; }
+    $('geoStartErr').textContent = ''; $('geoPlay').disabled = true;
+    loadLeaflet().then(() => {
+      $('geoPlay').disabled = false; if (!active) return;
+      initMap(); used = new Set(); rounds = []; for (let i = 0; i < ROUNDS; i++) rounds.push(pickLoc());
+      ri = 0; total = 0; showPanel(null); startRound();
+    }, () => { $('geoPlay').disabled = false; $('geoStartErr').textContent = 'Could not load the map. Check your internet connection and try again.'; });
+  }
+  function skip() { if (state !== 'guess') return; rounds[ri] = pickLoc(); loadView(); }
+  function makeGuess() {
+    if (state !== 'guess' || !guess) return;
+    const r = rounds[ri], actual = { lat: r.loc[0], lng: r.loc[1] };
+    r.dist = distKm(guess, actual); r.pts = pointsFor(r.dist); total += r.pts; state = 'result';
+    root.classList.add('result'); wrap.classList.remove('open'); hud();
+    $('geoResBig').innerHTML = fmtDist(r.dist) + ' away &nbsp;&middot;&nbsp; <b>+' + fmt(r.pts) + '</b>';
+    $('geoResSm').textContent = 'It was ' + r.loc[2] + '  ·  ' + fmt(r.dist * .621371) + ' mi';
+    guessBtn.textContent = ri + 1 < ROUNDS ? 'Next round' : 'See final score';
+    const L = window.L; let lng = actual.lng; if (lng - guess.lng > 180) lng -= 360; else if (lng - guess.lng < -180) lng += 360;
+    layer.clearLayers();
+    L.polyline([[guess.lat, guess.lng], [actual.lat, lng]], { color: '#111827', weight: 3, dashArray: '6 8' }).addTo(layer);
+    L.marker([guess.lat, guess.lng], { icon: pin('g'), interactive: false }).addTo(layer);
+    L.marker([actual.lat, lng], { icon: pin('a'), interactive: false }).addTo(layer);
+    requestAnimationFrame(() => { map.invalidateSize({ animate: false }); map.fitBounds(L.latLngBounds([[guess.lat, guess.lng], [actual.lat, lng]]).pad(.35), { maxZoom: 14, animate: false }); });
+  }
+  function next() {
+    if (state !== 'result') return;
+    if (ri + 1 < ROUNDS) { ri++; startRound(); return; }
+    state = 'over'; root.classList.remove('result', 'playing'); frameEl.src = 'about:blank';
+    const prev = +store.get('geo.best', 0) || 0, nb = total > prev; if (nb) store.set('geo.best', String(total));
+    $('geoOverScore').textContent = fmt(total) + ' / ' + fmt(ROUNDS * MAX_PTS);
+    const ul = $('geoList'); ul.innerHTML = '';
+    for (const r of rounds) { const li = document.createElement('li'), a = document.createElement('span'), b = document.createElement('span'); a.textContent = r.loc[2] + '  ·  ' + fmtDist(r.dist); b.textContent = fmt(r.pts); li.append(a, b); ul.appendChild(li); }
+    $('geoOverBest').textContent = nb ? 'New best!' : 'Best: ' + fmt(prev);
+    showPanel('Over');
+  }
+  function refreshBest() { $('geoStartBest').textContent = bestText(); $('geoStartErr').textContent = ''; }
+  function open() {
+    active = true; state = 'title'; root.classList.remove('playing', 'result');
+    if (unlocked) { refreshBest(); showPanel('Start'); } else showDev();
+    loadLeaflet().catch(() => { /* reported when Play is pressed */ });
+  }
+  function exit() {
+    active = false; state = 'title'; root.classList.remove('playing', 'result'); showPanel(null); frameEl.src = 'about:blank';
+    document.body.classList.remove('geo'); document.body.classList.add('home');
+    try { $('cardGeo').focus(); } catch (e) { /* ignore */ }
+  }
+
+  guessBtn.addEventListener('click', () => { if (state === 'guess') makeGuess(); else next(); });
+  $('geoGrow').addEventListener('click', () => wrap.classList.toggle('open'));
+  $('geoSkip').addEventListener('click', skip);
+  $('geoReset').addEventListener('click', () => { if (state === 'guess') { frameEl.src = 'about:blank'; setTimeout(() => { if (state === 'guess') frameEl.src = curURL; }, 60); } });
+  $('geoDevOk').addEventListener('click', submitDev); $('geoDevCancel').addEventListener('click', exit);
+  $('geoDevPw').addEventListener('keydown', e => { if (e.code === 'Enter') { e.preventDefault(); submitDev(); } });
+  $('geoPlay').addEventListener('click', start); $('geoAgain').addEventListener('click', start);
+  for (const id of ['geoMenuBtn', 'geoStartMenu', 'geoOverMenu']) $(id).addEventListener('click', exit);
+  window.addEventListener('keydown', e => {
+    if (!active) return;
+    if (e.code === 'Escape') { exit(); return; }
+    if (e.code === 'Enter' || e.code === 'Space') {
+      if (e.target && (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT')) return;
+      e.preventDefault();
+      if (state === 'title' || state === 'over') { if (unlocked) start(); else showDev(); } else if (state === 'guess') makeGuess(); else next();
+    }
+  });
+  return { open, exit, api: { state: () => state, rounds: () => rounds, total: () => total, setGuess: (lat, lng) => setGuess({ lat, lng }), locs: LOCS, map: () => map, url: () => curURL } };
+})();
+
+document.getElementById('cardGeo').addEventListener('click', () => {
+  document.body.classList.remove('home'); document.body.classList.add('geo');
+  GEO.open();
 });
 </script>
 </body>
