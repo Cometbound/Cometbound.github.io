@@ -89,10 +89,9 @@
   }
   .card.play .thumb { color: #fff; }
   .card.play .tag { background: #ff6a3c; color: #fff; }
-  .card.play.combat { border-color: #8b93a7; background: linear-gradient(160deg, rgba(150,158,176,.26), rgba(70,76,92,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 22px rgba(150,158,176,.16); }
-  .card.play.combat .thumb { color: #c9ceda; }
-  .card.play.combat .tag { background: #6b7280; }
-  .card.play.combat:hover, .card.play.combat:focus-visible { box-shadow: 0 0 36px rgba(170,178,196,.4); }
+  .card.play.sv { border-color: #f5b042; background: linear-gradient(160deg, rgba(255,180,60,.28), rgba(120,70,10,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(245,176,66,.22); }
+  .card.play.sv .tag { background: #d98a12; }
+  .card.play.sv:hover, .card.play.sv:focus-visible { box-shadow: 0 0 40px rgba(245,176,66,.5); }
   .card.play.geo { border-color: #35a7ff; background: linear-gradient(160deg, rgba(40,130,255,.30), rgba(15,60,120,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(53,167,255,.25); }
   .card.play.geo .tag { background: #2f9bff; }
   .card.play.geo:hover, .card.play.geo:focus-visible { box-shadow: 0 0 40px rgba(53,167,255,.5); }
@@ -109,21 +108,16 @@
   #rc { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
   #rc .ccPanel { z-index: 3; background: radial-gradient(ellipse at 50% 0%, rgba(24,44,100,.82), rgba(5,8,22,.9) 70%); }
   #rc .ccPanel.show { pointer-events: auto; }
-  body.home #rc, body.cc #rc, body.si #rc, body.geo #rc { display: none; }
+  body.home #rc, body.sv #rc, body.si #rc, body.geo #rc { display: none; }
   .rcTouch { display: none; } body.touch .rcTouch { display: block; } body.touch .rcDesk { display: none; }
   #rcOver h2 { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-  /* ---------- CometCombat ---------- */
-  #cc { display: none; position: fixed; inset: 0; z-index: 10; background: #070b18; color: #fff; touch-action: none; }
-  body.cc #cc { display: block; }
-  body.cc #wrap, body.cc #touch, body.cc #btnHome { display: none !important; }
-  #ccCanvas { position: absolute; inset: 0; width: 100vw; height: 100vh; display: block; cursor: crosshair; touch-action: none; }
+  /* ---------- Shared panel + button styles ---------- */
   .ccPanel {
     position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 1.6vmin; text-align: center;
     padding: calc(3vmin + env(safe-area-inset-top)) 4vmin calc(3vmin + env(safe-area-inset-bottom)); box-sizing: border-box; z-index: 5;
     background: radial-gradient(ellipse at 50% 0%, rgba(24,44,100,.92), rgba(5,8,22,.96) 70%); overflow-y: auto; touch-action: pan-y;
   }
-  #ccLeave { background: rgba(0,0,0,.7); z-index: 8; }
   .ccPanel.show { display: flex; }
   .ccPanel h2 { margin: 0; font-size: clamp(28px, 7vmin, 64px); font-weight: 900; letter-spacing: .08em; text-transform: uppercase;
     background: linear-gradient(180deg, #fff 20%, #7fe0c0 60%, #35a7ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -134,9 +128,6 @@
     color: #fff; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.25); border-radius: 12px; outline: none; user-select: text; -webkit-user-select: text;
   }
   .ccPanel input[type=text]:focus, .ccPanel input[type=password]:focus { border-color: #35a7ff; }
-  #ccServer { font-size: clamp(13px, 2.2vmin, 17px) !important; font-weight: 500 !important; }
-  .ccSrv { margin-top: 1vmin; min-height: 1.3em; font-size: clamp(11px, 1.9vmin, 15px); color: #9db4e8; max-width: 440px; }
-  .ccSrv.ok { color: #6ee7a8; } .ccSrv.bad { color: #ffb4a0; }
   .ccErr { min-height: 1.4em; color: #ff8a8a; font-size: clamp(12px, 2vmin, 16px); max-width: 480px; }
   .ccBtn {
     font: 800 clamp(14px, 2.6vmin, 20px) -apple-system, system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #fff; cursor: pointer;
@@ -151,35 +142,21 @@
   .ccSeg button.on { background: #1f6fe0; color: #fff; }
   .ccSpin { width: 9vmin; height: 9vmin; max-width: 72px; max-height: 72px; border-radius: 50%; border: 5px solid rgba(255,255,255,.15); border-top-color: #35a7ff; animation: ccspin 1s linear infinite; }
   @keyframes ccspin { to { transform: rotate(360deg); } }
-  #ccResTitle { font-size: clamp(40px, 11vmin, 100px); }
-  #ccResTitle.win { background: linear-gradient(180deg, #fff, #ffe27a 60%, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  #ccResTitle.lose { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .ccver { position: absolute; right: calc(12px + env(safe-area-inset-right)); bottom: calc(8px + env(safe-area-inset-bottom)); font-size: 11px; color: rgba(255,255,255,.55); letter-spacing: .05em; pointer-events: none; }
-  #ccNotice {
-    display: none; position: absolute; left: 50%; top: 18%; transform: translateX(-50%); z-index: 6; max-width: 86vw; text-align: center; pointer-events: none;
-    padding: 1.2vmin 3vmin; border-radius: 12px; background: rgba(160,30,30,.85); font: 800 clamp(13px, 2.4vmin, 20px) -apple-system, system-ui, sans-serif;
-  }
-  #ccNotice.show { display: block; }
-  #ccBtnLeave {
-    display: none; position: absolute; z-index: 4; left: calc(2vmin + env(safe-area-inset-left)); top: calc(2vmin + env(safe-area-inset-top));
-    font: 800 clamp(12px, 2.1vmin, 16px) -apple-system, system-ui, sans-serif; letter-spacing: .08em; color: #fff; padding: 1.1vmin 2.2vmin; border-radius: 99px;
-    border: 2px solid rgba(255,255,255,.5); background: rgba(0,0,0,.5); touch-action: manipulation;
-  }
-  #cc.inmatch #ccBtnLeave { display: block; }
-  #ccTouch { display: none; position: absolute; inset: 0; pointer-events: none; z-index: 3; }
-  #cc.inmatch.touch #ccTouch { display: block; }
-  .ccj, .cck { position: absolute; border-radius: 50%; display: none; pointer-events: none; }
-  .ccj { width: 22vmin; height: 22vmin; border: 3px solid rgba(255,255,255,.4); background: rgba(255,255,255,.08); }
-  .cck { width: 10vmin; height: 10vmin; background: rgba(255,255,255,.4); border: 3px solid rgba(255,255,255,.7); }
-  #ccJR, #ccKR { border-color: rgba(255,140,120,.7); }
-  .ccb {
-    position: absolute; pointer-events: auto; touch-action: none; width: 11vmin; height: 11vmin; border-radius: 50%; right: calc(2vmin + env(safe-area-inset-right));
-    display: flex; align-items: center; justify-content: center; font: 800 clamp(9px, 1.9vmin, 14px) -apple-system, system-ui, sans-serif; letter-spacing: .04em;
-    color: #fff; border: 3px solid rgba(255,255,255,.55); background: rgba(255,255,255,.14); text-align: center;
-  }
-  .ccb:active { background: rgba(255,255,255,.38); }
-  #ccBReload { top: 23vmin; } #ccBPick { top: 35vmin; } #ccBHeal { top: 47vmin; } #ccBSwap { top: 59vmin; }
-  #cc.canpick #ccBPick { background: rgba(245,158,11,.55); border-color: #fbbf24; }
+
+
+  /* ---------- survev.io (embedded) ---------- */
+  #sv { display: none; position: fixed; inset: 0; z-index: 10; background: #070b18; color: #fff; }
+  body.sv #sv { display: block; }
+  body.sv #wrap, body.sv #touch, body.sv #btnHome { display: none !important; }
+  #svBar { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    height: calc(44px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) calc(10px + env(safe-area-inset-right)) 0 calc(10px + env(safe-area-inset-left)); box-sizing: border-box; background: #0b1230; border-bottom: 1px solid rgba(255,255,255,.12); }
+  #svTitle { font: 800 15px -apple-system, system-ui, sans-serif; letter-spacing: .08em; color: #cdd8f5; }
+  .svBtn { font: 800 12px -apple-system, system-ui, sans-serif; letter-spacing: .08em; color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 99px; border: 2px solid rgba(255,255,255,.45); background: rgba(255,255,255,.08); cursor: pointer; touch-action: manipulation; white-space: nowrap; }
+  .svBtn:hover { background: rgba(255,255,255,.2); }
+  #svMsg { position: absolute; left: 0; right: 0; top: 45%; text-align: center; color: #9db4e8; font-size: 16px; padding: 0 20px; }
+  #svMsg small { color: #6f82b4; font-size: 12px; }
+  #svFrame { position: absolute; left: 0; right: 0; bottom: 0; top: calc(44px + env(safe-area-inset-top)); width: 100%; height: calc(100% - 44px - env(safe-area-inset-top)); border: 0; background: transparent; z-index: 2; }
 
   /* ---------- Comet Invaders ---------- */
   #si { display: none; position: fixed; inset: 0; z-index: 10; align-items: center; justify-content: center; color: #fff; touch-action: none;
@@ -279,15 +256,15 @@
       <span class="name">CometGuessr</span>
       <span class="desc">Dropped somewhere on Earth in Street View. Guess where.</span>
     </button>
-    <button class="card play combat" id="cardCombat" type="button">
+    <button class="card play sv" id="cardSv" type="button">
       <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="8" r="3.6" fill="currentColor"/><path d="M13.4 10.6 3.5 20.5M15.2 12.2 8 21M11.6 8.8 3 12.5"/><path d="M16 1.5v2M22.5 8h-2M16 14.5v-2" /></svg></span>
-      <span class="tag">IN DEV</span>
-      <span class="name">CometCombat</span>
-      <span class="desc">1v1 top-down duel. Under development.</span>
+      <span class="tag">ONLINE</span>
+      <span class="name">survev.io</span>
+      <span class="desc">2D battle royale, played right here.</span>
     </button>
   </div>
 </div>
-<div id="ver">v0.9.4</div>
+<div id="ver">v0.9.5</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -296,7 +273,7 @@
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
     <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
+    <div class="ccver">v0.9.5</div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
@@ -306,69 +283,17 @@
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
+    <div class="ccver">v0.9.5</div>
   </div>
 </div>
-<div id="cc">
-  <canvas id="ccCanvas"></canvas>
-  <div id="ccTouch">
-    <div id="ccJL" class="ccj"></div><div id="ccKL" class="cck"></div>
-    <div id="ccJR" class="ccj"></div><div id="ccKR" class="cck"></div>
-    <div id="ccBReload" class="ccb">RELOAD</div><div id="ccBPick" class="ccb">PICK UP</div>
-    <div id="ccBHeal" class="ccb">HEAL</div><div id="ccBSwap" class="ccb">SWAP</div>
+<div id="sv">
+  <div id="svBar">
+    <button id="svMenu" class="svBtn" type="button">&#10005; MENU</button>
+    <span id="svTitle">survev.io</span>
+    <a id="svNew" class="svBtn" href="https://survev.io" target="_blank" rel="noopener">OPEN IN NEW TAB &#8599;</a>
   </div>
-  <button id="ccBtnLeave" type="button">&#10005; LEAVE</button>
-  <div id="ccNotice" role="status" aria-live="polite"></div>
-
-  <div id="ccName" class="ccPanel">
-    <h2>CometCombat</h2>
-    <p>1v1 top-down duel. Loot weapons, heal up and outlast the closing zone.</p>
-    <div><label for="ccUser">Username</label><input id="ccUser" type="text" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Enter a username"></div>
-    <p>Online matches use the CometCombat server. You will be paired with the next player who joins.</p>
-    <div id="ccServerRow"><label for="ccServer">Server</label><input id="ccServer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="ccServerStatus" class="ccSrv"></div></div>
-    <div id="ccUserErr" class="ccErr" role="alert"></div>
-    <div class="ccRow"><button id="ccFind" class="ccBtn primary" type="button">Find match</button><button id="ccBack" class="ccBtn" type="button">Back</button></div>
-    <div class="ccver">v0.9.4</div>
-  </div>
-
-  <div id="ccLobby" class="ccPanel">
-    <div class="ccSpin"></div>
-    <h2 id="ccLobbyTitle">Waiting for an opponent…</h2>
-    <p>Playing as <b id="ccLobbyName"></b> · <span id="ccLobbyTime">0:00</span></p>
-    <p id="ccLobbyStatus"></p>
-    <button id="ccCancel" class="ccBtn" type="button">Cancel</button>
-    <div class="ccver">v0.9.4</div>
-  </div>
-
-  <div id="ccResult" class="ccPanel">
-    <h2 id="ccResTitle">VICTORY</h2>
-    <p id="ccResReason"></p>
-    <p id="ccResStats"></p>
-    <div class="ccRow"><button id="ccAgain" class="ccBtn primary" type="button">Find new match</button><button id="ccResMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
-  </div>
-
-  <div id="ccLeave" class="ccPanel">
-    <h2>Leave match?</h2>
-    <p>Leaving counts as a forfeit and your opponent wins.</p>
-    <div class="ccRow"><button id="ccResume" class="ccBtn primary" type="button">Resume</button><button id="ccLeaveGo" class="ccBtn danger" type="button">Leave</button></div>
-  </div>
-
-  <div id="ccDev" class="ccPanel">
-    <h2>Under development</h2>
-    <p>CometCombat is still under development and is locked for now. Enter the developer password to continue.</p>
-    <div><label for="ccDevPw">Developer password</label><input id="ccDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
-    <div id="ccDevErr" class="ccErr" role="alert"></div>
-    <div class="ccRow"><button id="ccDevOk" class="ccBtn primary" type="button">Unlock</button><button id="ccDevCancel" class="ccBtn" type="button">Cancel</button></div>
-    <div class="ccver">v0.9.4</div>
-  </div>
-
-  <div id="ccError" class="ccPanel">
-    <h2>Oops</h2>
-    <p id="ccErrMsg"></p>
-    <div class="ccRow"><button id="ccErrRetry" class="ccBtn primary" type="button">Try again</button><button id="ccErrBack" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
-  </div>
+  <div id="svMsg">Loading survev.io&hellip;<br><small>If nothing appears, the site may be blocking embedding. Use &ldquo;Open in new tab&rdquo; above.</small></div>
+  <iframe id="svFrame" title="survev.io" src="about:blank" allow="fullscreen; autoplay; gamepad; clipboard-write" referrerpolicy="no-referrer"></iframe>
 </div>
 <div id="si">
   <canvas id="siCanvas"></canvas>
@@ -387,7 +312,7 @@
     <p><b>Keyboard</b> &nbsp;A / D or arrows move, Space fires, 1-5 then click a platform to build<br><b>Mouse</b> &nbsp;move to steer, hold click to fire<br><b>Touch</b> &nbsp;drag to steer (auto-fire), build from the shop bar</p>
     <p id="siStartBest"></p>
     <div class="ccRow"><button id="siPlay" class="ccBtn primary" type="button">Play</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
+    <div class="ccver">v0.9.5</div>
   </div>
   <div id="siPause" class="ccPanel">
     <h2>Paused</h2>
@@ -397,14 +322,14 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
+    <div class="ccver">v0.9.5</div>
   </div>
 </div>
 <div id="geo">
   <div id="geoView"><span id="geoViewMsg">Loading Street View&hellip;</span><iframe id="geoFrame" title="Street View" src="about:blank" allow="accelerometer; gyroscope; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   <div id="geoBarL" class="geoBar"><button id="geoMenuBtn" class="geoBtn" type="button">&#10005; MENU</button></div>
   <div id="geoBarC" class="geoBar"><div class="geoPill" id="geoHud"></div></div>
-  <div id="geoBarR" class="geoBar"><button id="geoReset" class="geoBtn" type="button" title="Go back to where the round started">&#8634; START POINT</button><button id="geoSkip" class="geoBtn" type="button" title="Swap this location for another one (2 skips per game, no penalty)">NO IMAGE? SKIP (2)</button></div>
+  <div id="geoBarR" class="geoBar"><button id="geoReset" class="geoBtn" type="button" title="Go back to where the round started">&#8634; START POINT</button><button id="geoSkip" class="geoBtn" type="button" title="Swap this location for another one (2 skips per round, no penalty)">NO IMAGE? SKIP (2)</button></div>
   <div id="geoShade"></div>
   <div id="geoMapWrap">
     <div id="geoRes"><div class="big" id="geoResBig"></div><div class="sm" id="geoResSm"></div></div>
@@ -414,13 +339,13 @@
 
   <div id="geoStart" class="ccPanel">
     <h2>CometGuessr</h2>
-    <p>You are dropped at a random place on Earth (a fresh, practically unlimited mix of countries every game) in Google Street View. Look around, move along the roads, then place a pin on the world map where you think you are. Five rounds of 45 seconds each, up to 5,000 points per round: the closer the pin, the higher the score. You can skip a location with no imagery up to 2 times per game. Run out of time and your pin is submitted, or the round scores 0 if you never placed one.</p>
+    <p>You are dropped at a random place on Earth (a fresh, practically unlimited mix of countries every game) in Google Street View. Look around, move along the roads, then place a pin on the world map where you think you are. Five rounds of 45 seconds each, up to 5,000 points per round: the closer the pin, the higher the score. You can skip a location with no imagery up to 2 times per round. Run out of time and your pin is submitted, or the round scores 0 if you never placed one.</p>
     <p><b>Look</b> &nbsp;drag the view &nbsp; <b>Move</b> &nbsp;click or tap the arrows on the road &nbsp; <b>Guess</b> &nbsp;open the map, drop a pin, press Guess</p>
     <p id="geoStartBest"></p>
     <div id="geoStartErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
     <p style="font-size:11px;opacity:.65;margin:0">Random places from GeoNames (CC BY 4.0). Some spots may have no Street View imagery; if a round shows none, just place a pin as best you can.</p>
-    <div class="ccver">v0.9.4 &middot; needs an internet connection</div>
+    <div class="ccver">v0.9.5 &middot; needs an internet connection</div>
   </div>
   <div id="geoOver" class="ccPanel">
     <h2>Final score</h2>
@@ -428,7 +353,7 @@
     <ul id="geoList"></ul>
     <p id="geoOverBest"></p>
     <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.4</div>
+    <div class="ccver">v0.9.5</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -441,7 +366,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.4  -  home menu + RAYCAST ARENA (FPS) + COMETCOMBAT (1v1 online) + COMET INVADERS + COMETGUESSR, one HTML file.
+ *  COMETBOUND GAMES v0.9.5  -  home menu + RAYCAST ARENA (FPS) + SURVEV.IO (embed) + COMET INVADERS + COMETGUESSR, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -1508,1151 +1433,6 @@ requestAnimationFrame(frame);
 </script>
 <script>
 /* =====================================================================
- *  COMETCOMBAT  v0.9.4  -  1v1 top-down shooter (survev.io style)
- *
- *  Networking: one player is the HOST and runs the authoritative simulation;
- *  the GUEST sends inputs and renders snapshots (with local movement prediction).
- *  Matchmaking: ONLINE only (WebSocket relay server, developer-password protected).
- *  two tabs of the same browser). Both give the game an identical "connection".
- * ===================================================================== */
-'use strict';
-const CC = (() => {
-  const VER = 'v0.9.4';
-  const $ = id => document.getElementById(id);
-  const root = $('cc'), cv = $('ccCanvas'), g = cv.getContext('2d');
-  const panels = { name: $('ccName'), lobby: $('ccLobby'), result: $('ccResult'), leave: $('ccLeave'), error: $('ccError'), dev: $('ccDev') };
-  const showPanel = n => { for (const k in panels) panels[k].classList.toggle('show', k === n); };
-  const noticeEl = $('ccNotice');
-  const setNotice = t => { noticeEl.textContent = t || ''; noticeEl.classList.toggle('show', !!t); };
-
-  const store = {
-    get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } },
-  };
-  const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
-  const lerp = (a, b, t) => a + (b - a) * t;
-  const num = (v, d = 0) => (typeof v === 'number' && isFinite(v)) ? v : d;
-  const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100;
-  const cleanName = s => String(s == null ? '' : s).replace(/[\u0000-\u001f\u007f<>]/g, '').trim().slice(0, 16) || 'Player';
-  const NAME_RE = /^[\p{L}\p{N} _.\-]{2,16}$/u;
-
-  // ------------------------------------------------------------------ constants
-  const WORLD = 1600, R = 16, BASE_SPEED = 230, TICK = 1 / 60;
-  const AWAY_LIMIT = 15000, DEAD_LIMIT = 8000, START_TIMEOUT = 7000;
-  const WEAPONS = {
-    fists:   { name: 'Fists',   melee: true, dmg: 22, rate: .45, range: 40, mv: 1.05 },
-    pistol:  { name: 'M9',      ammo: '9mm', dmg: 14, rate: .2,  mag: 12, reload: 1.4, spread: .035, pellets: 1, bspeed: 950,  range: 650,  mv: 1,    len: 14 },
-    smg:     { name: 'MAC-10',  ammo: '9mm', dmg: 8,  rate: .065, mag: 30, reload: 1.8, spread: .1,  pellets: 1, bspeed: 1050, range: 480,  mv: .97,  len: 19 },
-    ar:      { name: 'AK-47',   ammo: '762', dmg: 12, rate: .1,  mag: 30, reload: 2.3, spread: .05,  pellets: 1, bspeed: 1150, range: 800,  mv: .95,  len: 27 },
-    shotgun: { name: 'M870',    ammo: '12g', dmg: 7,  rate: .9,  mag: 5,  reload: 2.2, spread: .2,   pellets: 8, bspeed: 850,  range: 320,  mv: .95,  len: 25 },
-    sniper:  { name: 'Mosin',   ammo: '762', dmg: 70, rate: 1.25, mag: 5, reload: 2.6, spread: .004, pellets: 1, bspeed: 2300, range: 1700, mv: .88,  len: 34 },
-  };
-  const AMMO_CAP = { '9mm': 120, '12g': 30, '762': 120 }, AMMO_BOX = { '9mm': 30, '12g': 8, '762': 30 };
-  const LOOT = [['w:smg', 6], ['w:ar', 3], ['w:shotgun', 4], ['w:sniper', 2], ['w:pistol', 3], ['a:9mm', 8], ['a:12g', 4], ['a:762', 7], ['bandage', 8], ['medkit', 3], ['vest', 3]];
-  const PHASES = [{ wait: 40, r: 720, dur: 30, dmg: 1.5 }, { wait: 25, r: 420, dur: 25, dmg: 3 }, { wait: 20, r: 220, dur: 20, dmg: 6 },
-                  { wait: 15, r: 90, dur: 15, dmg: 10 }, { wait: 10, r: 0, dur: 10, dmg: 16 }];
-
-  // ------------------------------------------------------------------ geometry
-  function segCircle(x0, y0, x1, y1, cx, cy, r) {
-    const dx = x1 - x0, dy = y1 - y0, fx = x0 - cx, fy = y0 - cy, a = dx * dx + dy * dy;
-    if (a < 1e-9) return Infinity;
-    const c = fx * fx + fy * fy - r * r;
-    if (c <= 0) return 0;
-    const b = 2 * (fx * dx + fy * dy), disc = b * b - 4 * a * c;
-    if (disc < 0) return Infinity;
-    const t = (-b - Math.sqrt(disc)) / (2 * a);
-    return t >= 0 && t <= 1 ? t : Infinity;
-  }
-  function segRect(x0, y0, x1, y1, rx, ry, rw, rh) {
-    let tmin = 0, tmax = 1;
-    const dx = x1 - x0, dy = y1 - y0;
-    if (Math.abs(dx) < 1e-9) { if (x0 < rx || x0 > rx + rw) return Infinity; }
-    else { let a = (rx - x0) / dx, b = (rx + rw - x0) / dx; if (a > b) { const t = a; a = b; b = t; } tmin = Math.max(tmin, a); tmax = Math.min(tmax, b); if (tmin > tmax) return Infinity; }
-    if (Math.abs(dy) < 1e-9) { if (y0 < ry || y0 > ry + rh) return Infinity; }
-    else { let a = (ry - y0) / dy, b = (ry + rh - y0) / dy; if (a > b) { const t = a; a = b; b = t; } tmin = Math.max(tmin, a); tmax = Math.min(tmax, b); if (tmin > tmax) return Infinity; }
-    return tmin;
-  }
-
-  // ------------------------------------------------------------------ map (deterministic from seed)
-  let map = null, staticCv = null;
-
-  function genMap(seed) {
-    const rnd = mulberry(seed >>> 0), rr = (a, b) => a + rnd() * (b - a);
-    const M = { circles: [], rects: [], floors: [], crates: [], bushes: [], trees: [], rocks: [], spots: [], spawns: [] };
-    const ang = rnd() * Math.PI * 2, c = WORLD / 2, d = 560;
-    M.spawns = [[c + Math.cos(ang) * d, c + Math.sin(ang) * d], [c - Math.cos(ang) * d, c - Math.sin(ang) * d]];
-    const nearSpawn = (x, y, rad) => M.spawns.some(s => Math.hypot(s[0] - x, s[1] - y) < rad);
-    const T = 14, GAP = 76;
-    const wallH = (x, y, len, door) => {
-      if (!door) { M.rects.push({ x, y, w: len, h: T }); return; }
-      const gc = rr(GAP / 2 + 24, len - GAP / 2 - 24);
-      M.rects.push({ x, y, w: gc - GAP / 2, h: T }, { x: x + gc + GAP / 2, y, w: len - gc - GAP / 2, h: T });
-    };
-    const wallV = (x, y, len, door) => {
-      if (!door) { M.rects.push({ x, y, w: T, h: len }); return; }
-      const gc = rr(GAP / 2 + 24, len - GAP / 2 - 24);
-      M.rects.push({ x, y, w: T, h: gc - GAP / 2 }, { x, y: y + gc + GAP / 2, w: T, h: len - gc - GAP / 2 });
-    };
-    for (let tries = 0; tries < 300 && M.floors.length < 6; tries++) {
-      const w = rr(190, 290), h = rr(170, 250), x = rr(90, WORLD - 90 - w), y = rr(90, WORLD - 90 - h);
-      if (nearSpawn(x + w / 2, y + h / 2, Math.max(w, h) / 2 + 160)) continue;
-      if (M.floors.some(f => x < f.x + f.w + 60 && x + w > f.x - 60 && y < f.y + f.h + 60 && y + h > f.y - 60)) continue;
-      M.floors.push({ x, y, w, h });
-      const sides = [0, 1, 2, 3].sort(() => rnd() - .5), doors = new Set([sides[0], sides[1]]);
-      wallH(x, y, w, doors.has(0)); wallH(x, y + h - T, w, doors.has(2)); wallV(x, y, h, doors.has(3)); wallV(x + w - T, y, h, doors.has(1));
-      M.spots.push([x + rr(50, w - 50), y + rr(50, h - 50)], [x + rr(50, w - 50), y + rr(50, h - 50)]);
-      M.crates.push({ x: x + rr(36, w - 70), y: y + rr(36, h - 70), w: 34, h: 34, hp: 50, id: M.crates.length });
-    }
-    const blockedPt = (x, y, rad) =>
-      M.circles.some(o => Math.hypot(o.x - x, o.y - y) < o.r + rad) ||
-      M.rects.some(o => { const cx = clamp(x, o.x, o.x + o.w), cy = clamp(y, o.y, o.y + o.h); return Math.hypot(x - cx, y - cy) < rad; }) ||
-      M.crates.some(o => x > o.x - rad && x < o.x + o.w + rad && y > o.y - rad && y < o.y + o.h + rad) ||
-      M.floors.some(f => x > f.x - 40 - rad && x < f.x + f.w + 40 + rad && y > f.y - 40 - rad && y < f.y + f.h + 40 + rad);
-    for (let i = 0, n = 0; i < 200 && n < 15; i++) {
-      const o = { x: rr(60, WORLD - 60), y: rr(60, WORLD - 60), r: rr(24, 44) };
-      if (nearSpawn(o.x, o.y, o.r + 140) || blockedPt(o.x, o.y, o.r + 10)) continue;
-      M.circles.push(o); M.rocks.push(o); n++;
-    }
-    for (let i = 0, n = 0; i < 250 && n < 26; i++) {
-      const o = { x: rr(50, WORLD - 50), y: rr(50, WORLD - 50), r: 13 };
-      if (nearSpawn(o.x, o.y, 150) || blockedPt(o.x, o.y, 40)) continue;
-      M.circles.push(o); M.trees.push(o); n++;
-    }
-    for (let i = 0, n = 0; i < 200 && n < 18; i++) {
-      const x = rr(40, WORLD - 40), y = rr(40, WORLD - 40);
-      if (nearSpawn(x, y, 90) || blockedPt(x, y, 20)) continue;
-      M.crates.push({ x, y, w: 34, h: 34, hp: 50, id: M.crates.length }); n++;
-    }
-    for (let i = 0, n = 0; i < 100 && n < 18; i++) {
-      const o = { x: rr(40, WORLD - 40), y: rr(40, WORLD - 40), r: rr(32, 46) };
-      if (nearSpawn(o.x, o.y, 90) || M.floors.some(f => o.x > f.x - 30 && o.x < f.x + f.w + 30 && o.y > f.y - 30 && o.y < f.y + f.h + 30)) continue;
-      M.bushes.push(o); n++;
-    }
-    M.blockedPt = blockedPt;
-    return M;
-  }
-
-  function buildStatic(M, seed) {
-    const c = document.createElement('canvas'); c.width = c.height = WORLD;
-    const x = c.getContext('2d'), rnd = mulberry((seed ^ 0x9e3779b9) >>> 0);
-    x.fillStyle = '#5f9441'; x.fillRect(0, 0, WORLD, WORLD);
-    for (let i = 0; i < 280; i++) {
-      x.fillStyle = rnd() < .5 ? 'rgba(40,95,35,.14)' : 'rgba(135,185,80,.12)';
-      x.beginPath(); x.arc(rnd() * WORLD, rnd() * WORLD, 20 + rnd() * 60, 0, 6.2832); x.fill();
-    }
-    x.strokeStyle = 'rgba(0,0,0,.05)'; x.lineWidth = 1;
-    for (let i = 0; i <= WORLD; i += 100) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, WORLD); x.moveTo(0, i); x.lineTo(WORLD, i); x.stroke(); }
-    for (const f of M.floors) {
-      x.fillStyle = '#b99b6b'; x.fillRect(f.x, f.y, f.w, f.h);
-      x.strokeStyle = '#a58652'; x.lineWidth = 1;
-      for (let yy = f.y + 16; yy < f.y + f.h; yy += 16) { x.beginPath(); x.moveTo(f.x, yy); x.lineTo(f.x + f.w, yy); x.stroke(); }
-    }
-    for (const o of M.rocks) {
-      x.fillStyle = '#868d97'; x.beginPath(); x.arc(o.x, o.y, o.r, 0, 6.2832); x.fill();
-      x.strokeStyle = '#575d66'; x.lineWidth = 3; x.stroke();
-      x.fillStyle = 'rgba(255,255,255,.18)'; x.beginPath(); x.arc(o.x - o.r * .25, o.y - o.r * .25, o.r * .5, 0, 6.2832); x.fill();
-    }
-    for (const o of M.trees) { x.fillStyle = '#5b3d22'; x.beginPath(); x.arc(o.x, o.y, o.r, 0, 6.2832); x.fill(); }
-    for (const w of M.rects) {
-      x.fillStyle = '#4a3a28'; x.fillRect(w.x, w.y, w.w, w.h);
-      x.strokeStyle = '#2b2218'; x.lineWidth = 2; x.strokeRect(w.x, w.y, w.w, w.h);
-    }
-    x.strokeStyle = '#1a2a14'; x.lineWidth = 10; x.strokeRect(0, 0, WORLD, WORLD);
-    return c;
-  }
-
-  function pushRect(p, rx, ry, rw, rh) {
-    const cx = clamp(p.x, rx, rx + rw), cy = clamp(p.y, ry, ry + rh), dx = p.x - cx, dy = p.y - cy, d2 = dx * dx + dy * dy;
-    if (d2 >= R * R) return;
-    if (d2 > 1e-9) { const d = Math.sqrt(d2); p.x += dx / d * (R - d); p.y += dy / d * (R - d); return; }
-    const l = p.x - rx, r = rx + rw - p.x, t = p.y - ry, b = ry + rh - p.y, m = Math.min(l, r, t, b);
-    if (m === l) p.x = rx - R; else if (m === r) p.x = rx + rw + R; else if (m === t) p.y = ry - R; else p.y = ry + rh + R;
-  }
-  function pushOut(p) {
-    p.x = clamp(p.x, R, WORLD - R); p.y = clamp(p.y, R, WORLD - R);
-    for (let it = 0; it < 2; it++) {
-      for (const c of map.circles) {
-        const dx = p.x - c.x, dy = p.y - c.y, d = Math.hypot(dx, dy), m = R + c.r;
-        if (d < m) { if (d > 1e-6) { p.x += dx / d * (m - d); p.y += dy / d * (m - d); } else p.x += m; }
-      }
-      for (const w of map.rects) pushRect(p, w.x, w.y, w.w, w.h);
-      for (const c of map.crates) if (c.hp > 0) pushRect(p, c.x, c.y, c.w, c.h);
-      p.x = clamp(p.x, R, WORLD - R); p.y = clamp(p.y, R, WORLD - R);
-    }
-  }
-
-  // ------------------------------------------------------------------ game state
-  let gs = null;                     // host: authoritative sim  |  guest: mirror of snapshots (same shape)
-  let role = null, me = 0, myName = '', oppName = '';
-
-  function mkPlayer(i, name, x, y) {
-    return { idx: i, name, x, y, rx: x, ry: y, ang: 0, hp: 100, armor: 0, slots: [{ t: 'pistol', mag: 12 }, null, { t: 'fists', mag: 0 }], cur: 0,
-      ammo: { '9mm': 36, '12g': 0, '762': 0 }, band: 1, med: 0, reloadT: 0, fireCd: 0, healT: 0, healType: '', alive: true, moving: false,
-      in: { mx: 0, my: 0, ang: 0, fire: false }, acts: [], swingT: 0, lastBy: -2 };
-  }
-  function newState(names) {
-    const sp = map.spawns;
-    const players = [0, 1].map(i => mkPlayer(i, names[i], sp[i][0], sp[i][1]));
-    players[0].ang = Math.atan2(sp[1][1] - sp[0][1], sp[1][0] - sp[0][0]); players[1].ang = players[0].ang + Math.PI;
-    const z = { cx: WORLD / 2, cy: WORLD / 2, r: 1150, ph: -1, st: 'wait', tl: 25, dur: 1, tcx: WORLD / 2, tcy: WORLD / 2, tr: 720, dmg: .5, scx: 0, scy: 0, sr: 0 };
-    return { players, bullets: [], items: [], zone: z, time: 0, cd: 3, nid: 1, events: [], dirtyW: false, over: false, bmap: new Map() };
-  }
-
-  // ------------------------------------------------------------------ host simulation
-  function emit(e) { gs.events.push(e); handleEvent(e); }
-  function pickLoot() {
-    let t = Math.random() * LOOT.reduce((a, l) => a + l[1], 0);
-    for (const [k, w] of LOOT) { if ((t -= w) <= 0) return k; }
-    return 'bandage';
-  }
-  function addItem(k, x, y, mag) { gs.items.push({ id: gs.nid++, k, x, y, mag: mag == null ? null : mag }); gs.dirtyW = true; }
-  function freeSpot() {
-    for (let i = 0; i < 60; i++) {
-      const x = 60 + Math.random() * (WORLD - 120), y = 60 + Math.random() * (WORLD - 120);
-      if (!map.blockedPt(x, y, 18) || map.floors.some(f => x > f.x + 30 && x < f.x + f.w - 30 && y > f.y + 30 && y < f.y + f.h - 30)) return [x, y];
-    }
-    return [WORLD / 2, WORLD / 2];
-  }
-  function seedLoot() {
-    for (const s of map.spots) addItem(pickLoot(), s[0], s[1]);
-    for (let i = 0; i < 26; i++) { const [x, y] = freeSpot(); addItem(pickLoot(), x, y); }
-    for (const sp of map.spawns) for (let i = 0; i < 2; i++) {
-      for (let t = 0; t < 30; t++) {
-        const a = Math.random() * 6.283, d = 70 + Math.random() * 70, x = sp[0] + Math.cos(a) * d, y = sp[1] + Math.sin(a) * d;
-        if (!map.blockedPt(x, y, 18)) { addItem(i ? 'a:9mm' : 'bandage', x, y); break; }
-      }
-    }
-  }
-  function planNext(z) {
-    const ph = PHASES[z.ph + 1];
-    if (!ph) return;
-    const a = Math.random() * 6.283, d = Math.random() * Math.max(0, z.r - ph.r) * .8;
-    z.tcx = clamp(z.cx + Math.cos(a) * d, 0, WORLD); z.tcy = clamp(z.cy + Math.sin(a) * d, 0, WORLD); z.tr = ph.r;
-  }
-  function updateZone(dt) {
-    const z = gs.zone;
-    z.tl -= dt;
-    if (z.st === 'wait') {
-      if (z.tl > 0) return;
-      const ph = PHASES[z.ph + 1];
-      if (!ph) { z.tl = 1e9; return; }
-      z.ph++; z.st = 'shrink'; z.dur = ph.dur; z.tl = ph.dur; z.scx = z.cx; z.scy = z.cy; z.sr = z.r; z.dmg = ph.dmg;
-    } else {
-      const k = 1 - Math.max(0, z.tl) / z.dur;
-      z.cx = lerp(z.scx, z.tcx, k); z.cy = lerp(z.scy, z.tcy, k); z.r = lerp(z.sr, z.tr, k);
-      if (z.tl <= 0) { z.st = 'wait'; planNext(z); const nx = PHASES[z.ph + 1]; z.tl = nx ? nx.wait : 1e9; }
-    }
-  }
-  function damage(p, amt, by, gas) {
-    if (!p.alive || gs.over) return;
-    let a = amt;
-    if (p.armor > 0) { const t = Math.min(p.armor, a * .6); p.armor -= t; a -= t; }
-    p.hp -= a; p.lastBy = by;
-    if (!gas) emit({ k: 'hit', i: p.idx, by, x: r1(p.x), y: r1(p.y), d: Math.round(amt) });
-    if (p.hp <= 0) { p.hp = 0; p.alive = false; }
-  }
-  function damageCrate(c, d) {
-    if (c.hp <= 0) return;
-    c.hp -= d;
-    if (c.hp <= 0) {
-      c.hp = 0;
-      for (let i = 0, n = 1 + (Math.random() < .5 ? 1 : 0); i < n; i++) addItem(pickLoot(), c.x + c.w / 2 + (Math.random() - .5) * 40, c.y + c.h / 2 + (Math.random() - .5) * 40);
-      emit({ k: 'crate', x: c.x + c.w / 2, y: c.y + c.h / 2 });
-    }
-    gs.dirtyW = true;
-  }
-  const curW = p => p.slots[p.cur] || p.slots[2];
-  function startReload(p) {
-    const s = p.slots[p.cur], W = s && WEAPONS[s.t];
-    if (!W || W.melee || p.reloadT > 0 || s.mag >= W.mag || p.ammo[W.ammo] <= 0) return;
-    p.reloadT = W.reload; emit({ k: 'reload', i: p.idx });
-  }
-  function finishReload(p) {
-    const s = p.slots[p.cur], W = s && WEAPONS[s.t];
-    if (!W || W.melee) return;
-    const n = Math.min(W.mag - s.mag, p.ammo[W.ammo]); s.mag += n; p.ammo[W.ammo] -= n;
-  }
-  function startHeal(p) {
-    if (p.healT > 0 || p.hp >= 100) return;
-    const type = (p.hp <= 45 && p.med > 0) ? 'med' : p.band > 0 ? 'band' : p.med > 0 ? 'med' : '';
-    if (!type) return;
-    p.healType = type; p.healT = type === 'med' ? 3 : 1.5; p.reloadT = 0;
-  }
-  function finishHeal(p) {
-    if (p.healType === 'med' && p.med > 0) { p.med--; p.hp = Math.min(100, p.hp + 50); }
-    else if (p.healType === 'band' && p.band > 0) { p.band--; p.hp = Math.min(100, p.hp + 15); }
-    p.healType = ''; emit({ k: 'heal', i: p.idx });
-  }
-  function dropWeapon(p, s) { if (s && s.t !== 'fists') addItem('w:' + s.t, p.x + (Math.random() - .5) * 30, p.y + (Math.random() - .5) * 30, s.mag); }
-  function giveWeapon(p, t, mag) {
-    let slot = !p.slots[0] ? 0 : !p.slots[1] ? 1 : (p.cur === 2 ? 0 : p.cur);
-    if (p.slots[slot]) dropWeapon(p, p.slots[slot]);
-    p.slots[slot] = { t, mag: mag == null ? WEAPONS[t].mag : mag };
-    if (mag == null) { const at = WEAPONS[t].ammo; p.ammo[at] = Math.min(AMMO_CAP[at], p.ammo[at] + WEAPONS[t].mag); }
-    p.cur = slot; p.reloadT = 0;
-  }
-  function autoPickup(p) {
-    for (let i = gs.items.length - 1; i >= 0; i--) {
-      const it = gs.items[i];
-      if (Math.hypot(it.x - p.x, it.y - p.y) > R + 14) continue;
-      let took = false;
-      if (it.k[0] === 'a') { const t = it.k.slice(2); if (p.ammo[t] < AMMO_CAP[t]) { p.ammo[t] = Math.min(AMMO_CAP[t], p.ammo[t] + AMMO_BOX[t]); took = true; } }
-      else if (it.k === 'bandage') { if (p.band < 5) { p.band++; took = true; } }
-      else if (it.k === 'medkit') { if (p.med < 3) { p.med++; took = true; } }
-      else if (it.k === 'vest') { if (p.armor < 50) { p.armor = 50; took = true; } }
-      else if (it.k[0] === 'w' && (!p.slots[0] || !p.slots[1])) {
-        const t = it.k.slice(2);
-        if (!p.slots.slice(0, 2).some(s => s && s.t === t)) { giveWeapon(p, t, it.mag); took = true; }
-      }
-      if (took) { gs.items.splice(i, 1); gs.dirtyW = true; emit({ k: 'pick', i: p.idx }); }
-    }
-  }
-  function doPick(p) {
-    let best = -1, bd = 46;
-    gs.items.forEach((it, i) => { if (it.k[0] !== 'w') return; const d = Math.hypot(it.x - p.x, it.y - p.y); if (d < bd) { bd = d; best = i; } });
-    if (best < 0) return;
-    const it = gs.items[best], t = it.k.slice(2), have = p.slots.slice(0, 2).find(s => s && s.t === t);
-    if (have) { if (it.mag == null) { const at = WEAPONS[t].ammo; p.ammo[at] = Math.min(AMMO_CAP[at], p.ammo[at] + WEAPONS[t].mag); } }
-    else giveWeapon(p, t, it.mag);
-    gs.items.splice(best, 1); gs.dirtyW = true; emit({ k: 'pick', i: p.idx });
-  }
-  function doAct(p, a) {
-    if (a === 'r') startReload(p);
-    else if (a === 'e') doPick(p);
-    else if (a === 'h') startHeal(p);
-    else if (a === 'q') { for (let k = 1; k <= 3; k++) { const n = (p.cur + k) % 3; if (p.slots[n]) { p.cur = n; p.reloadT = 0; break; } } }
-    else if (a[0] === 's') { const n = +a[1]; if (p.slots[n] && n !== p.cur) { p.cur = n; p.reloadT = 0; p.fireCd = Math.max(p.fireCd, .2); } }
-  }
-  function melee(p, W) {
-    p.swingT = .18; emit({ k: 'swing', i: p.idx });
-    const reach = R + W.range;
-    const o = gs.players[1 - p.idx];
-    if (o.alive) {
-      const dx = o.x - p.x, dy = o.y - p.y, d = Math.hypot(dx, dy);
-      let da = Math.atan2(dy, dx) - p.ang; da = Math.atan2(Math.sin(da), Math.cos(da));
-      if (d < reach + R && Math.abs(da) < 1.0) damage(o, W.dmg, p.idx);
-    }
-    for (const c of map.crates) {
-      if (c.hp <= 0) continue;
-      const cx = c.x + c.w / 2, cy = c.y + c.h / 2, d = Math.hypot(cx - p.x, cy - p.y);
-      let da = Math.atan2(cy - p.y, cx - p.x) - p.ang; da = Math.atan2(Math.sin(da), Math.cos(da));
-      if (d < reach + 18 && Math.abs(da) < 1.0) damageCrate(c, W.dmg);
-    }
-  }
-  function tryFire(p) {
-    if (!p.in.fire || p.healT > 0 || p.fireCd > 0) return;
-    const s = curW(p), W = WEAPONS[s.t];
-    if (W.melee) { melee(p, W); p.fireCd = W.rate; return; }
-    if (p.reloadT > 0) return;
-    if (s.mag <= 0) { startReload(p); return; }
-    s.mag--; p.fireCd = W.rate;
-    for (let k = 0; k < W.pellets; k++) {
-      const a = p.ang + (Math.random() - .5) * 2 * W.spread;
-      gs.bullets.push({ id: gs.nid++, o: p.idx, x: p.x, y: p.y, vx: Math.cos(a) * W.bspeed, vy: Math.sin(a) * W.bspeed, dmg: W.dmg, rng: W.range, wt: s.t });
-    }
-    emit({ k: 'shot', w: s.t, x: r1(p.x), y: r1(p.y), i: p.idx });
-    if (s.mag <= 0) startReload(p);
-  }
-  function speedOf(p) {
-    const W = WEAPONS[curW(p).t];
-    return BASE_SPEED * W.mv * (p.healT > 0 ? .55 : 1) * (p.reloadT > 0 ? .92 : 1);
-  }
-  function updatePlayer(p, dt) {
-    for (const a of p.acts.splice(0)) doAct(p, a);
-    p.fireCd -= dt; p.swingT = Math.max(0, p.swingT - dt);
-    if (p.reloadT > 0) { p.reloadT -= dt; if (p.reloadT <= 0) { p.reloadT = 0; finishReload(p); } }
-    if (p.healT > 0) { p.healT -= dt; if (p.healT <= 0) { p.healT = 0; finishHeal(p); } }
-    let mx = p.in.mx, my = p.in.my; const len = Math.hypot(mx, my);
-    if (len > 1) { mx /= len; my /= len; }
-    p.moving = len > .1;
-    const sp = speedOf(p);
-    p.x += mx * sp * dt; p.y += my * sp * dt; pushOut(p);
-    p.ang = p.in.ang;
-    tryFire(p);
-    autoPickup(p);
-  }
-  function stepBullet(b, dt) {
-    const x1 = b.x + b.vx * dt, y1 = b.y + b.vy * dt;
-    let bt = 1, hit = null;
-    for (const c of map.circles) { const t = segCircle(b.x, b.y, x1, y1, c.x, c.y, c.r); if (t < bt) { bt = t; hit = null; hit = 's'; } }
-    for (const w of map.rects) { const t = segRect(b.x, b.y, x1, y1, w.x, w.y, w.w, w.h); if (t < bt) { bt = t; hit = 's'; } }
-    for (const c of map.crates) { if (c.hp <= 0) continue; const t = segRect(b.x, b.y, x1, y1, c.x, c.y, c.w, c.h); if (t < bt) { bt = t; hit = c; } }
-    for (const p of gs.players) {
-      if (!p.alive || p.idx === b.o) continue;
-      const t = segCircle(b.x, b.y, x1, y1, p.x, p.y, R);
-      if (t < bt) { bt = t; hit = p; }
-    }
-    if (hit) {
-      if (hit === 's') { /* wall / rock */ }
-      else if (hit.hp !== undefined && hit.idx === undefined) damageCrate(hit, b.dmg);
-      else damage(hit, b.dmg, b.o);
-      return false;
-    }
-    b.x = x1; b.y = y1; b.rng -= Math.hypot(b.vx, b.vy) * dt;
-    return b.rng > 0 && x1 > -20 && y1 > -20 && x1 < WORLD + 20 && y1 < WORLD + 20;
-  }
-  function step(dt) {
-    if (gs.over) return;
-    if (gs.cd > 0) { gs.cd -= dt; return; }
-    gs.time += dt;
-    updateZone(dt);
-    for (const p of gs.players) if (p.alive) updatePlayer(p, dt);
-    gs.bullets = gs.bullets.filter(b => stepBullet(b, dt));
-    const z = gs.zone;
-    for (const p of gs.players) if (p.alive && Math.hypot(p.x - z.cx, p.y - z.cy) > z.r) damage(p, z.dmg * dt, -1, true);
-    const a0 = gs.players[0].alive, a1 = gs.players[1].alive;
-    if (!a0 || !a1) {
-      const w = a0 ? 0 : a1 ? 1 : -1, loser = gs.players[w === 0 ? 1 : 0];
-      hostFinish(w, w < 0 ? 'draw' : (loser.lastBy === -1 ? 'zone' : 'kill'));
-    }
-  }
-  function snapshot() {
-    const z = gs.zone;
-    return {
-      t: 's', tm: r1(gs.time), cd: r2(Math.max(0, gs.cd)),
-      z: { cx: r1(z.cx), cy: r1(z.cy), r: r1(z.r), tcx: r1(z.tcx), tcy: r1(z.tcy), tr: r1(z.tr), st: z.st, tl: r1(Math.min(z.tl, 9999)), ph: z.ph, dmg: z.dmg },
-      p: gs.players.map(p => ({ x: r1(p.x), y: r1(p.y), a: r2(p.ang), hp: Math.ceil(p.hp), ar: Math.ceil(p.armor), cur: p.cur,
-        sl: p.slots.map(s => s ? [s.t, s.mag] : 0), am: p.ammo, b: p.band, m: p.med, rl: r2(p.reloadT), ht: r2(p.healT), hy: p.healType, al: p.alive ? 1 : 0, mv: p.moving ? 1 : 0 })),
-      b: gs.bullets.map(b => [b.id, r1(b.x), r1(b.y), r1(b.vx), r1(b.vy), b.o, b.wt]),
-      ev: gs.events.splice(0),
-    };
-  }
-  function worldMsg() { return { t: 'w', it: gs.items.map(i => [i.id, i.k, r1(i.x), r1(i.y), i.mag]), cr: map.crates.map(c => c.hp) }; }
-  let snapN = 0;
-  function sendSnapshot() {
-    if (!conn) return;
-    if (gs.dirtyW) { gs.dirtyW = false; conn.send(worldMsg()); }
-    conn.send(snapshot());
-  }
-
-  // ------------------------------------------------------------------ guest: apply host data
-  function onSnap(s) {
-    if (!gs || !Array.isArray(s.p) || s.p.length < 2) return;
-    gs.time = num(s.tm); gs.cd = num(s.cd);
-    if (s.z) Object.assign(gs.zone, s.z);
-    s.p.forEach((q, i) => {
-      const p = gs.players[i]; if (!p || !q) return;
-      p.x = num(q.x, p.x); p.y = num(q.y, p.y); p.ang = num(q.a); p.hp = num(q.hp); p.armor = num(q.ar); p.cur = q.cur | 0;
-      p.slots = (q.sl || []).map(s => s ? { t: WEAPONS[s[0]] ? s[0] : 'fists', mag: s[1] | 0 } : null);
-      while (p.slots.length < 3) p.slots.push(null);
-      if (!p.slots[2]) p.slots[2] = { t: 'fists', mag: 0 };
-      if (q.am) p.ammo = q.am; p.band = q.b | 0; p.med = q.m | 0; p.reloadT = num(q.rl); p.healT = num(q.ht); p.healType = q.hy || '';
-      p.alive = !!q.al; p.moving = !!q.mv;
-      if (i !== me) { p.tx = p.x; p.ty = p.y; }
-    });
-    const mp = gs.players[me];
-    const err = Math.hypot(mp.x - mp.rx, mp.y - mp.ry);
-    if (err > 90 || !mp.moving && err > 2 || gs.cd > 0) { mp.rx = lerp(mp.rx, mp.x, err > 90 || gs.cd > 0 ? 1 : .5); mp.ry = lerp(mp.ry, mp.y, err > 90 || gs.cd > 0 ? 1 : .5); }
-    const seen = new Set();
-    for (const b of s.b || []) {
-      let o = gs.bmap.get(b[0]);
-      if (!o) { o = { id: b[0], o: b[5], wt: b[6] }; gs.bmap.set(b[0], o); }
-      o.x = b[1]; o.y = b[2]; o.vx = b[3]; o.vy = b[4]; seen.add(b[0]);
-    }
-    for (const id of [...gs.bmap.keys()]) if (!seen.has(id)) gs.bmap.delete(id);
-    gs.bullets = [...gs.bmap.values()];
-    for (const e of s.ev || []) handleEvent(e);
-  }
-  function onWorld(m) {
-    if (!gs) return;
-    gs.items = (m.it || []).map(a => ({ id: a[0], k: String(a[1]), x: a[2], y: a[3], mag: a[4] }));
-    (m.cr || []).forEach((hp, i) => { if (map.crates[i]) map.crates[i].hp = hp; });
-  }
-
-  // ------------------------------------------------------------------ effects + sound
-  let effects = [], hurtFlash = 0, hitMark = 0;
-  const sfx = {};
-  function ensureSnd() {
-    if (!actx) initAudio();
-    if (!actx || sfx.ready) return;
-    try {
-      const sr = actx.sampleRate, N = () => Math.random() * 2 - 1, sin = Math.sin, exp = Math.exp, PI2 = Math.PI * 2;
-      const mk = (dur, f) => { const len = Math.floor(dur * sr), b = actx.createBuffer(1, len, sr), d = b.getChannelData(0); for (let i = 0; i < len; i++) d[i] = clamp(f(i / sr), -1, 1) * .8; return b; };
-      sfx.pistol = mk(.18, t => N() * exp(-t * 45) * .7 + sin(PI2 * 120 * t) * exp(-t * 32) * .5);
-      sfx.smg = mk(.12, t => N() * exp(-t * 60) * .6 + sin(PI2 * 160 * t) * exp(-t * 40) * .4);
-      sfx.ar = mk(.2, t => N() * exp(-t * 35) * .8 + sin(PI2 * 90 * t) * exp(-t * 28) * .6);
-      sfx.shotgun = mk(.35, t => N() * exp(-t * 14) * .9 + sin(PI2 * 65 * t) * exp(-t * 14) * .6);
-      sfx.sniper = mk(.55, t => N() * exp(-t * 12) * .8 + sin(PI2 * 55 * t) * exp(-t * 9) * .8);
-      sfx.hit = mk(.07, t => sin(PI2 * 900 * t) * exp(-t * 55) * .5);
-      sfx.hurt = mk(.22, t => (sin(PI2 * (220 - 120 * t) * t) > 0 ? 1 : -1) * exp(-t * 14) * .4 + N() * exp(-t * 25) * .3);
-      sfx.pick = mk(.16, t => sin(PI2 * (500 + 1200 * t) * t) * exp(-t * 14) * .45);
-      sfx.reload = mk(.14, t => N() * exp(-t * 60) * .5 + sin(PI2 * 300 * t) * exp(-t * 50) * .3);
-      sfx.heal = mk(.3, t => sin(PI2 * (400 + 500 * t) * t) * exp(-t * 7) * .4);
-      sfx.swing = mk(.12, t => N() * exp(-t * 28) * .35);
-      sfx.crate = mk(.22, t => N() * exp(-t * 18) * .6 + sin(PI2 * 140 * t) * exp(-t * 20) * .3);
-      sfx.win = mk(.7, t => (sin(PI2 * (t < .2 ? 440 : t < .4 ? 554 : 660) * t) * .4) * exp(-t * 3));
-      sfx.lose = mk(.8, t => (sin(PI2 * (t < .3 ? 330 : 247) * t) * .4) * exp(-t * 3));
-      sfx.ready = true;
-    } catch (e) { sfx.ready = false; }
-  }
-  function snd(k, vol = 1) {
-    if (!actx || !soundOn || !sfx[k]) return;
-    try { const s = actx.createBufferSource(), gn = actx.createGain(); s.buffer = sfx[k]; gn.gain.value = clamp(vol, 0, 1); s.connect(gn); gn.connect(actx.destination); s.start(); } catch (e) { /* ignore */ }
-  }
-  function handleEvent(e) {
-    if (!e || !gs) return;
-    const mp = gs.players[me];
-    const near = (x, y) => clamp(1 - Math.hypot(num(x) - mp.x, num(y) - mp.y) / 1100, .08, 1);
-    switch (e.k) {
-      case 'shot': {
-        const wk = e.w === 'ar' ? 'ar' : WEAPONS[e.w] ? e.w : 'pistol';
-        snd(wk, near(e.x, e.y));
-        effects.push({ k: 'flash', x: e.x, y: e.y, t: 0, life: .06 });
-        break;
-      }
-      case 'hit':
-        effects.push({ k: 'txt', x: e.x, y: e.y - 10, t: 0, life: .8, s: '-' + e.d, c: e.i === me ? '#ff6b6b' : '#ffe27a' });
-        if (e.i === me) { hurtFlash = .35; snd('hurt'); }
-        if (e.by === me) { hitMark = .15; snd('hit', .8); }
-        break;
-      case 'crate': snd('crate', near(e.x, e.y)); effects.push({ k: 'ring', x: e.x, y: e.y, t: 0, life: .3 }); break;
-      case 'pick': if (e.i === me) snd('pick', .7); break;
-      case 'heal': if (e.i === me) snd('heal', .7); break;
-      case 'reload': if (e.i === me) snd('reload', .6); break;
-      case 'swing': { const p = gs.players[e.i | 0]; if (p) p.swingT = .18; snd('swing', near(p && p.x, p && p.y) * .7); break; }
-    }
-  }
-
-  // ------------------------------------------------------------------ matchmaking transports
-  function wsConn(sock) {
-    const c = {
-      onmessage: null, onclose: null, closed: false,
-      send(o) { if (sock.readyState !== 1) return; if (sock.bufferedAmount > 2e5 && o.t === 's') return; try { sock.send(JSON.stringify({ t: 'msg', d: o })); } catch (e) { /* ignore */ } },
-      close() { c.closed = true; try { sock.close(); } catch (e) { /* ignore */ } },
-    };
-    sock.onmessage = ev => {
-      let m; try { m = JSON.parse(ev.data); } catch (e) { return; }
-      if (!m) return;
-      if (m.t === 'msg' && c.onmessage) c.onmessage(m.d); else if (m.t === 'peer-left' && c.onclose) c.onclose('peer-left');
-    };
-    sock.onclose = () => { if (!c.closed && c.onclose) c.onclose('closed'); };
-    return c;
-  }
-  // Ask the server's /health endpoint whether it is there (CORS-enabled in cometcombat-server.js).
-  function probeServer(url) {
-    return new Promise(resolve => {
-      let httpUrl;
-      try { httpUrl = url.replace(/^ws/i, 'http').replace(/\/+$/, '') + '/health'; new URL(httpUrl); } catch (e) { resolve(null); return; }
-      const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null, t = setTimeout(() => ctl && ctl.abort(), 4000);
-      fetch(httpUrl, { cache: 'no-store', signal: ctl ? ctl.signal : undefined }).then(r => r.json()).then(j => { clearTimeout(t); resolve(j && j.ok ? j : null); }).catch(() => { clearTimeout(t); resolve(null); });
-    });
-  }
-  function diagnose(url) {
-    const hostIsLocal = /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])/i.test(url);
-    if (location.protocol === 'https:' && /^ws:\/\//i.test(url))
-      return Promise.resolve('This page is loaded over HTTPS, so the browser blocks the unencrypted server address ' + url + '. Use a wss:// address.');
-    return probeServer(url).then(j => {
-      if (j) return 'A CometCombat server answered at ' + url + ' but the live (WebSocket) connection was refused. If it sits behind a proxy, enable WebSocket upgrades.';
-      let m = 'No CometCombat server found at ' + url + '. Start it with "node cometcombat-server.js", or fix the address.';
-      if (hostIsLocal && (touchUI || (location.hostname && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))))
-        m += ' ("localhost" means this device itself. Use the address of the computer running the server.)';
-      return m;
-    });
-  }
-  function matchWS(url, name, cb) {
-    let ws = null, done = false, tries = 0, retryT = 0, everOpened = false;
-    function open() {
-      if (done) return;
-      let sock;
-      try { sock = ws = new WebSocket(url); } catch (e) { done = true; cb.onFail('That server address is not valid.'); return; }
-      let matched = false;
-      cb.onStatus(everOpened ? 'Reconnecting…' : 'Connecting to ' + url + '…');
-      sock.onopen = () => { tries = 0; everOpened = true; cb.onStatus('Connected. Looking for an opponent…'); sock.send(JSON.stringify({ t: 'join', name, v: VER, pw: devPw })); };
-      sock.onmessage = ev => {
-        let m; try { m = JSON.parse(ev.data); } catch (e) { return; }
-        if (!m || matched) return;
-        if (m.t === 'error') { done = true; if (m.code === 'auth') devLock(); cb.onFail(String(m.msg || 'The server refused the connection.'), m.code === 'auth'); return; }
-        if (m.t === 'lobby') cb.onStatus('Connected · ' + (m.online | 0) + ' online · ' + (m.waiting | 0) + ' waiting');
-        else if (m.t === 'matched') { matched = true; done = true; cb.onMatch(wsConn(sock), { role: m.role === 'host' ? 'host' : 'guest', opp: cleanName(m.opp) }); }
-      };
-      sock.onerror = () => { /* onclose follows */ };
-      sock.onclose = () => {
-        if (matched || done) return;
-        if (!everOpened) { done = true; diagnose(url).then(msg => cb.onFail(msg)); return; }       // never connected: fail fast, say why
-        if (++tries > 5) { done = true; cb.onFail('Lost the connection to the server and could not reconnect.'); return; }
-        cb.onStatus('Connection lost. Retrying (' + tries + '/5)…');
-        retryT = setTimeout(open, Math.min(4000, 1000 * tries));
-      };
-    }
-    open();
-    return { cancel() { done = true; clearTimeout(retryT); try { ws && ws.close(); } catch (e) { /* ignore */ } } };
-  }
-
-  // ------------------------------------------------------------------ session lifecycle
-  let active = false, phase = 'idle';           // idle | name | lobby | setup | match | over | error
-  let mm = null, conn = null;
-  const mode = 'online';
-  let lastRecv = 0, myAway = false, myAwayAt = 0, oppAway = false, oppAwayAt = 0, hbTimer = 0, startTimer = 0, lobbyTimer = 0, lobbyStart = 0;
-  let rafId = 0, lastT = 0, acc = 0, lastInSend = 0, matchStart = 0;
-  let overInfo = null;
-
-  // ---- developer lock for ONLINE mode.
-  // The check below is only a convenience gate (anything in a web page can be read). The real enforcement
-  // is in cometcombat-server.js, which rejects joins that do not carry the right password (env DEV_PASSWORD).
-  const DEV_HASH = 2740183783595544;
-  function cyrb53(str, seed = 0) {
-    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-    for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
-    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-  }
-  const pwOk = pw => cyrb53('cometcombat:' + pw) === DEV_HASH;
-  let devPw = '';
-  try { const sp = sessionStorage.getItem('cc.dev') || ''; if (sp && pwOk(sp)) devPw = sp; } catch (e) { /* ignore */ }
-  const devUnlocked = () => !!devPw;
-  function devLock() { devPw = ''; try { sessionStorage.removeItem('cc.dev'); } catch (e) { /* ignore */ } }
-
-  // >>> Hosting the game on GitHub Pages? Put your server's address here, e.g. 'wss://cometcombat.onrender.com'
-  const CONFIGURED_SERVER = '';
-  const defaultServer = () => {
-    const q = new URLSearchParams(location.search).get('server');           // also: https://you.github.io/game/?server=wss://host
-    if (q && /^wss?:\/\/[^\s]+$/i.test(q)) return q;
-    const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-    if (CONFIGURED_SERVER && !local) return CONFIGURED_SERVER;
-    return /^https?:$/.test(location.protocol) ? (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host : 'ws://localhost:8080';
-  };
-
-  function stopMatchTimers() { clearInterval(hbTimer); clearTimeout(startTimer); hbTimer = 0; }
-  function cleanupNet() {
-    stopMatchTimers();
-    if (mm) { try { mm.cancel(); } catch (e) { /* ignore */ } mm = null; }
-    if (conn) { const c = conn; conn = null; c.onmessage = c.onclose = null; try { c.close(); } catch (e) { /* ignore */ } }
-  }
-  function resetMatchState() {
-    gs = null; map = null; staticCv = null; effects = []; hurtFlash = hitMark = 0; acc = 0; snapN = 0;
-    myAway = oppAway = false; localActs.length = 0; mouseDown = false; ptr.clear(); hideSticks(); setNotice('');
-    root.classList.remove('inmatch');
-  }
-
-  function open() {
-    active = true; phase = 'name';
-    $('ccUser').value = store.get('cc.name', '');
-    let saved = store.get('cc.server', '');
-    // a saved localhost address is useless when the page is served from some other host
-    if (/^wss?:\/\/(localhost|127\.)/i.test(saved) && /^https?:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname)) saved = '';
-    $('ccServer').value = saved || defaultServer();
-    $('ccUserErr').textContent = ''; resetMatchState();
-    lastT = performance.now(); cancelAnimationFrame(rafId); rafId = requestAnimationFrame(frame);
-    if (devUnlocked()) { showPanel('name'); checkServer(); setTimeout(() => { try { $('ccUser').focus(); } catch (e) { /* ignore */ } }, 50); }
-    else showDev();
-    if (matchMedia && matchMedia('(pointer: coarse)').matches) enableTouch();
-  }
-  function showDev() {
-    $('ccDevPw').value = ''; $('ccDevErr').textContent = ''; showPanel('dev');
-    setTimeout(() => { try { $('ccDevPw').focus(); } catch (e) { /* ignore */ } }, 50);
-  }
-  function exit() {
-    sendLeave();
-    cleanupNet(); resetMatchState(); clearInterval(lobbyTimer);
-    active = false; phase = 'idle'; cancelAnimationFrame(rafId);
-    showPanel(null);
-    document.body.classList.remove('cc'); document.body.classList.add('home');
-    try { $('cardCombat').focus(); } catch (e) { /* ignore */ }
-  }
-
-  let checkSeq = 0, checkT = 0;
-  function checkServer() {
-    const el = $('ccServerStatus'), seq = ++checkSeq;
-    const url = $('ccServer').value.trim();
-    if (!/^wss?:\/\/[^\s]+$/i.test(url)) { el.className = 'ccSrv bad'; el.textContent = 'Enter a server address like ws://localhost:8080'; return; }
-    el.className = 'ccSrv'; el.textContent = 'Checking server…';
-    probeServer(url).then(j => {
-      if (seq !== checkSeq || phase !== 'name') return;
-      if (j) { el.className = 'ccSrv ok'; el.textContent = '✓ Server online · ' + (j.online | 0) + ' connected, ' + (j.waiting | 0) + ' waiting'; }
-      else { el.className = 'ccSrv bad'; el.textContent = '✗ No server found at this address. Start "node cometcombat-server.js" or check the address.'; }
-    });
-  }
-  function submitName() {
-    ensureSnd();
-    const raw = $('ccUser').value.trim();
-    if (!NAME_RE.test(raw)) { $('ccUserErr').textContent = 'Username must be 2-16 characters: letters, numbers, spaces, _ . -'; return; }
-    if (!devUnlocked()) { showDev(); return; }
-    myName = cleanName(raw); store.set('cc.name', myName);
-    const srv = $('ccServer').value.trim();
-    if (!/^wss?:\/\/[^\s]+$/i.test(srv)) { $('ccUserErr').textContent = 'Enter a server address like ws://localhost:8080'; return; }
-    if (srv !== defaultServer()) store.set('cc.server', srv); else store.set('cc.server', '');
-    $('ccUserErr').textContent = '';
-    startLobby();
-  }
-
-  function startLobby() {
-    cleanupNet(); resetMatchState();
-    phase = 'lobby'; showPanel('lobby'); lobbyStart = Date.now();
-    $('ccLobbyName').textContent = myName; $('ccLobbyStatus').textContent = 'Connecting…'; $('ccLobbyTitle').textContent = 'Waiting for an opponent…';
-    clearInterval(lobbyTimer);
-    lobbyTimer = setInterval(() => { const s = Math.floor((Date.now() - lobbyStart) / 1000); $('ccLobbyTime').textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }, 500);
-    $('ccLobbyTime').textContent = '0:00';
-    const cb = {
-      onStatus: t => { if (phase === 'lobby') $('ccLobbyStatus').textContent = t; },
-      onMatch: (c, info) => beginMatch(c, info),
-      onFail: msg => showError(msg, true),
-    };
-    mm = matchWS($('ccServer').value.trim(), myName, cb);
-  }
-  function cancelLobby() { cleanupNet(); clearInterval(lobbyTimer); phase = 'name'; showPanel('name'); }
-
-  function showError(msg, retry) {
-    cleanupNet(); clearInterval(lobbyTimer); resetMatchState();
-    phase = 'error'; $('ccErrMsg').textContent = msg; $('ccErrRetry').style.display = retry ? '' : 'none';
-    showPanel('error');
-  }
-  function fatal(msg) { try { sendLeave(); } catch (e) { /* ignore */ } showError(msg, true); }
-
-  function beginMatch(c, info) {
-    mm = null; clearInterval(lobbyTimer);
-    conn = c; role = info.role; me = role === 'host' ? 0 : 1;
-    oppName = info.opp.toLowerCase() === myName.toLowerCase() ? info.opp + ' (2)' : info.opp;
-    conn.onmessage = onNet; conn.onclose = onConnClosed;
-    lastRecv = performance.now(); phase = 'setup';
-    $('ccLobbyTitle').textContent = 'Match found!'; $('ccLobbyStatus').textContent = 'vs ' + oppName + ' · starting…';
-    hbTimer = setInterval(heartbeat, 1000);
-    if (role === 'host') {
-      const seed = (Math.random() * 4294967295) >>> 0;
-      conn.send({ t: 'start', seed, names: [myName, oppName], v: VER });
-      startMatch(seed, [myName, oppName]);
-      sendSnapshot();
-    } else {
-      startTimer = setTimeout(() => { if (phase === 'setup') showError('The match could not be started. The host did not respond.', true); }, START_TIMEOUT);
-    }
-  }
-  function startMatch(seed, names) {
-    clearTimeout(startTimer);
-    map = genMap(seed); staticCv = buildStatic(map, seed);
-    gs = newState(names.map(cleanName));
-    if (role === 'host') { gs.dirtyW = true; seedLoot(); conn.send(worldMsg()); gs.dirtyW = false; }
-    phase = 'match'; matchStart = performance.now(); acc = 0; effects = [];
-    showPanel(null); root.classList.add('inmatch');
-    if (document.hidden) setAway(true);
-  }
-
-  function sendLeave() { if (conn && (phase === 'match' || phase === 'setup')) { try { conn.send({ t: 'leave' }); } catch (e) { /* ignore */ } } }
-  function heartbeat() { if (conn) conn.send({ t: 'hb' }); watchdog(); }
-
-  function onNet(m) {
-    if (!m || typeof m !== 'object' || !active) return;
-    lastRecv = performance.now();
-    switch (m.t) {
-      case 'start':
-        if (role === 'guest' && phase === 'setup' && isFinite(m.seed)) {
-          const nm = Array.isArray(m.names) ? m.names : [oppName, myName];
-          startMatch(m.seed >>> 0, [cleanName(nm[0]), cleanName(nm[1])]);
-          oppName = gs.players[0].name;
-        }
-        break;
-      case 's': if (role === 'guest' && phase === 'match') onSnap(m); break;
-      case 'w': if (role === 'guest' && gs) onWorld(m); break;
-      case 'in':
-        if (role === 'host' && gs && phase === 'match') {
-          const p = gs.players[1];
-          p.in = { mx: clamp(num(m.mx), -1, 1), my: clamp(num(m.my), -1, 1), ang: num(m.ang), fire: !!m.fire };
-          if (Array.isArray(m.acts)) for (const a of m.acts.slice(0, 6)) if (typeof a === 'string' && /^(r|e|h|q|s[0-2])$/.test(a) && p.acts.length < 12) p.acts.push(a);
-        }
-        break;
-      case 'away': oppAway = !!m.v; if (oppAway) oppAwayAt = performance.now(); break;
-      case 'leave': if (phase === 'match') finishLocal(me, 'left'); break;
-      case 'forfeit': if (role === 'host' && phase === 'match') hostFinish(0, 'away'); break;
-      case 'end': if (role === 'guest' && phase === 'match') endMatch(m.w === 0 || m.w === 1 ? m.w : -1, String(m.c || 'kill')); break;
-      case 'hb': break;
-    }
-  }
-  function onConnClosed(reason) {
-    if (phase !== 'match' && phase !== 'setup') return;
-    if (phase === 'setup') { showError(reason === 'peer-left' ? 'Your opponent disconnected before the match started.' : 'Lost connection to the server.', true); return; }
-    if (reason === 'closed') endMatch(1 - me, 'disc');      // OUR link dropped: we lose
-    else finishLocal(me, 'disc');                           // peer-left: opponent dropped, we win
-  }
-  function hostFinish(w, code) { if (gs && !gs.over) { try { conn && conn.send({ t: 'end', w, c: code }); } catch (e) { /* ignore */ } endMatch(w, code); } }
-  function finishLocal(w, code) { if (role === 'host') hostFinish(w, code); else endMatch(w, code); }
-
-  function setAway(v) {
-    if (v === myAway || phase !== 'match') return;
-    const now = performance.now();
-    if (v) myAwayAt = now;
-    myAway = v;
-    if (conn) conn.send({ t: 'away', v });
-    if (!v && now - myAwayAt > AWAY_LIMIT && gs && !gs.over) {            // came back too late
-      if (role === 'host') hostFinish(1, 'away'); else { conn && conn.send({ t: 'forfeit' }); endMatch(0, 'away'); }
-    }
-  }
-  function watchdog() {
-    if (phase !== 'match' || !gs || gs.over) return;
-    const now = performance.now();
-    if (oppAway && now - oppAwayAt > AWAY_LIMIT) { finishLocal(me, 'away'); return; }
-    if (now - lastRecv > DEAD_LIMIT && !myAway) { finishLocal(me, 'disc'); return; }
-  }
-  function updateNotice() {
-    if (phase !== 'match' || !gs || gs.over) return setNotice('');
-    const now = performance.now();
-    if (!navigator.onLine) return setNotice('You appear to be offline…');
-    if (oppAway) return setNotice(oppName + ' switched away. Match paused. Forfeit in ' + Math.max(0, Math.ceil((AWAY_LIMIT - (now - oppAwayAt)) / 1000)) + 's');
-    if (now - lastRecv > 3000) return setNotice('Connection unstable… (' + Math.max(0, Math.ceil((DEAD_LIMIT - (now - lastRecv)) / 1000)) + 's)');
-    setNotice('');
-  }
-
-  const REASONS = {
-    kill: w => w === me ? 'You eliminated ' + oppName : oppName + ' eliminated you',
-    zone: w => w === me ? oppName + ' was caught in the zone' : 'You were caught in the zone',
-    left: w => w === me ? oppName + ' left the match' : 'You left the match',
-    away: w => w === me ? oppName + ' was away too long' : 'You were away too long',
-    disc: w => w === me ? oppName + ' lost connection' : 'You lost connection',
-    draw: () => 'Both players were eliminated',
-  };
-  function endMatch(w, code) {
-    if (phase !== 'match' || !gs || gs.over) return;
-    gs.over = true; phase = 'over'; stopMatchTimers();
-    setNotice(''); mouseDown = false; ptr.clear(); hideSticks();
-    const win = w === me, draw = w < 0;
-    overInfo = { title: draw ? 'DRAW' : win ? 'VICTORY' : 'DEFEAT', cls: draw ? 'draw' : win ? 'win' : 'lose', reason: (REASONS[code] || REASONS.kill)(w), time: gs.time };
-    snd(draw ? 'hurt' : win ? 'win' : 'lose');
-    setTimeout(() => {
-      if (phase !== 'over') return;
-      $('ccResTitle').textContent = overInfo.title; $('ccResTitle').className = overInfo.cls;
-      $('ccResReason').textContent = overInfo.reason;
-      const s = Math.floor(overInfo.time); $('ccResStats').textContent = 'You: ' + myName + '  vs  ' + oppName + '  ·  Match time ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
-      root.classList.remove('inmatch'); showPanel('result');
-    }, code === 'kill' || code === 'zone' || code === 'draw' ? 1400 : 200);
-  }
-
-  // ------------------------------------------------------------------ input
-  const keys = {}, mouse = { x: 0, y: 0 }, ptr = new Map();
-  let mouseDown = false, mouseSeen = false, aimAng = 0, touchUI = false, hudSlots = [];
-  const localActs = [];
-  function enableTouch() { touchUI = true; root.classList.add('touch'); }
-
-  window.addEventListener('keydown', e => {
-    if (!active) return;
-    if (e.target && e.target.tagName === 'INPUT') { if (e.code === 'Enter') { if (e.target.id === 'ccDevPw') submitDev(); else if (phase === 'name') submitName(); } return; }
-    if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.code)) e.preventDefault();
-    keys[e.code] = true;
-    if (e.repeat) return;
-    if (e.code === 'KeyM') soundOn = !soundOn;
-    if (phase === 'name' && e.code === 'Escape') { exit(); return; }
-    if (phase === 'lobby' && e.code === 'Escape') { cancelLobby(); return; }
-    if (phase === 'match') {
-      if (e.code === 'Escape') { showPanel(panels.leave.classList.contains('show') ? null : 'leave'); return; }
-      const m = { KeyR: 'r', KeyE: 'e', KeyH: 'h', KeyQ: 'q', Digit1: 's0', Digit2: 's1', Digit3: 's2' }[e.code];
-      if (m) localActs.push(m);
-    }
-  });
-  window.addEventListener('keyup', e => { keys[e.code] = false; });
-  window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; mouseDown = false; });
-
-  const dprOf = () => cv.width / Math.max(1, innerWidth);
-  function hitSlot(px, py) {
-    for (const s of hudSlots) if (px >= s.x && px <= s.x + s.w && py >= s.y && py <= s.y + s.h) { localActs.push('s' + s.i); return true; }
-    return false;
-  }
-  cv.addEventListener('contextmenu', e => e.preventDefault());
-  cv.addEventListener('pointerdown', e => {
-    if (!active || phase !== 'match') return;
-    const d = dprOf(), px = e.clientX * d, py = e.clientY * d;
-    if (e.pointerType === 'mouse') { mouseSeen = true; mouse.x = px; mouse.y = py; if (e.button === 0 && !hitSlot(px, py)) mouseDown = true; return; }
-    enableTouch();
-    if (hitSlot(px, py)) return;
-    const kind = e.clientX < innerWidth * .45 ? 'L' : 'R';
-    for (const p of ptr.values()) if (p.kind === kind) return;
-    ptr.set(e.pointerId, { kind, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY });
-    drawStick(kind, e.clientX, e.clientY, e.clientX, e.clientY);
-    e.preventDefault();
-  });
-  window.addEventListener('pointermove', e => {
-    if (!active) return;
-    if (e.pointerType === 'mouse') { const d = dprOf(); mouseSeen = true; mouse.x = e.clientX * d; mouse.y = e.clientY * d; return; }
-    const p = ptr.get(e.pointerId); if (!p) return;
-    p.x = e.clientX; p.y = e.clientY;
-    const Rr = stickR(), vx = p.x - p.ox, vy = p.y - p.oy, m = Math.hypot(vx, vy), k = m > Rr ? Rr / m : 1;
-    drawStick(p.kind, p.ox, p.oy, p.ox + vx * k, p.oy + vy * k);
-    e.preventDefault();
-  }, { passive: false });
-  const ptrEnd = e => {
-    if (e.pointerType === 'mouse') { if (e.button === 0) mouseDown = false; return; }
-    const p = ptr.get(e.pointerId); if (!p) return;
-    ptr.delete(e.pointerId); hideStick(p.kind);
-  };
-  window.addEventListener('pointerup', ptrEnd);
-  window.addEventListener('pointercancel', ptrEnd);
-
-  const stickR = () => Math.max(40, Math.min(innerWidth, innerHeight) * .11);
-  function drawStick(kind, ox, oy, kx, ky) {
-    const b = $('ccJ' + kind), k = $('ccK' + kind);
-    b.style.display = k.style.display = 'block';
-    const bs = b.offsetWidth || 120, ks = k.offsetWidth || 60;
-    b.style.left = (ox - bs / 2) + 'px'; b.style.top = (oy - bs / 2) + 'px'; k.style.left = (kx - ks / 2) + 'px'; k.style.top = (ky - ks / 2) + 'px';
-  }
-  function hideStick(kind) { $('ccJ' + kind).style.display = $('ccK' + kind).style.display = 'none'; }
-  function hideSticks() { hideStick('L'); hideStick('R'); }
-
-  function readInput() {
-    let mx = (keys.KeyD || keys.ArrowRight ? 1 : 0) - (keys.KeyA || keys.ArrowLeft ? 1 : 0);
-    let my = (keys.KeyS || keys.ArrowDown ? 1 : 0) - (keys.KeyW || keys.ArrowUp ? 1 : 0);
-    let fire = mouseDown || !!keys.Space, touchAim = false;
-    for (const p of ptr.values()) {
-      const Rr = stickR(), vx = p.x - p.ox, vy = p.y - p.oy, m = Math.hypot(vx, vy), k = Math.min(1, m / Rr);
-      if (p.kind === 'L') { if (m > 6) { mx = vx / m * k; my = vy / m * k; } }
-      else if (m > 10) { aimAng = Math.atan2(vy, vx); touchAim = true; if (k > .5) fire = true; }
-    }
-    if (!touchAim && (mouseSeen || !touchUI)) aimAng = Math.atan2(mouse.y - cv.height / 2, mouse.x - cv.width / 2);
-    const len = Math.hypot(mx, my); if (len > 1) { mx /= len; my /= len; }
-    return { mx, my, ang: aimAng, fire };
-  }
-  const tapBtn = (id, act) => $(id).addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); enableTouch(); if (phase === 'match') localActs.push(act); });
-  tapBtn('ccBReload', 'r'); tapBtn('ccBPick', 'e'); tapBtn('ccBHeal', 'h'); tapBtn('ccBSwap', 'q');
-
-  // ------------------------------------------------------------------ main loop
-  function frame(ts) {
-    rafId = requestAnimationFrame(frame);
-    try { tick(ts); } catch (err) { console.error(err); fatal('Something went wrong: ' + (err && err.message || err)); }
-  }
-  function resizeCanvas() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2), w = Math.round(innerWidth * dpr), h = Math.round(innerHeight * dpr);
-    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
-  }
-  function tick(ts) {
-    const dt = Math.min(.05, (ts - lastT) / 1000 || 0); lastT = ts;
-    resizeCanvas();
-    if (phase === 'match' || phase === 'over') { if (phase === 'match') updateMatch(dt); updateFx(dt); drawMatch(); if (phase === 'match') updateNotice(); }
-    else { g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#070b18'; g.fillRect(0, 0, cv.width, cv.height); }
-  }
-  function updateFx(dt) {
-    for (const e of effects) e.t += dt;
-    effects = effects.filter(e => e.t < e.life);
-    hurtFlash = Math.max(0, hurtFlash - dt); hitMark = Math.max(0, hitMark - dt);
-    if (gs) for (const p of gs.players) { p.swingT = Math.max(0, p.swingT - dt); }
-  }
-  function updateMatch(dt) {
-    const paused = myAway || oppAway, inp = readInput(), P = gs.players, mp = P[me];
-    if (role === 'host') {
-      const p0 = P[0];
-      p0.in = inp; if (localActs.length) p0.acts.push(...localActs.splice(0, 6));
-      if (!paused && !gs.over) {
-        acc += dt;
-        while (acc >= TICK) { step(TICK); acc -= TICK; if (++snapN % 3 === 0) sendSnapshot(); if (gs.over) break; }
-      }
-      for (const p of P) { p.rx = p.x; p.ry = p.y; }
-    } else {
-      const now = performance.now();
-      if (!paused && mp.alive && gs.cd <= 0) {                           // client-side prediction of own movement
-        const sp = speedOf(mp);
-        mp.rx += inp.mx * sp * dt; mp.ry += inp.my * sp * dt;
-        const t = { x: mp.rx, y: mp.ry }; pushOut(t); mp.rx = t.x; mp.ry = t.y;
-      }
-      mp.ang = inp.ang;
-      if (localActs.length || now - lastInSend > 33) {
-        lastInSend = now;
-        conn.send({ t: 'in', mx: r2(inp.mx), my: r2(inp.my), ang: r2(inp.ang), fire: inp.fire, acts: localActs.splice(0, 6) });
-      }
-      const o = P[1 - me];
-      if (o.tx !== undefined) { const k = Math.min(1, dt * 14); o.rx = lerp(o.rx, o.tx, k); o.ry = lerp(o.ry, o.ty, k); }
-      if (!paused) for (const b of gs.bullets) { b.x += b.vx * dt; b.y += b.vy * dt; }
-    }
-  }
-
-  // ------------------------------------------------------------------ rendering
-  function drawPlayer(p, isMe) {
-    const x = p.rx, y = p.ry, a = isMe ? p.ang : p.ang, W = WEAPONS[curW(p).t];
-    g.save(); g.translate(x, y); g.rotate(a);
-    g.fillStyle = 'rgba(0,0,0,.2)'; g.beginPath(); g.arc(2, 3, R, 0, 6.2832); g.fill();
-    const sw = p.swingT > 0 ? Math.sin((1 - p.swingT / .18) * Math.PI) : 0;
-    if (!W.melee) { g.fillStyle = '#222'; g.fillRect(6, -2.5, W.len, 5); g.fillStyle = '#444'; g.fillRect(6, -1, W.len, 2); }
-    g.fillStyle = '#e8c9a0'; g.strokeStyle = isMe ? '#34d399' : '#f87171'; g.lineWidth = 3;
-    g.beginPath(); g.arc(0, 0, R, 0, 6.2832); g.fill(); g.stroke();
-    g.fillStyle = '#e8c9a0'; g.strokeStyle = '#a07a52'; g.lineWidth = 1.5;
-    const hx = W.melee ? 12 + sw * 14 : 12, hx2 = W.melee ? 12 : 8 + (W.len > 14 ? 8 : 0);
-    g.beginPath(); g.arc(hx, -8, 5, 0, 6.2832); g.fill(); g.stroke();
-    g.beginPath(); g.arc(W.melee ? 12 - sw * 8 : hx2 + 4, 8, 5, 0, 6.2832); g.fill(); g.stroke();
-    g.restore();
-  }
-  function drawItem(it, me_) {
-    const k = it.k;
-    g.save(); g.translate(it.x, it.y);
-    const near = Math.hypot(it.x - me_.rx, it.y - me_.ry) < 60;
-    if (k[0] === 'w') {
-      const W = WEAPONS[k.slice(2)];
-      g.fillStyle = '#f59e0b'; g.beginPath(); g.arc(0, 0, 11, 0, 6.2832); g.fill(); g.strokeStyle = '#78350f'; g.lineWidth = 2; g.stroke();
-      g.fillStyle = '#111'; g.fillRect(-6, -1.5, 12, 3);
-      if (near) { g.fillStyle = '#fff'; g.font = 'bold 11px ' + SANS; g.textAlign = 'center'; g.fillText((touchUI ? '' : '[E] ') + W.name, 0, -17); }
-    } else if (k[0] === 'a') {
-      g.fillStyle = '#e6be3c'; g.fillRect(-8, -6, 16, 12); g.strokeStyle = '#7a5a10'; g.lineWidth = 2; g.strokeRect(-8, -6, 16, 12);
-      g.fillStyle = '#111'; g.font = 'bold 8px ' + SANS; g.textAlign = 'center'; g.fillText(k.slice(2), 0, 3);
-    } else if (k === 'bandage') { g.fillStyle = '#fff'; g.beginPath(); g.arc(0, 0, 9, 0, 6.2832); g.fill(); g.fillStyle = '#e11d48'; g.fillRect(-1.5, -6, 3, 12); g.fillRect(-6, -1.5, 12, 3); }
-    else if (k === 'medkit') { g.fillStyle = '#fff'; g.fillRect(-10, -8, 20, 16); g.strokeStyle = '#991b1b'; g.lineWidth = 2; g.strokeRect(-10, -8, 20, 16); g.fillStyle = '#dc2626'; g.fillRect(-2.5, -6, 5, 12); g.fillRect(-7, -2.5, 14, 5); }
-    else if (k === 'vest') { g.fillStyle = '#3b82f6'; g.beginPath(); g.moveTo(-9, -8); g.lineTo(9, -8); g.lineTo(7, 9); g.lineTo(-7, 9); g.closePath(); g.fill(); g.strokeStyle = '#1e3a8a'; g.lineWidth = 2; g.stroke(); }
-    g.restore();
-  }
-  function pill(text, cx, cy, u, bg) {
-    g.font = 'bold ' + Math.round(13 * u) + 'px ' + SANS; g.textAlign = 'center';
-    const w = g.measureText(text).width + 22 * u, h = 24 * u;
-    g.fillStyle = bg || 'rgba(0,0,0,.55)'; g.beginPath(); g.roundRect ? g.roundRect(cx - w / 2, cy - h / 2, w, h, h / 2) : g.rect(cx - w / 2, cy - h / 2, w, h); g.fill();
-    g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(text, cx, cy + 1); g.textBaseline = 'alphabetic';
-  }
-  function drawMatch() {
-    const w = cv.width, h = cv.height, sc = Math.min(w, h) / 640, P = gs.players, mp = P[me], op = P[1 - me], u = Math.min(w, h) / 600;
-    g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#070b18'; g.fillRect(0, 0, w, h);
-    g.setTransform(sc, 0, 0, sc, w / 2 - mp.rx * sc, h / 2 - mp.ry * sc);
-    g.drawImage(staticCv, 0, 0);
-    // zone danger overlay
-    const z = gs.zone;
-    g.fillStyle = 'rgba(220,40,40,.30)'; g.beginPath(); g.rect(-600, -600, WORLD + 1200, WORLD + 1200); if (z.r > 0) g.arc(z.cx, z.cy, z.r, 0, 6.2832); g.fill('evenodd');
-    g.strokeStyle = 'rgba(255,90,90,.9)'; g.lineWidth = 3; if (z.r > 0) { g.beginPath(); g.arc(z.cx, z.cy, z.r, 0, 6.2832); g.stroke(); }
-    if (z.st === 'wait' && z.tr > 0) { g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 2; g.setLineDash([10, 8]); g.beginPath(); g.arc(z.tcx, z.tcy, z.tr, 0, 6.2832); g.stroke(); g.setLineDash([]); }
-    for (const it of gs.items) drawItem(it, mp);
-    for (const c of map.crates) {
-      if (c.hp <= 0) continue;
-      g.fillStyle = '#a8743a'; g.fillRect(c.x, c.y, c.w, c.h); g.strokeStyle = '#5a3a18'; g.lineWidth = 3; g.strokeRect(c.x, c.y, c.w, c.h);
-      g.beginPath(); g.moveTo(c.x, c.y); g.lineTo(c.x + c.w, c.y + c.h); g.moveTo(c.x + c.w, c.y); g.lineTo(c.x, c.y + c.h); g.lineWidth = 2; g.stroke();
-      if (c.hp < 30) { g.strokeStyle = 'rgba(0,0,0,.5)'; g.beginPath(); g.moveTo(c.x + 6, c.y + 4); g.lineTo(c.x + 14, c.y + 16); g.lineTo(c.x + 10, c.y + 26); g.stroke(); }
-    }
-    for (const b of gs.bullets) {
-      g.strokeStyle = b.wt === 'sniper' ? '#fff3b0' : '#ffd35a'; g.lineWidth = b.wt === 'sniper' ? 3.5 : 2.5; g.globalAlpha = .9;
-      g.beginPath(); g.moveTo(b.x, b.y); g.lineTo(b.x - b.vx * .035, b.y - b.vy * .035); g.stroke(); g.globalAlpha = 1;
-    }
-    const inBush = p => map.bushes.some(b => Math.hypot(b.x - p.rx, b.y - p.ry) < b.r * .8);
-    for (const p of P) {
-      if (!p.alive) { g.globalAlpha = .35; g.fillStyle = '#7a2a2a'; g.beginPath(); g.arc(p.rx, p.ry, R, 0, 6.2832); g.fill(); g.globalAlpha = 1; continue; }
-      const isMe = p === mp;
-      if (!isMe && inBush(p) && Math.hypot(p.rx - mp.rx, p.ry - mp.ry) > 170) continue;
-      drawPlayer(p, isMe);
-      if (!isMe) {
-        g.fillStyle = '#fff'; g.font = 'bold 12px ' + SANS; g.textAlign = 'center'; g.fillText(p.name, p.rx, p.ry - 28);
-        g.fillStyle = 'rgba(0,0,0,.5)'; g.fillRect(p.rx - 18, p.ry - 24, 36, 4); g.fillStyle = '#f87171'; g.fillRect(p.rx - 18, p.ry - 24, 36 * clamp(p.hp / 100, 0, 1), 4);
-      }
-    }
-    for (const b of map.bushes) {
-      const hidden = Math.hypot(b.x - mp.rx, b.y - mp.ry) < b.r * .9;
-      g.globalAlpha = hidden ? .6 : .96; g.fillStyle = '#2f7d3a'; g.beginPath(); g.arc(b.x, b.y, b.r, 0, 6.2832); g.fill();
-      g.fillStyle = '#3f9a4a'; g.beginPath(); g.arc(b.x - b.r * .3, b.y - b.r * .25, b.r * .55, 0, 6.2832); g.fill(); g.beginPath(); g.arc(b.x + b.r * .35, b.y + b.r * .2, b.r * .5, 0, 6.2832); g.fill();
-      g.globalAlpha = 1;
-    }
-    for (const t of map.trees) {
-      const hidden = Math.hypot(t.x - mp.rx, t.y - mp.ry) < 52;
-      g.globalAlpha = hidden ? .5 : .93; g.fillStyle = '#2a6b30'; g.beginPath(); g.arc(t.x, t.y, 50, 0, 6.2832); g.fill();
-      g.fillStyle = '#35863d'; g.beginPath(); g.arc(t.x - 12, t.y - 10, 30, 0, 6.2832); g.fill(); g.globalAlpha = 1;
-    }
-    for (const e of effects) {
-      const k = e.t / e.life;
-      if (e.k === 'txt') { g.globalAlpha = 1 - k; g.fillStyle = e.c; g.font = 'bold 15px ' + SANS; g.textAlign = 'center'; g.fillText(e.s, e.x, e.y - k * 28); g.globalAlpha = 1; }
-      else if (e.k === 'flash') { g.globalAlpha = 1 - k; g.fillStyle = '#ffe9a0'; g.beginPath(); g.arc(e.x, e.y, 14 * (1 - k * .4), 0, 6.2832); g.fill(); g.globalAlpha = 1; }
-      else if (e.k === 'ring') { g.globalAlpha = 1 - k; g.strokeStyle = '#d6a55c'; g.lineWidth = 3; g.beginPath(); g.arc(e.x, e.y, 10 + k * 30, 0, 6.2832); g.stroke(); g.globalAlpha = 1; }
-    }
-    drawHud(w, h, u, mp, op);
-  }
-
-  function drawHud(w, h, u, mp, op) {
-    g.setTransform(1, 0, 0, 1, 0, 0);
-    if (hurtFlash > 0) { g.fillStyle = 'rgba(220,0,0,' + Math.min(.4, hurtFlash) + ')'; g.fillRect(0, 0, w, h); }
-    const z = gs.zone;
-    if (mp.alive && Math.hypot(mp.rx - z.cx, mp.ry - z.cy) > z.r) { g.fillStyle = 'rgba(255,0,0,' + (.1 + .06 * Math.sin(performance.now() / 150)) + ')'; g.fillRect(0, 0, w, h); }
-    if (hitMark > 0) { g.strokeStyle = '#fff'; g.lineWidth = 2 * u; const c = [w / 2, h / 2], d = 10 * u; g.beginPath(); for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) { g.moveTo(c[0] + sx * d * .4, c[1] + sy * d * .4); g.lineTo(c[0] + sx * d, c[1] + sy * d); } g.stroke(); }
-
-    // top bar: zone timer + names
-    const sec = n => Math.max(0, Math.ceil(n));
-    const zt = z.st === 'shrink' ? 'ZONE CLOSING ' + sec(z.tl) + 's' : (z.ph >= PHASES.length - 1 ? 'FINAL ZONE' : 'NEXT ZONE IN ' + sec(z.tl) + 's');
-    pill(zt, w / 2, 24 * u, u, z.st === 'shrink' ? 'rgba(180,30,30,.75)' : 'rgba(0,0,0,.55)');
-    pill(mp.name + '  vs  ' + op.name, w / 2, 52 * u, u * .85);
-
-    // minimap
-    const ms = 110 * u, mx = w - ms - 12 * u, my = 12 * u, k = ms / WORLD;
-    g.fillStyle = 'rgba(10,20,10,.7)'; g.fillRect(mx, my, ms, ms); g.fillStyle = '#6aa64a'; g.globalAlpha = .55; g.fillRect(mx, my, ms, ms); g.globalAlpha = 1;
-    g.fillStyle = '#b99b6b'; for (const f of map.floors) g.fillRect(mx + f.x * k, my + f.y * k, f.w * k, f.h * k);
-    g.save(); g.beginPath(); g.rect(mx, my, ms, ms); g.clip();
-    g.strokeStyle = '#ff6060'; g.lineWidth = 2; g.beginPath(); g.arc(mx + z.cx * k, my + z.cy * k, z.r * k, 0, 6.2832); g.stroke();
-    if (z.st === 'wait' && z.tr > 0) { g.strokeStyle = '#fff'; g.lineWidth = 1; g.beginPath(); g.arc(mx + z.tcx * k, my + z.tcy * k, z.tr * k, 0, 6.2832); g.stroke(); }
-    g.restore();
-    g.fillStyle = '#34d399'; g.beginPath(); g.arc(mx + mp.rx * k, my + mp.ry * k, 3.5 * u, 0, 6.2832); g.fill();
-    g.strokeStyle = '#fff'; g.lineWidth = 1; g.strokeRect(mx, my, ms, ms);
-
-    // health / armor
-    const bw = 250 * u, bx = w / 2 - bw / 2, by = h - 34 * u;
-    g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(bx - 4 * u, by - 18 * u, bw + 8 * u, 34 * u);
-    g.fillStyle = '#1f3d1f'; g.fillRect(bx, by, bw, 12 * u);
-    g.fillStyle = mp.hp > 30 ? '#4ade80' : '#ef4444'; g.fillRect(bx, by, bw * clamp(mp.hp / 100, 0, 1), 12 * u);
-    g.fillStyle = '#1e3a8a'; g.fillRect(bx, by - 12 * u, bw, 7 * u);
-    g.fillStyle = '#60a5fa'; g.fillRect(bx, by - 12 * u, bw * clamp(mp.armor / 50, 0, 1), 7 * u);
-    g.fillStyle = '#fff'; g.font = 'bold ' + Math.round(11 * u) + 'px ' + SANS; g.textAlign = 'center'; g.fillText(Math.ceil(mp.hp) + (mp.armor > 0 ? '  +' + Math.ceil(mp.armor) : ''), w / 2, by + 10 * u);
-    // consumables
-    g.textAlign = 'left'; g.font = 'bold ' + Math.round(13 * u) + 'px ' + SANS;
-    g.fillStyle = '#fff'; g.fillText('[H] BAND ' + mp.band, bx - 92 * u, by + 10 * u); g.fillText('MEDKIT ' + mp.med, bx - 92 * u, by - 8 * u);
-
-    // weapon slots
-    hudSlots = [];
-    const sw = 52 * u, gap = 6 * u, sx0 = w - (3 * sw + 2 * gap) - 12 * u, sy = h - sw - 12 * u;
-    for (let i = 0; i < 3; i++) {
-      const s = mp.slots[i], x = sx0 + i * (sw + gap), on = mp.cur === i;
-      g.fillStyle = on ? 'rgba(255,255,255,.28)' : 'rgba(0,0,0,.5)'; g.fillRect(x, sy, sw, sw);
-      g.strokeStyle = on ? '#fff' : 'rgba(255,255,255,.3)'; g.lineWidth = 2 * u; g.strokeRect(x, sy, sw, sw);
-      g.fillStyle = '#fff'; g.font = 'bold ' + Math.round(9 * u) + 'px ' + SANS; g.textAlign = 'left'; g.fillText(String(i + 1), x + 4 * u, sy + 11 * u);
-      g.textAlign = 'center'; g.font = 'bold ' + Math.round(11 * u) + 'px ' + SANS;
-      g.fillText(s ? WEAPONS[s.t].name : '—', x + sw / 2, sy + sw / 2 + 4 * u);
-      if (s && !WEAPONS[s.t].melee) { g.font = Math.round(10 * u) + 'px ' + SANS; g.fillStyle = '#ffe27a'; g.fillText(String(s.mag), x + sw / 2, sy + sw - 7 * u); }
-      if (s) hudSlots.push({ x, y: sy, w: sw, h: sw, i });
-    }
-    const cs = mp.slots[mp.cur];
-    if (cs && !WEAPONS[cs.t].melee) {
-      g.textAlign = 'right'; g.fillStyle = '#fff'; g.font = 'bold ' + Math.round(26 * u) + 'px ' + SANS;
-      g.fillText(cs.mag + ' / ' + mp.ammo[WEAPONS[cs.t].ammo], w - 12 * u, sy - 10 * u);
-    }
-    // reload / heal progress
-    const prog = mp.healT > 0 ? [1 - mp.healT / (mp.healType === 'med' ? 3 : 1.5), 'HEALING'] : mp.reloadT > 0 && cs ? [1 - mp.reloadT / WEAPONS[cs.t].reload, 'RELOADING'] : null;
-    if (prog) {
-      const pw = 110 * u, px_ = w / 2 - pw / 2, py_ = h / 2 + 40 * u;
-      g.fillStyle = 'rgba(0,0,0,.6)'; g.fillRect(px_, py_, pw, 9 * u); g.fillStyle = mp.healT > 0 ? '#4ade80' : '#facc15'; g.fillRect(px_, py_, pw * clamp(prog[0], 0, 1), 9 * u);
-      g.fillStyle = '#fff'; g.font = 'bold ' + Math.round(10 * u) + 'px ' + SANS; g.textAlign = 'center'; g.fillText(prog[1], w / 2, py_ - 4 * u);
-    }
-    // pickup hint
-    const nearW = gs.items.find(it => it.k[0] === 'w' && Math.hypot(it.x - mp.rx, it.y - mp.ry) < 46);
-    root.classList.toggle('canpick', !!nearW);
-    // countdown
-    if (gs.cd > 0) {
-      g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, w, h);
-      g.fillStyle = '#fff'; g.textAlign = 'center'; g.font = 'bold ' + Math.round(90 * u) + 'px ' + SANS; g.fillText(String(Math.ceil(gs.cd)), w / 2, h / 2 + 30 * u);
-      g.font = 'bold ' + Math.round(20 * u) + 'px ' + SANS; g.fillText('GET READY', w / 2, h / 2 - 70 * u);
-    }
-    g.textAlign = 'left';
-  }
-
-  // ------------------------------------------------------------------ UI wiring
-  function submitDev() {
-    const v = $('ccDevPw').value;
-    if (!pwOk(v)) { $('ccDevErr').textContent = 'Incorrect password.'; $('ccDevPw').select(); return; }
-    devPw = v; try { sessionStorage.setItem('cc.dev', v); } catch (e) { /* ignore */ }
-    showPanel('name'); checkServer(); setTimeout(() => { try { $('ccUser').focus(); } catch (e) { /* ignore */ } }, 50);
-  }
-  $('ccDevOk').addEventListener('click', submitDev);
-  $('ccDevCancel').addEventListener('click', exit);
-  $('ccServer').addEventListener('input', () => { clearTimeout(checkT); checkT = setTimeout(checkServer, 500); });
-  $('ccFind').addEventListener('click', submitName);
-  $('ccBack').addEventListener('click', exit);
-  $('ccCancel').addEventListener('click', cancelLobby);
-  $('ccAgain').addEventListener('click', () => { startLobby(); });
-  $('ccResMenu').addEventListener('click', exit);
-  $('ccErrBack').addEventListener('click', exit);
-  $('ccErrRetry').addEventListener('click', () => { phase = 'name'; if (!devUnlocked()) showDev(); else { checkServer(); showPanel('name'); } });
-  $('ccBtnLeave').addEventListener('click', e => { e.stopPropagation(); if (phase === 'match') showPanel('leave'); });
-  $('ccResume').addEventListener('click', () => showPanel(null));
-  $('ccLeaveGo').addEventListener('click', () => {
-    if (phase === 'match') { sendLeave(); endMatch(1 - me, 'left'); }
-    showPanel(null);
-  });
-
-  // lifecycle
-  document.addEventListener('visibilitychange', () => { if (active && phase === 'match') setAway(document.hidden); });
-  window.addEventListener('pagehide', () => { if (active && (phase === 'match' || phase === 'setup')) { sendLeave(); if (conn) conn.close(); } else if (mm) mm.cancel(); });
-  window.addEventListener('beforeunload', () => { if (active && phase === 'match') sendLeave(); });
-  window.addEventListener('offline', () => { if (active && phase === 'match') updateNotice(); });
-  window.addEventListener('resize', () => { if (active) resizeCanvas(); });
-  document.addEventListener('contextmenu', e => { if (active) e.preventDefault(); });
-
-  return { open, exit, debug: () => ({ phase, role, me, gs, map, conn, myAway, oppAway, mode }) };
-})();
-
-document.getElementById('cardCombat').addEventListener('click', () => {
-  document.body.classList.remove('home'); document.body.classList.add('cc');
-  CC.open();
-});
-</script>
-<script>
-/* =====================================================================
  *  COMET INVADERS  -  defend Earth from raining comets
  *
  *  Fly your rocket along the sky and shoot comets before they hit the planet.
@@ -3449,7 +2229,7 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  COMETGUESSR  v0.9.4  -  guess where you are from Google Street View
+ *  COMETGUESSR  v0.9.5  -  guess where you are from Google Street View
  *
  *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
  *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
@@ -3627,6 +2407,7 @@ const GEO = (() => {
   // ------------------------------------------------------------------ game flow
   function loadView() { const r = rounds[ri]; curURL = svURL(r.loc, r.heading); frameEl.src = curURL; }
   function startRound() {
+    skipsLeft = MAX_SKIPS; skipLabel();                 // 2 skips for every round
     state = 'guess'; guess = null; root.classList.remove('result'); root.classList.add('playing'); wrap.classList.remove('open');
     layer.clearLayers(); guessBtn.disabled = true; guessBtn.textContent = 'Place your pin on the map';
     hud(); loadView(); startTimer();
@@ -3636,7 +2417,7 @@ const GEO = (() => {
     $('geoStartErr').textContent = ''; $('geoPlay').disabled = true;
     loadLeaflet().then(() => {
       $('geoPlay').disabled = false; if (!active) return;
-      initMap(); used = new Set(); usedCC = new Set(); usedCont = new Set(); skipsLeft = MAX_SKIPS; skipLabel(); rounds = []; for (let i = 0; i < ROUNDS; i++) rounds.push(pickLoc());
+      initMap(); used = new Set(); usedCC = new Set(); usedCont = new Set(); rounds = []; for (let i = 0; i < ROUNDS; i++) rounds.push(pickLoc());
       ri = 0; total = 0; showPanel(null); startRound();
     }, () => { $('geoPlay').disabled = false; $('geoStartErr').textContent = 'Could not load the map. Check your internet connection and try again.'; });
   }
@@ -3720,6 +2501,25 @@ const GEO = (() => {
 document.getElementById('cardGeo').addEventListener('click', () => {
   document.body.classList.remove('home'); document.body.classList.add('geo');
   GEO.open();
+});
+</script>
+<script>
+const SV = (() => {
+  'use strict';
+  const URL_ = 'https://survev.io', frame = document.getElementById('svFrame');
+  function open() { frame.src = URL_; }
+  function exit() {
+    frame.src = 'about:blank';                       // stops the game's audio and network
+    document.body.classList.remove('sv'); document.body.classList.add('home');
+    try { document.getElementById('cardSv').focus(); } catch (e) { /* ignore */ }
+  }
+  document.getElementById('svMenu').addEventListener('click', exit);
+  window.addEventListener('keydown', e => { if (e.code === 'Escape' && document.body.classList.contains('sv')) exit(); });
+  return { open, exit };
+})();
+document.getElementById('cardSv').addEventListener('click', () => {
+  document.body.classList.remove('home'); document.body.classList.add('sv');
+  SV.open();
 });
 </script>
 </body>
