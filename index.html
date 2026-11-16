@@ -264,7 +264,7 @@
     </button>
   </div>
 </div>
-<div id="ver">v0.9.5</div>
+<div id="ver">v0.9.4</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -273,7 +273,7 @@
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
     <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.5</div>
+    <div class="ccver">v0.9.4</div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
@@ -283,7 +283,7 @@
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.5</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="sv">
@@ -312,7 +312,7 @@
     <p><b>Keyboard</b> &nbsp;A / D or arrows move, Space fires, 1-5 then click a platform to build<br><b>Mouse</b> &nbsp;move to steer, hold click to fire<br><b>Touch</b> &nbsp;drag to steer (auto-fire), build from the shop bar</p>
     <p id="siStartBest"></p>
     <div class="ccRow"><button id="siPlay" class="ccBtn primary" type="button">Play</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.5</div>
+    <div class="ccver">v0.9.4</div>
   </div>
   <div id="siPause" class="ccPanel">
     <h2>Paused</h2>
@@ -322,7 +322,7 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.5</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="geo">
@@ -345,7 +345,7 @@
     <div id="geoStartErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
     <p style="font-size:11px;opacity:.65;margin:0">Random places from GeoNames (CC BY 4.0). Some spots may have no Street View imagery; if a round shows none, just place a pin as best you can.</p>
-    <div class="ccver">v0.9.5 &middot; needs an internet connection</div>
+    <div class="ccver">v0.9.4 &middot; needs an internet connection</div>
   </div>
   <div id="geoOver" class="ccPanel">
     <h2>Final score</h2>
@@ -353,7 +353,7 @@
     <ul id="geoList"></ul>
     <p id="geoOverBest"></p>
     <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.5</div>
+    <div class="ccver">v0.9.4</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -366,7 +366,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.5  -  home menu + RAYCAST ARENA (FPS) + SURVEV.IO (embed) + COMET INVADERS + COMETGUESSR, one HTML file.
+ *  COMETBOUND GAMES v0.9.4  -  home menu + RAYCAST ARENA (FPS) + SURVEV.IO (embed) + COMET INVADERS + COMETGUESSR, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -1516,6 +1516,7 @@ const SI = (() => {
   let diffKey = store.get('ci.diff', 'medium'), D = DIFF[DIFF[diffKey] ? diffKey : 'medium'];
   let R = Math.random, seed = 0, earthCv = null, stars = [];
   let wave = 0, score = 0, money = 0, earthHp = 0, earthMax = 0, kills = 0, time = 0, phase = 'prep', prepT = 0, waveT = 0;
+  let waveTotal = 1, waveDone = 0, progShown = 0;   // wave progress counted in comet 'units' so splitting never moves the bar backwards
   let plan = null, queue = [], forecast = null, rocketLvl = 0, moneyEarned = 0, autoCollect = false;
   let ship, rockets, bullets, comets, crystals, parts, rings, pops, beams, craters, slots;
   let placing = -1, sellMode = false, hoverSlot = -1, toastMsg = '', toastT = 0, shake = 0, flashT = 0, bannerT = 0, banner = '', endT = 0;
@@ -1609,6 +1610,17 @@ const SI = (() => {
     list.sort((a, b) => a.t - b.t);
     plan = { list, dur, boss, n };
   }
+  // Units of work in one comet = itself plus everything it will break into, so a big comet already
+  // accounts for its fragments and the progress bar never has to grow when it splits.
+  const unitsCache = {};
+  function unitsOf(type, tier, boss) {
+    const key = type + tier + (boss ? 'B' : '');
+    if (unitsCache[key] !== undefined) return unitsCache[key];
+    let u = 1;
+    if (boss) u = 1 + 3 * unitsOf('rock', 2, false);
+    else if (type !== 'volatile' && TYPES[type].split && tier > 0) u = 1 + TYPES[type].split * unitsOf(type, tier - 1, false);
+    return (unitsCache[key] = u);
+  }
   const baseSpeed = () => Math.min(150, 38 + wave * 1.8) * D.speed * (forecast ? forecast.speed : 1);
 
   function newComet(type, tier, x, y, vx, vy, boss) {
@@ -1625,7 +1637,7 @@ const SI = (() => {
     comets.push(c);
     if (D.cluster && !boss && Math.random() < D.cluster) {
       const extra = 1 + (Math.random() < .4 ? 1 : 0);
-      for (let i = 0; i < extra; i++) { const e = newComet(type, Math.max(0, tier - (tier > 1 ? 1 : 0)), sx + (Math.random() - .5) * 90, sy - 10 - Math.random() * 40, c.vx * (.95 + Math.random() * .1), c.vy * (.95 + Math.random() * .1)); comets.push(e); }
+      for (let i = 0; i < extra; i++) { const e = newComet(type, Math.max(0, tier - (tier > 1 ? 1 : 0)), sx + (Math.random() - .5) * 90, sy - 10 - Math.random() * 40, c.vx * (.95 + Math.random() * .1), c.vy * (.95 + Math.random() * .1)); comets.push(e); waveTotal += unitsOf(e.type, e.tier, false); }
     }
     return c;
   }
@@ -1633,6 +1645,7 @@ const SI = (() => {
     if (phase !== 'prep' || state !== 'play') return;
     if (prepT > 1) { const bonus = Math.round(prepT * D.money); money += bonus; moneyEarned += bonus; if (bonus > 0) addPop(W / 2, 140, 'EARLY BONUS +' + bonus, '#ffe27a'); }
     wave++; phase = 'wave'; waveT = 0; queue = plan.list.slice();
+    waveTotal = 0; for (const q of queue) waveTotal += unitsOf(q.type, q.tier, q.boss); waveTotal = Math.max(1, waveTotal); waveDone = 0; progShown = 0;
     banner = (plan.boss ? 'DOOMSDAY COMET  ·  ' : '') + 'WAVE ' + wave + '  ·  ' + forecast.name.toUpperCase(); bannerT = 2.8;
     beep(300, 700, .3, 'triangle', .1); if (plan.boss) boom(.6, .2);
   }
@@ -1648,7 +1661,7 @@ const SI = (() => {
   function crystalValue(c) { return TIER[c.tier].money * TYPES[c.type].moneym * D.money; }
   function destroyComet(c) {
     if (c.dead) return;
-    c.dead = true; kills++; score += TIER[c.tier].pts;
+    c.dead = true; kills++; score += TIER[c.tier].pts; waveDone++;
     const fire = c.type === 'ice' ? 'ice' : c.type === 'metal' ? 'steel' : c.type === 'volatile' ? 'red' : 'fire';
     spark(c.x, c.y, fire, 8 + c.tier * 8, 120 + c.tier * 30, .6);
     ring(c.x, c.y, c.r * .6, fire, .35, 60 + c.tier * 20);
@@ -1685,7 +1698,7 @@ const SI = (() => {
     }
   }
   function impact(c) {
-    c.dead = true;
+    c.dead = true; waveDone += unitsOf(c.type, c.tier, c.boss);      // it will never split, so count its whole family as resolved
     const dmg = TIER[c.tier].dmg * D.dmg * (c.type === 'metal' ? 1.25 : 1) * (c.boss ? 1 : 1);
     earthHp -= dmg; score = Math.max(0, score - TIER[c.tier].cost);
     const y = surfY(c.x);
@@ -1777,6 +1790,7 @@ const SI = (() => {
     if (phase === 'prep') { prepT -= dt; if (prepT <= 0) startWave(); }
     else {
       waveT += dt;
+      { const f = Math.min(1, waveDone / waveTotal); if (f > progShown) progShown += (f - progShown) * Math.min(1, dt * 9); }   // glides upward, never back
       while (queue.length && queue[0].t <= waveT) { const q = queue.shift(); spawnTop(q.type, q.tier, q.boss); }
       if (!queue.length && !comets.length && !spawned.length) endWave();
     }
@@ -2086,7 +2100,7 @@ const SI = (() => {
     }
     if (toastT > 0) { g.textAlign = 'center'; g.font = 'bold 13px ' + SANS; g.fillStyle = 'rgba(0,0,0,.65)'; g.fillText(toastMsg, W / 2 + 1, 211); g.fillStyle = '#fff'; g.globalAlpha = Math.min(1, toastT); g.fillText(toastMsg, W / 2, 210); g.globalAlpha = 1; }
     if (phase === 'wave' && state === 'play') {                                         // wave progress
-      const tot = plan.list.length || 1, left = queue.length + comets.length, f = 1 - left / tot;
+      const f = progShown;
       g.fillStyle = 'rgba(255,255,255,.12)'; g.fillRect(W / 2 - 60 + 40, 38, 120, 3); g.fillStyle = '#7cf0c8'; g.fillRect(W / 2 - 60 + 40, 38, 120 * clamp(f, 0, 1), 3);
     }
     g.textAlign = 'left';
@@ -2215,7 +2229,7 @@ const SI = (() => {
   // test hook (used by automated checks)
   const api = {
     state: () => state, diff: () => D.key, wave: () => wave, phase: () => phase, comets: () => comets.length, money: () => money, earth: () => earthHp,
-    setMoney: v => { money = v; }, buy: placeTurret, startWave, repair: repairEarth, upgrade: upgradeRocket, buyAuto, hasAuto: () => autoCollect, toggleTier, slots: () => slots,
+    setMoney: v => { money = v; }, progress: () => progShown, buy: placeTurret, startWave, repair: repairEarth, upgrade: upgradeRocket, buyAuto, hasAuto: () => autoCollect, toggleTier, slots: () => slots,
     sim(n, dt = 1 / 30) { for (let i = 0; i < n && state === 'play'; i++) update(dt); },
     ship: () => ship, keysOn(v) { keys.Space = v; }, setX(x) { ship.x = x; }, cometsList: () => comets, kills: () => kills, score: () => score, setPlacing: v => { placing = v; }, crystalsList: () => crystals, setEarth: v => { earthHp = v; },
   };
@@ -2229,7 +2243,7 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  COMETGUESSR  v0.9.5  -  guess where you are from Google Street View
+ *  COMETGUESSR  v0.9.4  -  guess where you are from Google Street View
  *
  *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
  *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
