@@ -254,7 +254,7 @@
     <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
   </div>
 </div>
-<div id="ver">v0.9.6-3</div>
+<div id="ver">v0.9.6-4</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -263,7 +263,7 @@
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
     <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-3</div>
+    <div class="ccver">v0.9.6-4</div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
@@ -273,7 +273,7 @@
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-3</div>
+    <div class="ccver">v0.9.6-4</div>
   </div>
 </div>
 <div id="si">
@@ -295,7 +295,7 @@
     <p id="siStartBest"></p>
     <p style="font-size:12px;opacity:.7">Your run is saved automatically when you leave, pause or clear a wave. Leaving in the middle of a wave returns you to the start of that wave. Starting a new game erases the saved run.</p>
     <div class="ccRow"><button id="siContinue" class="ccBtn primary" type="button" style="display:none">Continue</button><button id="siPlay" class="ccBtn" type="button">New game</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-3</div>
+    <div class="ccver">v0.9.6-4</div>
   </div>
   <div id="siWarn" class="ccPanel">
     <h2>Erase saved run?</h2>
@@ -310,7 +310,7 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-3</div>
+    <div class="ccver">v0.9.6-4</div>
   </div>
 </div>
 <div id="geo">
@@ -333,7 +333,7 @@
     <div id="geoStartErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
     <p style="font-size:11px;opacity:.65;margin:0">Random places from GeoNames (CC BY 4.0). Some spots may have no Street View imagery; if a round shows none, just place a pin as best you can.</p>
-    <div class="ccver">v0.9.6-3 &middot; needs an internet connection</div>
+    <div class="ccver">v0.9.6-4 &middot; needs an internet connection</div>
   </div>
   <div id="geoOver" class="ccPanel">
     <h2>Final score</h2>
@@ -341,7 +341,7 @@
     <ul id="geoList"></ul>
     <p id="geoOverBest"></p>
     <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-3</div>
+    <div class="ccver">v0.9.6-4</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -354,7 +354,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.6-3  -  home menu + RAYCAST ARENA (FPS) + COMET INVADERS + COMETGUESSR, one HTML file.
+ *  COMETBOUND GAMES v0.9.6-4  -  home menu + RAYCAST ARENA (FPS) + COMET INVADERS + COMETGUESSR, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -1478,7 +1478,7 @@ const SI = (() => {
   const TURRETS = [
     { n: 'Pulse',   price: 60,   dmg: 1.2, rate: .5,  range: 240, col: '#7cf0c8', gl: 'cyan', kind: 'bullet', bspeed: 540, sz: 0, info: 'Cheap and steady' },
     { n: 'Gatling', price: 170,  dmg: 1,   rate: .12, range: 255, col: '#ffd23f', gl: 'gold', kind: 'bullet', bspeed: 660, spread: .09, sz: 1, info: 'Rapid fire' },
-    { n: 'Frost',   price: 340,  dps: .8, range: 195, col: '#9be7ff', gl: 'ice',  kind: 'aura', slow: .19, sz: 1, info: 'Slows every comet in range' },
+    { n: 'Frost',   price: 340,  dps: .8, range: 195, col: '#9be7ff', gl: 'ice',  kind: 'aura', slow: .38 * 2 / 3, sz: 1, info: 'Slows every comet in range' },
     { n: 'Laser',   price: 420,  dps: 10,  range: 330, col: '#ff6bd6', gl: 'laser', kind: 'beam', sz: 2, info: 'Piercing beam' },
     { n: 'Missile', price: 900,  dmg: 7,   rate: 1,   range: 470, col: '#ff9a6b', gl: 'fire', kind: 'missile', splash: 52, bspeed: 320, sz: 3, info: 'Homing splash' },
     { n: 'Amp',     price: 1100, range: 0,  col: '#d6a6ff', gl: 'laser', kind: 'buff', amp: .3, sz: 2, info: 'Amplifier: boosts neighbouring towers' },
@@ -1523,7 +1523,8 @@ const SI = (() => {
   const priceOf = t => Math.round(TURRETS[t].price * D.price / 5) * 5;
   const overclockCost = tu => Math.round(priceOf(tu.tier) * .6 * (tu.lvl + 1) / 5) * 5;
   const rocketCost = () => Math.round(110 * Math.pow(1.6, rocketLvl) * D.price / 5) * 5;
-  const REPAIR_AMT = 25, repairCost = () => Math.round(70 * D.price / 5) * 5;
+  let repairs = 0;                                              // repairs bought this run: each one makes the next cost 1.25x more
+  const REPAIR_AMT = 25, repairCost = () => Math.round(70 * D.price * Math.pow(1.25, repairs) / 5) * 5;
   const MAX_ROCKET = 8, MAX_OC = 5, MAX_SHIELD = 5;
   const shieldMax = () => shieldLvl * 22, shieldCost = () => Math.round(260 * Math.pow(1.75, shieldLvl) * D.price / 5) * 5;
 
@@ -1763,7 +1764,7 @@ const SI = (() => {
       tu.flash = Math.max(0, tu.flash - dt); tu.cd -= dt; tu.beam = false;
       if (def.kind === 'buff') { tu.spin = (tu.spin || 0) + dt * 2.2; continue; }
       if (def.kind === 'aura') {                                                    // frost: slows everything in range, no aiming
-        let any = false; const sl = Math.min(.5, def.slow + .035 * tu.lvl), rg = def.range * (1 + .12 * tu.lvl);
+        let any = false; const sl = Math.min(.8 * 2 / 3, def.slow + .07 * 2 / 3 * tu.lvl), rg = def.range * (1 + .12 * tu.lvl);
         for (const c of comets) {
           if (c.dead || Math.hypot(c.x - s.x, c.y - (s.y - 8)) > rg + c.r) continue;
           c.slowT = .3; c.slowF = Math.max(c.slowF, sl); hitComet(c, def.dps * lm * dt); any = true;
@@ -1968,7 +1969,7 @@ const SI = (() => {
   function repairEarth() {
     if (earthHp >= earthMax) { toast('Earth is at full health'); return; }
     const c = repairCost(); if (money < c) { toast('Need ' + (c - money) + ' more ◆'); return; }
-    money -= c; earthHp = Math.min(earthMax, earthHp + REPAIR_AMT); craters.splice(0, 4); beep(500, 1000, .2, 'triangle', .08); addPop(W / 2, surf.top - 30, '+' + REPAIR_AMT + ' EARTH', '#4ade80');
+    money -= c; repairs++; earthHp = Math.min(earthMax, earthHp + REPAIR_AMT); craters.splice(0, 4); beep(500, 1000, .2, 'triangle', .08); addPop(W / 2, surf.top - 30, '+' + REPAIR_AMT + ' EARTH', '#4ade80');
   }
   function buyAuto() {
     if (autoCollect) { toast('Auto-collector already installed'); return; }
@@ -1993,7 +1994,7 @@ const SI = (() => {
     D = DIFF[diffKey] || DIFF.medium;
     seed = (Math.random() * 4294967295) >>> 0; R = mulberry(seed);
     buildEarth();
-    wave = 0; score = 0; money = D.start; moneyEarned = 0; earthMax = D.earth; earthHp = earthMax; kills = 0; time = 0; rocketLvl = 0; autoCollect = false;
+    wave = 0; score = 0; money = D.start; moneyEarned = 0; earthMax = D.earth; earthHp = earthMax; kills = 0; time = 0; rocketLvl = 0; autoCollect = false; repairs = 0;
     ship = { x: W / 2, cd: 0, stun: 0 };
     rockets = []; bullets = []; comets = []; crystals = []; parts = []; rings = []; pops = []; beams = []; bolts = []; craters = []; spawned = [];
     slots = makeSlots(); placing = -1; sellMode = false; hoverSlot = -1; shake = flashT = 0; targetX = null; endT = 0; shieldLvl = 0; shieldHp = 0; shieldFlash = 0; closeMenu();
@@ -2007,7 +2008,7 @@ const SI = (() => {
   // your towers, money, upgrades and Earth's health and replays the wave you were on from its start.
   let waveSnap = null;                                      // checkpoint taken just before a wave (or infinite mode) begins
   function buildSave(w) {
-    return { v: 1, run: runId, diff: D.key, seed, wave: w, score, money: Math.floor(money), moneyEarned, earthHp, kills, rocketLvl, auto: autoCollect, shieldLvl,
+    return { v: 1, run: runId, diff: D.key, seed, wave: w, score, money: Math.floor(money), moneyEarned, earthHp, kills, rocketLvl, auto: autoCollect, shieldLvl, repairs,
       towers: slots.map(s => s.t ? { tier: s.t.tier, lvl: s.t.lvl, paid: s.t.paid, mode: s.t.mode } : null), at: Date.now() };
   }
   // Anything earned, bought or lost during a wave is NOT kept if you leave mid-wave: continuing restores the checkpoint from before
@@ -2029,7 +2030,7 @@ const SI = (() => {
     diffKey = sv.diff; store.set('ci.diff', diffKey);
     startRun();
     runId = sv.run; seed = sv.seed; wave = sv.wave; R = mulberry((seed + wave * 7919) >>> 0);
-    score = sv.score | 0; money = +sv.money || 0; moneyEarned = sv.moneyEarned | 0; kills = sv.kills | 0; rocketLvl = clamp(sv.rocketLvl | 0, 0, MAX_ROCKET); autoCollect = !!sv.auto;
+    score = sv.score | 0; money = +sv.money || 0; moneyEarned = sv.moneyEarned | 0; kills = sv.kills | 0; rocketLvl = clamp(sv.rocketLvl | 0, 0, MAX_ROCKET); autoCollect = !!sv.auto; repairs = Math.max(0, sv.repairs | 0);
     shieldLvl = D.noShield ? 0 : clamp(sv.shieldLvl | 0, 0, MAX_SHIELD); shieldHp = shieldMax();
     earthHp = clamp(+sv.earthHp || earthMax, 1, earthMax);
     sv.towers.slice(0, SLOT_N).forEach((t, i) => { if (t && TURRETS[t.tier]) slots[i].t = { tier: t.tier, lvl: clamp(t.lvl | 0, 0, MAX_OC), cd: .3, ang: -Math.PI / 2, flash: 0, beam: false, paid: +t.paid || priceOf(t.tier), mode: t.mode === 'strong' ? 'strong' : 'first', spin: 0 }; });
@@ -2471,7 +2472,7 @@ const SI = (() => {
   // test hook (used by automated checks)
   const api = {
     state: () => state, diff: () => D.key, wave: () => wave, phase: () => phase, comets: () => comets.length, money: () => money, earth: () => earthHp,
-    setMoney: v => { money = v; }, progress: () => progShown, setWave: n => { wave = n; planWave(); }, inf: () => ({ t: infT, surge: infSurge, phase }), saved: loadSave, saveNow: saveRun, continueRun, setAuto: m => { autoMode = m; }, autoMode: () => autoMode, shield: () => ({ lvl: shieldLvl, hp: shieldHp, max: shieldMax() }), buyShield, overclock: overclockTurret, openMenu, closeMenu, menuOpen: () => menuSlot, turrets: () => TURRETS.length,
+    setMoney: v => { money = v; }, progress: () => progShown, repairCost, repairs: () => repairs, setWave: n => { wave = n; planWave(); }, inf: () => ({ t: infT, surge: infSurge, phase }), saved: loadSave, saveNow: saveRun, continueRun, setAuto: m => { autoMode = m; }, autoMode: () => autoMode, shield: () => ({ lvl: shieldLvl, hp: shieldHp, max: shieldMax() }), buyShield, overclock: overclockTurret, openMenu, closeMenu, menuOpen: () => menuSlot, turrets: () => TURRETS.length,
     spawn: (type, tier, x) => spawnTop(type, tier, false, x), clear: () => { comets = []; }, buy: placeTurret, startWave, repair: repairEarth, upgrade: upgradeRocket, buyAuto, hasAuto: () => autoCollect, toggleTier, slots: () => slots,
     sim(n, dt = 1 / 30) { for (let i = 0; i < n && state === 'play'; i++) update(dt); },
     ship: () => ship, keysOn(v) { keys.Space = v; }, setX(x) { ship.x = x; }, cometsList: () => comets, kills: () => kills, score: () => score, setPlacing: v => { placing = v; }, crystalsList: () => crystals, setEarth: v => { earthHp = v; },
@@ -2486,7 +2487,7 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  COMETGUESSR  v0.9.6-3  -  guess where you are from Google Street View
+ *  COMETGUESSR  v0.9.6-4  -  guess where you are from Google Street View
  *
  *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
  *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
