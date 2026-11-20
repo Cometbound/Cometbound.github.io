@@ -89,6 +89,10 @@
   }
   .card.play .thumb { color: #fff; }
   .card.play .tag { background: #ff6a3c; color: #fff; }
+  .card.play.fl { border-color: #8b93a7; background: linear-gradient(160deg, rgba(150,158,176,.26), rgba(70,76,92,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 22px rgba(150,158,176,.16); }
+  .card.play.fl .thumb { color: #c9ceda; }
+  .card.play.fl .tag { background: #6b7280; }
+  .card.play.fl:hover, .card.play.fl:focus-visible { box-shadow: 0 0 36px rgba(170,178,196,.4); }
   .card.play.geo { border-color: #35a7ff; background: linear-gradient(160deg, rgba(40,130,255,.30), rgba(15,60,120,.35) 60%, rgba(10,10,30,.5)); box-shadow: 0 0 28px rgba(53,167,255,.25); }
   .card.play.geo .tag { background: #2f9bff; }
   .card.play.geo:hover, .card.play.geo:focus-visible { box-shadow: 0 0 40px rgba(53,167,255,.5); }
@@ -105,7 +109,7 @@
   #rc { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
   #rc .ccPanel { z-index: 3; background: radial-gradient(ellipse at 50% 0%, rgba(24,44,100,.82), rgba(5,8,22,.9) 70%); }
   #rc .ccPanel.show { pointer-events: auto; }
-  body.home #rc, body.si #rc, body.geo #rc { display: none; }
+  body.home #rc, body.si #rc, body.geo #rc, body.fl #rc { display: none; }
   .rcTouch { display: none; } body.touch .rcTouch { display: block; } body.touch .rcDesk { display: none; }
   #rcOver h2 { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
@@ -222,6 +226,48 @@
   #geoList li span:last-child { color: #ffe27a; font-weight: 800; white-space: nowrap; }
   .geoPin { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.6); box-sizing: border-box; }
   .geoPin.g { background: #2f6bff; } .geoPin.a { background: #22c55e; }
+
+  /* ---------- Frontline ---------- */
+  #fl { display: none; position: fixed; inset: 0; z-index: 10; color: #fff; flex-direction: row; background: radial-gradient(ellipse at 50% 0%, #14224f, #050816 70%); }
+  body.fl #fl { display: flex; }
+  body.fl #wrap, body.fl #touch, body.fl #btnHome { display: none !important; }
+  #flMain { position: relative; flex: 1; min-width: 0; min-height: 0; }
+  #flCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+  #flSide { width: clamp(272px, 27vw, 340px); flex: none; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; touch-action: pan-y;
+    background: rgba(8,14,36,.92); border-left: 1px solid rgba(255,255,255,.12);
+    padding: calc(10px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) 12px; }
+  @media (max-aspect-ratio: 1/1) { #fl { flex-direction: column; } #flSide { width: auto; height: 46%; border-left: 0; border-top: 1px solid rgba(255,255,255,.12); } }
+  .flHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .flHead h3 { margin: 0; font-size: 17px; font-weight: 900; letter-spacing: .07em; white-space: nowrap; text-transform: uppercase; background: linear-gradient(180deg, #fff 20%, #8fd0ff 60%, #5b7cff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .flBtn { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; box-sizing: border-box; text-align: left; font: 700 12.5px -apple-system, system-ui, sans-serif; letter-spacing: .02em; color: #fff;
+    padding: 7px 10px; border-radius: 10px; border: 2px solid rgba(255,255,255,.28); background: rgba(8,14,36,.86); cursor: pointer; touch-action: manipulation; }
+  .flBtn small { color: #8fa5d8; font-weight: 700; margin-right: 4px; }
+  .flBtn > span:last-child { color: #ffe27a; font-weight: 800; white-space: nowrap; }
+  .flBtn:hover:not(:disabled) { background: rgba(40,60,120,.9); }
+  .flBtn:disabled { opacity: .42; cursor: default; }
+  .flBtn.on { border-color: #7cf0c8; background: rgba(40,120,100,.75); }
+  .flBtn.sm { width: auto; justify-content: center; padding: 6px 10px; border-radius: 99px; font-size: 10.5px; letter-spacing: .05em; white-space: nowrap; }
+  .flGrp { display: flex; flex-direction: column; gap: 4px; }
+  .flRow { display: flex; gap: 6px; flex-wrap: wrap; } .flRow .flBtn { flex: 1 1 auto; }
+  .flBox { font: 600 12.5px/1.45 -apple-system, system-ui, sans-serif; color: #cdd8f5; } .flBox b { color: #fff; } .flBox b.gold { color: #ffe27a; }
+  .flBox .you { color: #7fd0ff; font-weight: 800; } .flBox .foe { color: #ff9a9a; font-weight: 800; } .flBox .ok { color: #8fe08f; } .flBox .bad { color: #ff7070; font-weight: 800; }
+  #flTerr { min-height: 1.5em; color: #9db4e8; font-weight: 500; font-size: 12px; }
+  .flH { margin-top: 6px; font: 800 10.5px -apple-system, system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8fa5d8; }
+  #flBar { position: relative; flex: none; height: 16px; border-radius: 8px; overflow: hidden; background: #e04c42; }
+  #flBarP { position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: #4084ec; transition: width .3s; }
+  #flBarTxt { position: absolute; left: 8px; top: 0; font: 800 10.5px/16px -apple-system, system-ui, sans-serif; color: #fff; }
+  .flEnd { width: 100%; margin-top: 6px; padding: 11px 16px !important; font-size: 14px !important; }
+  .flEnd:disabled { opacity: .45; cursor: default; }
+  #flLog { flex: 1 1 90px; min-height: 90px; overflow-y: auto; font: 11px/1.4 ui-monospace, Menlo, monospace; color: #aab6d6; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 6px 8px; white-space: pre-wrap; touch-action: pan-y; }
+  .flDiff { font: 700 clamp(12px, 2.1vmin, 16px) -apple-system, system-ui, sans-serif; letter-spacing: .05em; color: #cdd8f5; background: rgba(255,255,255,.07);
+    border: 2px solid rgba(255,255,255,.28); border-radius: 99px; padding: 1.2vmin 2.4vmin; cursor: pointer; touch-action: manipulation; }
+  .flDiff.on { background: #1f6fe0; color: #fff; border-color: #7cc4ff; }
+  .flDiff.ev.on { background: linear-gradient(180deg, #b3262c, #5b1a6b); border-color: #ff9a9a; }
+  #fl .ccPanel { z-index: 7; background: radial-gradient(ellipse at 50% 0%, #14224f, #050816 70%); }
+  #flHelpBody { text-align: left; max-width: 660px; max-height: 58vh; overflow-y: auto; color: #a9bbe6; font-size: clamp(12px, 2vmin, 15px); line-height: 1.5; padding-right: 8px; touch-action: pan-y; }
+  #flHelpBody h4 { margin: 12px 0 2px; color: #ffe27a; font-size: .95em; letter-spacing: .1em; text-transform: uppercase; } #flHelpBody p { margin: 0; max-width: none; }
+  #flOverTitle.win { background: linear-gradient(180deg, #fff, #ffe27a 60%, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #flOverTitle.lose { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 </style>
 </head>
 <body class="home">
@@ -251,10 +297,15 @@
       <span class="name">CometGuessr</span>
       <span class="desc">Dropped somewhere on Earth in Street View. Guess where.</span>
     </button>
-    <div class="card soon" aria-disabled="true"><span class="thumb">?</span><span class="tag">SOON</span><span class="name">Coming soon</span></div>
+    <button class="card play fl" id="cardFl" type="button">
+      <span class="thumb"><svg width="1.1em" height="1.1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-3.5 3.5 3.5 6.5 0 10s3.5 6.5 0 10"/><circle cx="5.5" cy="12" r="2.6" fill="currentColor"/><circle cx="18.5" cy="12" r="2.6"/></svg></span>
+      <span class="tag">IN DEV</span>
+      <span class="name">Frontline</span>
+      <span class="desc">Turn-based strategy. Push the line, cut their supply.</span>
+    </button>
   </div>
 </div>
-<div id="ver">v0.9.6-4</div>
+<div id="ver">v1.0-pre1</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -263,7 +314,7 @@
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
     <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-4</div>
+    <div class="ccver">v1.0-pre1</div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
@@ -273,7 +324,7 @@
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-4</div>
+    <div class="ccver">v1.0-pre1</div>
   </div>
 </div>
 <div id="si">
@@ -295,7 +346,7 @@
     <p id="siStartBest"></p>
     <p style="font-size:12px;opacity:.7">Your run is saved automatically when you leave, pause or clear a wave. Leaving in the middle of a wave returns you to the start of that wave. Starting a new game erases the saved run.</p>
     <div class="ccRow"><button id="siContinue" class="ccBtn primary" type="button" style="display:none">Continue</button><button id="siPlay" class="ccBtn" type="button">New game</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-4</div>
+    <div class="ccver">v1.0-pre1</div>
   </div>
   <div id="siWarn" class="ccPanel">
     <h2>Erase saved run?</h2>
@@ -310,7 +361,7 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-4</div>
+    <div class="ccver">v1.0-pre1</div>
   </div>
 </div>
 <div id="geo">
@@ -333,7 +384,7 @@
     <div id="geoStartErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
     <p style="font-size:11px;opacity:.65;margin:0">Random places from GeoNames (CC BY 4.0). Some spots may have no Street View imagery; if a round shows none, just place a pin as best you can.</p>
-    <div class="ccver">v0.9.6-4 &middot; needs an internet connection</div>
+    <div class="ccver">v1.0-pre1 &middot; needs an internet connection</div>
   </div>
   <div id="geoOver" class="ccPanel">
     <h2>Final score</h2>
@@ -341,7 +392,62 @@
     <ul id="geoList"></ul>
     <p id="geoOverBest"></p>
     <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v0.9.6-4</div>
+    <div class="ccver">v1.0-pre1</div>
+  </div>
+</div>
+<div id="fl">
+  <div id="flMain"><canvas id="flCanvas"></canvas></div>
+  <aside id="flSide">
+    <div class="flHead"><button id="flMenu" class="flBtn sm" type="button">&#10005; MENU</button><h3>Frontline</h3><button id="flHelpBtn" class="flBtn sm" type="button">? HELP</button></div>
+    <div id="flStatus" class="flBox"></div>
+    <div id="flRes" class="flBox"></div>
+    <div id="flBar"><div id="flBarP"></div><span id="flBarTxt"></span></div>
+    <div id="flTerr" class="flBox">&nbsp;</div>
+    <div class="flH">Recruit (HQ / supplied cities)</div><div id="flRec" class="flGrp"></div>
+    <div class="flH">Orders</div><div class="flGrp"><button id="flAir" class="flBtn" type="button"></button><button id="flDepot" class="flBtn" type="button"></button></div>
+    <div class="flH">Research</div><div id="flTech" class="flGrp"></div>
+    <div class="flH">Selected</div><div id="flInfo" class="flBox"></div>
+    <button id="flEnd" class="ccBtn primary flEnd" type="button">End turn &middot; Space</button>
+    <div class="flRow"><button id="flNew" class="flBtn sm" type="button">New game</button><button id="flSupply" class="flBtn sm" type="button">Supply [S]</button><button id="flCancel" class="flBtn sm" type="button">Cancel</button></div>
+    <div id="flLog"></div>
+  </aside>
+
+  <div id="flDev" class="ccPanel">
+    <h2>Under development</h2>
+    <p>Frontline is still under development and is locked for now. Enter the developer password to continue.</p>
+    <div><label for="flDevPw">Developer password</label><input id="flDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div id="flDevErr" class="ccErr" role="alert"></div>
+    <div class="ccRow"><button id="flDevOk" class="ccBtn primary" type="button">Unlock</button><button id="flDevCancel" class="ccBtn" type="button">Cancel</button></div>
+    <div class="ccver">v1.0-pre1</div>
+  </div>
+  <div id="flStart" class="ccPanel">
+    <h2>Frontline</h2>
+    <p>A turn-based war on a shifting frontline. Capture the enemy headquarters, or cut their supply lines and starve their army. Choose the enemy's skill level:</p>
+    <div class="siDiffRow"><button class="flDiff" data-d="0" type="button">Easy</button><button class="flDiff" data-d="1" type="button">Medium</button><button class="flDiff ev" data-d="2" type="button">Hard</button></div>
+    <p id="flDiffDesc"></p>
+    <p><b>Mouse</b> &nbsp;click a unit, then a tile to move or an enemy to attack. Right-click or Esc cancels<br><b>Touch</b> &nbsp;tap to select, move and attack, use the Cancel button to deselect<br><b>Keys</b> &nbsp;Space end turn, 1-4 recruit, A airstrike, D depot, S supply overlay</p>
+    <div class="ccRow"><button id="flStartGo" class="ccBtn primary" type="button">Start</button><button id="flStartCancel" class="ccBtn" type="button" style="display:none">Cancel</button><button id="flStartMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v1.0-pre1</div>
+  </div>
+  <div id="flHelp" class="ccPanel">
+    <h2>How to play</h2>
+    <div id="flHelpBody">
+      <h4>Goal</h4><p>Capture the enemy headquarters (the star), or annihilate their army. There is no round limit: the game continues until one side wins.</p>
+      <h4>The frontline</h4><p>The yellow line is the border between the two sides' control. It is computed continuously from the strength and position of every unit and owned structure, so it flows as units move. Push one unit far ahead and the line bulges around it, a salient. Salients gain ground but are exposed: if the enemy closes the neck behind it, the units inside are encircled.</p>
+      <h4>Supply &amp; encirclement</h4><p>Supply flows out of your HQ, cities and depots through ground you control (blue), and is blocked by enemy units and their zones of control. A unit with no supply route is CUT OFF (red !): it loses HP each turn, fights at -30%, moves slower, and can no longer heal or dig in. Only supplied structures give income. Toggle the supply overlay with S. Logistics research and forward depots extend your range.</p>
+      <h4>Your turn</h4><p>Select a unit, click a highlighted tile to move, click a red-framed enemy to attack. Units may move and then attack (artillery must stay still to fire, range 2). Entering a tile next to an enemy ends your movement (zone of control). Spend resources to recruit (new units appear at HQ/cities and act next turn), research upgrades, build depots, or call an airstrike.</p>
+      <h4>Combat</h4><p>Damage depends on unit type, HP, terrain (forest, hills and mountains help the defender), digging in (+12% per turn stationary, max 3), supply, weather and flanking: each other friendly unit adjacent to the target adds +20% (max +60%). Overwhelmed defenders retreat; a defender with no retreat square is TRAPPED and takes extra damage. A winning melee attacker advances into the vacated tile.</p>
+      <h4>Economy</h4><p>Each round you earn Industry and Manpower from structures that are supplied (HQ 5/4, City 2/3, Factory 5/1). Upkeep costs 0.3 Industry per unit. Healing consumes Manpower. Neutral structures in the centre are up for grabs: move a unit onto them.</p>
+      <h4>Weather</h4><p>Every few rounds: Rain (armor -1 move, air weaker) or Snow (everyone -1 move).</p>
+      <h4>Difficulty</h4><p>Easy: unfocused, rarely coordinates, 80% income. Medium: weighs objectives, terrain, danger and supply. Hard: simulates the effect of each candidate move on the frontline and on supply (it hunts encirclements and avoids being cut off), builds depots, researches, uses air support, +15% income.</p>
+    </div>
+    <div class="ccRow"><button id="flHelpClose" class="ccBtn primary" type="button">Close</button></div>
+  </div>
+  <div id="flOver" class="ccPanel">
+    <h2 id="flOverTitle"></h2>
+    <p id="flOverMsg"></p>
+    <div class="ccRow"><button id="flOverNew" class="ccBtn primary" type="button">New game</button><button id="flOverView" class="ccBtn" type="button">View map</button><button id="flOverMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v1.0-pre1</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -354,7 +460,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v0.9.6-4  -  home menu + RAYCAST ARENA (FPS) + COMET INVADERS + COMETGUESSR, one HTML file.
+ *  COMETBOUND GAMES v1.0-pre1  -  home menu + RAYCAST ARENA (FPS) + COMET INVADERS + COMETGUESSR + FRONTLINE, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -1393,7 +1499,7 @@ window.addEventListener('pointerup', e => { if (e.pointerType === 'mouse') { if 
 window.addEventListener('pointercancel', e => { if (e.pointerType !== 'mouse') pointerEnd(e); });
 
 // stop iOS from scrolling / zooming / selecting
-document.addEventListener('touchmove', e => { if (!e.target.closest || !e.target.closest('#home')) e.preventDefault(); }, { passive: false });
+document.addEventListener('touchmove', e => { if (!e.target.closest || !e.target.closest('#home, #flSide, .ccPanel')) e.preventDefault(); }, { passive: false });
 document.addEventListener('touchstart', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault()));
 let lastTap = 0;
@@ -2487,7 +2593,7 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  COMETGUESSR  v0.9.6-4  -  guess where you are from Google Street View
+ *  COMETGUESSR  v1.0-pre1  -  guess where you are from Google Street View
  *
  *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
  *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
@@ -2759,6 +2865,956 @@ const GEO = (() => {
 document.getElementById('cardGeo').addEventListener('click', () => {
   document.body.classList.remove('home'); document.body.classList.add('geo');
   GEO.open();
+});
+</script>
+<script>
+/* =====================================================================================
+ *  FRONTLINE  v1.0-pre1  -  turn-based strategy on a flowing frontline (ported from the Java original)
+ *
+ *  The frontline is the zero-contour of an influence field summed from every unit and every owned structure,
+ *  recomputed every frame from the units' rendered positions. Supply flows only through friendly-controlled ground,
+ *  so encircling an enemy cuts their supply and they bleed strength.
+ * ===================================================================================== */
+const FL = (() => {
+'use strict';
+// ------------------------------------------------------------------ data
+const W = 46, H = 30, RES = 3, P = 0, B = 1, BIG = 1 << 28;
+const AIR_COST = 15, DEPOT_COST = 12;
+const DIFF = ['Easy', 'Medium', 'Hard'];
+const TECH = ['Firepower', 'Fortification', 'Logistics'];
+const TECH_DESC = ['+12% attack / level', '+12% defence / level', '+3 supply range, less attrition'];
+const SIDE_COL = ['#4084ec', '#e04c42'];
+const DX8 = [-1, 0, 1, -1, 1, -1, 0, 1], DY8 = [-1, -1, -1, 0, 0, 1, 1, 1], DX4 = [1, -1, 0, 0], DY4 = [0, 0, 1, -1];
+const inb = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
+const cheb = (a, b, c, d) => Math.max(Math.abs(a - c), Math.abs(b - d));
+const hpf = hp => 0.4 + 0.6 * hp / 100;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const kern = d2 => (d2 < 150 ? Math.exp(-d2 / 9.5) : 0) + 0.22 / (1 + d2 / 25);
+
+const TERR = {
+  PLAIN: { id: 0, label: 'Plains', cost: 1, def: 1.0 }, FOREST: { id: 1, label: 'Forest', cost: 2, def: 1.3 }, HILL: { id: 2, label: 'Hills', cost: 2, def: 1.45 },
+  MOUNTAIN: { id: 3, label: 'Mountains', cost: 99, def: 1.7 }, WATER: { id: 4, label: 'Water', cost: 99, def: 1.0 },
+};
+for (const k in TERR) TERR[k].passable = TERR[k].cost < 50;
+const mkU = (o, label, ind, man, mp, atk, def, range, infl) => ({ o, label, ind, man, mp, atk, def, range, infl });
+const UT = { INF: mkU(0, 'Infantry', 8, 10, 2, 10, 12, 1, 1.0), ARMOR: mkU(1, 'Armor', 18, 6, 4, 18, 9, 1, 1.1), ART: mkU(2, 'Artillery', 14, 6, 2, 15, 4, 2, 0.8), RECON: mkU(3, 'Recon', 6, 4, 5, 6, 6, 1, 0.7) };
+const UTYPES = [UT.INF, UT.ARMOR, UT.ART, UT.RECON];
+const NT = { HQ: { label: 'Headquarters', ind: 5, man: 4, range: 22, infl: 1.6 }, CITY: { label: 'City', ind: 2, man: 3, range: 14, infl: 1.0 }, FACTORY: { label: 'Factory', ind: 5, man: 1, range: 0, infl: 0.8 }, DEPOT: { label: 'Depot', ind: 0, man: 0, range: 12, infl: 0.5 } };
+const WX = {
+  CLEAR: { label: 'Clear', atk: 1, air: 1, pen: () => 0 },
+  RAIN: { label: 'Rain (armor -1 MP, air -50%)', atk: 0.9, air: 0.5, pen: t => t === UT.ARMOR ? 1 : 0 },
+  SNOW: { label: 'Snow (all -1 MP, air -30%)', atk: 0.85, air: 0.7, pen: () => 1 },
+};
+
+class PQ {                                                                  // small binary heap
+  constructor(less) { this.a = []; this.less = less; }
+  get size() { return this.a.length; }
+  push(x) { const a = this.a; a.push(x); let i = a.length - 1; while (i > 0) { const p = (i - 1) >> 1; if (!this.less(a[i], a[p])) break; [a[i], a[p]] = [a[p], a[i]]; i = p; } }
+  pop() {
+    const a = this.a, top = a[0], last = a.pop();
+    if (a.length) { a[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, r = l + 1; let m = i; if (l < a.length && this.less(a[l], a[m])) m = l; if (r < a.length && this.less(a[r], a[m])) m = r; if (m === i) break; [a[i], a[m]] = [a[m], a[i]]; i = m; } }
+    return top;
+  }
+}
+const grid2 = (fill) => Array.from({ length: W }, () => new Array(H).fill(fill));
+
+class Unit {
+  constructor(t, side, x, y) { this.t = t; this.side = side; this.x = x; this.y = y; this.hp = 100; this.mp = 0; this.entr = 0; this.rx = x + .5; this.ry = y + .5; this.vhp = 100; this.vis = 0; this.moved = this.attacked = this.fresh = this.dead = false; }
+}
+class Node { constructor(t, x, y, owner) { this.t = t; this.x = x; this.y = y; this.owner = owner; this.vp = owner === P ? 1 : 0; this.ve = owner === B ? 1 : 0; } }
+
+// ------------------------------------------------------------------ game model
+class Game {
+  constructor(seed, diff) {
+    this.rnd = mulberry(seed >>> 0); this.diff = diff;
+    this.ter = grid2(TERR.PLAIN); this.grid = grid2(null);
+    this.units = []; this.ghosts = []; this.nodes = [];
+    this.ind = [0, 0]; this.man = [0, 0]; this.airCd = [0, 0]; this.tech = [[0, 0, 0], [0, 0, 0]]; this.incMul = [1, 1];
+    this.ctl = Array.from({ length: W }, () => new Float64Array(H));
+    this.sup = [0, 1].map(() => Array.from({ length: W }, () => new Uint8Array(H)));
+    this.wx = WX.CLEAR; this.round = 1; this.turn = P; this.winner = -1; this.endReason = '';
+    this.logs = []; this.fx = []; this.fxOn = true;
+    this.genMap(); this.setup(); this.recompute();
+    this.say('Round 1 begins. Capture the enemy HQ - or cut their supply and starve them out.');
+    this.startTurn(P);
+  }
+  say(s) { this.logs.push(s); }
+  ri(n) { return Math.floor(this.rnd() * n); }
+
+  // ---- map generation (point-symmetric so both sides are fair)
+  noise() {
+    const out = Array.from({ length: W }, () => new Array(H).fill(0));
+    for (let oct = 0; oct < 2; oct++) {
+      const sc = oct === 0 ? 6.0 : 3.0, amp = oct === 0 ? 1 : 0.5, gw = Math.floor(W / sc) + 3, gh = Math.floor(H / sc) + 3;
+      const g = Array.from({ length: gw }, () => Array.from({ length: gh }, () => this.rnd()));
+      for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) {
+        const fx = x / sc, fy = y / sc, ix = Math.floor(fx), iy = Math.floor(fy);
+        let tx = fx - ix, ty = fy - iy; tx = tx * tx * (3 - 2 * tx); ty = ty * ty * (3 - 2 * ty);
+        const a = g[ix][iy] * (1 - tx) + g[ix + 1][iy] * tx, b = g[ix][iy + 1] * (1 - tx) + g[ix + 1][iy + 1] * tx;
+        out[x][y] += amp * (a * (1 - ty) + b * ty);
+      }
+    }
+    return out;
+  }
+  genMap() {
+    const el = this.noise(), mo = this.noise(), ev = [], mv = [];
+    for (let x = 0; x < W / 2; x++) for (let y = 0; y < H; y++) { ev.push(el[x][y]); mv.push(mo[x][y]); }
+    ev.sort((a, b) => a - b); mv.sort((a, b) => a - b);
+    const wT = ev[Math.floor(ev.length * 0.07)], mT = ev[Math.floor(ev.length * 0.93)], hT = ev[Math.floor(ev.length * 0.78)], fT = mv[Math.floor(mv.length * 0.78)];
+    for (let x = 0; x < W / 2; x++) for (let y = 0; y < H; y++) {
+      const t = el[x][y] <= wT ? TERR.WATER : el[x][y] >= mT ? TERR.MOUNTAIN : el[x][y] >= hT ? TERR.HILL : mo[x][y] >= fT ? TERR.FOREST : TERR.PLAIN;
+      this.ter[x][y] = t; this.ter[W - 1 - x][H - 1 - y] = t;
+    }
+    for (const r of [3, 9, H / 2 - 1, H - 10, H - 4]) for (let x = W / 2 - 3; x < W / 2 + 3; x++) { this.ter[x][r] = TERR.PLAIN; this.ter[x][H - 1 - r] = TERR.PLAIN; }
+  }
+  plain(cx, cy, r) { for (let x = cx - r; x <= cx + r; x++) for (let y = cy - r; y <= cy + r; y++) if (inb(x, y)) this.ter[x][y] = TERR.PLAIN; }
+  pair(t, xmin, xmax, owner) {
+    for (let tries = 0; tries < 200; tries++) {
+      const x = xmin + this.ri(xmax - xmin + 1), y = 2 + this.ri(H - 4); let ok = true;
+      for (const n of this.nodes) if (cheb(n.x, n.y, x, y) < 5 || cheb(n.x, n.y, W - 1 - x, H - 1 - y) < 5) ok = false;
+      if (cheb(x, y, W - 1 - x, H - 1 - y) < 5) ok = false;
+      if (!ok) continue;
+      this.plain(x, y, 1); this.plain(W - 1 - x, H - 1 - y, 1);
+      this.nodes.push(new Node(t, x, y, owner)); this.nodes.push(new Node(t, W - 1 - x, H - 1 - y, owner < 0 ? -1 : 1 - owner));
+      return;
+    }
+  }
+  connected(sx, sy, tx, ty) {
+    const seen = grid2(false), q = [[sx, sy]]; seen[sx][sy] = true;
+    for (let h = 0; h < q.length; h++) {
+      const c = q[h]; if (c[0] === tx && c[1] === ty) return true;
+      for (let k = 0; k < 8; k++) { const nx = c[0] + DX8[k], ny = c[1] + DY8[k]; if (inb(nx, ny) && !seen[nx][ny] && this.ter[nx][ny].passable) { seen[nx][ny] = true; q.push([nx, ny]); } }
+    }
+    return false;
+  }
+  setup() {
+    const hy = H / 2;
+    this.plain(3, hy, 2); this.plain(W - 4, H - 1 - hy, 2);
+    this.nodes.push(new Node(NT.HQ, 3, hy, P)); this.nodes.push(new Node(NT.HQ, W - 4, H - 1 - hy, B));
+    this.pair(NT.CITY, 7, 12, P); this.pair(NT.CITY, 8, 14, P); this.pair(NT.FACTORY, 6, 13, P);
+    this.pair(NT.CITY, 16, 20, -1); this.pair(NT.FACTORY, 16, 21, -1); this.pair(NT.CITY, 14, 21, -1);
+    if (!this.connected(3, hy, W - 4, H - 1 - hy)) for (let x = 3; x < W - 3; x++) this.ter[x][hy] = TERR.PLAIN;
+    const order = [UT.INF, UT.INF, UT.ARMOR, UT.INF, UT.INF, UT.ART, UT.INF, UT.ARMOR, UT.INF, UT.ART, UT.RECON], cand = [];
+    for (let x = 0; x < W / 2; x++) for (let y = 0; y < H; y++) if (this.ter[x][y].passable && !this.nodeAt(x, y)) cand.push([x, y]);
+    cand.sort((a, b) => Math.hypot(a[0] - 7, a[1] - hy) - Math.hypot(b[0] - 7, b[1] - hy));
+    for (let i = 0; i < order.length; i++) { const c = cand[i]; this.addUnit(new Unit(order[i], P, c[0], c[1]), 1); this.addUnit(new Unit(order[i], B, W - 1 - c[0], H - 1 - c[1]), 1); }
+    this.ind[P] = this.ind[B] = 45; this.man[P] = this.man[B] = 35;
+  }
+  addUnit(u, vis) { u.vis = vis; this.units.push(u); this.grid[u.x][u.y] = u; }
+  nodeAt(x, y) { for (const n of this.nodes) if (n.x === x && n.y === y) return n; return null; }
+  count(side) { let c = 0; for (const u of this.units) if (u.side === side) c++; return c; }
+
+  // ---- influence field / control / supply
+  fieldL(px, py) {
+    let f = 0;
+    for (const u of this.units) { const dx = px - (u.x + .5), dy = py - (u.y + .5); f += (u.side === P ? 1 : -1) * u.t.infl * (0.35 + 0.65 * u.hp / 100) * kern(dx * dx + dy * dy); }
+    for (const n of this.nodes) if (n.owner >= 0) { const dx = px - (n.x + .5), dy = py - (n.y + .5); f += (n.owner === P ? 1 : -1) * n.t.infl * kern(dx * dx + dy * dy); }
+    return f;
+  }
+  recompute() {
+    for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) this.ctl[x][y] = this.fieldL(x + .5, y + .5);
+    this.supply(P); this.supply(B);
+  }
+  zoc(x, y, side) {
+    for (let k = 0; k < 8; k++) { const nx = x + DX8[k], ny = y + DY8[k]; if (inb(nx, ny) && this.grid[nx][ny] && this.grid[nx][ny].side !== side) return true; }
+    return false;
+  }
+  friendlyTile(x, y, s) {
+    const o = this.grid[x][y];
+    if (o) return o.side === s;
+    if (this.ctl[x][y] * (s === P ? 1 : -1) <= 0) return false;
+    return !this.zoc(x, y, s);
+  }
+  supply(s) {
+    const r = this.sup[s]; for (const row of r) row.fill(0);
+    const rem = grid2(-1), pq = new PQ((a, b) => a[2] > b[2]);
+    for (const n of this.nodes) if (n.owner === s && n.t.range > 0) {
+      const o = this.grid[n.x][n.y]; if (o && o.side !== s) continue;
+      const rg = n.t.range + 3 * this.tech[s][2];
+      if (rg > rem[n.x][n.y]) { rem[n.x][n.y] = rg; pq.push([n.x, n.y, rg]); }
+    }
+    while (pq.size) {
+      const c = pq.pop(); if (c[2] < rem[c[0]][c[1]]) continue;
+      r[c[0]][c[1]] = 1; if (c[2] === 0) continue;
+      for (let k = 0; k < 4; k++) {
+        const nx = c[0] + DX4[k], ny = c[1] + DY4[k];
+        if (!inb(nx, ny) || !this.ter[nx][ny].passable || rem[nx][ny] >= c[2] - 1 || !this.friendlyTile(nx, ny, s)) continue;
+        rem[nx][ny] = c[2] - 1; pq.push([nx, ny, c[2] - 1]);
+      }
+    }
+  }
+  distMap(src) {
+    const d = grid2(1e9), pq = new PQ((a, b) => a[2] < b[2]);
+    for (const s of src) { const x = s[0] | 0, y = s[1] | 0; if (s[2] < d[x][y]) { d[x][y] = s[2]; pq.push([x, y, s[2]]); } }
+    while (pq.size) {
+      const c = pq.pop(), x = c[0], y = c[1]; if (c[2] > d[x][y]) continue;
+      for (let k = 0; k < 8; k++) {
+        const nx = x + DX8[k], ny = y + DY8[k]; if (!inb(nx, ny) || !this.ter[nx][ny].passable) continue;
+        const nd = c[2] + this.ter[nx][ny].cost;
+        if (nd < d[nx][ny]) { d[nx][ny] = nd; pq.push([nx, ny, nd]); }
+      }
+    }
+    return d;
+  }
+
+  // ---- movement
+  tcost(u, t) { let c = t.cost; if ((u.t === UT.ARMOR || u.t === UT.RECON) && (t === TERR.FOREST || t === TERR.HILL)) c++; return c; }
+  reach(u) {
+    const best = grid2(BIG), pq = new PQ((a, b) => a[2] < b[2]);
+    best[u.x][u.y] = 0; pq.push([u.x, u.y, 0]);
+    while (pq.size) {
+      const c = pq.pop(); if (c[2] > best[c[0]][c[1]]) continue;
+      const start = c[0] === u.x && c[1] === u.y;
+      if (!start && this.zoc(c[0], c[1], u.side)) continue;
+      for (let k = 0; k < 8; k++) {
+        const nx = c[0] + DX8[k], ny = c[1] + DY8[k];
+        if (!inb(nx, ny) || !this.ter[nx][ny].passable) continue;
+        const o = this.grid[nx][ny]; if (o && o.side !== u.side) continue;
+        let nc = c[2] + this.tcost(u, this.ter[nx][ny]);
+        if (nc > u.mp) { if (start && !u.moved && u.mp > 0) nc = u.mp; else continue; }
+        if (nc < best[nx][ny]) { best[nx][ny] = nc; pq.push([nx, ny, nc]); }
+      }
+    }
+    return best;
+  }
+  relocate(u, x, y) {
+    this.grid[u.x][u.y] = null; u.x = x; u.y = y; this.grid[x][y] = u;
+    const n = this.nodeAt(x, y);
+    if (n && n.owner !== u.side) {
+      n.owner = u.side;
+      this.say((u.side === P ? 'You capture ' : 'Enemy captures ') + n.t.label + '.');
+      this.addFx(0, x + .5, y - .1, 0, 0, 'Captured!', SIDE_COL[u.side], 55);
+      if (n.t === NT.HQ) { this.winner = u.side; this.endReason = (u.side === P ? 'You captured' : 'The enemy captured') + ' the ' + (u.side === P ? 'enemy' : 'your') + ' headquarters.'; }
+    }
+  }
+  move(u, x, y, cost) {
+    if (x !== u.x || y !== u.y) { u.moved = true; u.entr = 0; }
+    u.mp -= cost; if (u.mp < 0) u.mp = 0;
+    this.relocate(u, x, y);
+    if (this.zoc(x, y, u.side)) u.mp = 0;
+    this.recompute();
+  }
+
+  // ---- combat
+  canAttack(a, d) {
+    if (a.attacked || a.fresh || a.dead || d.dead || d.side === a.side) return false;
+    if (a.t === UT.ART && a.moved) return false;
+    const dist = cheb(a.x, a.y, d.x, d.y);
+    return dist >= 1 && dist <= a.t.range;
+  }
+  /** returns [damage to defender, damage to attacker, strength ratio] */
+  est(a, ax, ay, d) {
+    const sa = this.sup[a.side][ax][ay], sd = this.sup[d.side][d.x][d.y];
+    const atk = a.t.atk * hpf(a.hp) * (1 + 0.12 * this.tech[a.side][0]) * this.wx.atk * (sa ? 1 : 0.7);
+    const dist = cheb(ax, ay, d.x, d.y); let fl = 0;
+    for (let k = 0; k < 8; k++) { const nx = d.x + DX8[k], ny = d.y + DY8[k]; if (inb(nx, ny) && this.grid[nx][ny] && this.grid[nx][ny].side === a.side && this.grid[nx][ny] !== a) fl++; }
+    const flank = 1 + 0.2 * Math.min(fl, 3);
+    const dfn = d.t.def * hpf(d.hp) * (1 + 0.12 * this.tech[d.side][1]) * this.ter[d.x][d.y].def * (1 + 0.12 * d.entr) * (sd ? 1 : 0.75);
+    const ratio = atk * flank * (sd ? 1 : 1.2) / dfn;
+    const dd = clamp(26 * Math.pow(ratio, 0.9), 3, 70); let da = 0;
+    if (dist === 1) da = clamp(15 * Math.pow(1 / ratio, 0.9) * (d.t === UT.ART ? 0.5 : 1), 1, 40);
+    else if (d.t === UT.ART) da = clamp(8 * Math.pow(1 / ratio, 0.9), 1, 20);
+    return [dd, da, ratio];
+  }
+  retreatTile(d, a) {
+    const cur = cheb(d.x, d.y, a.x, a.y); let bx = -1, by = -1, bs = -1e9;
+    for (let k = 0; k < 8; k++) {
+      const nx = d.x + DX8[k], ny = d.y + DY8[k];
+      if (!inb(nx, ny) || !this.ter[nx][ny].passable || this.grid[nx][ny] || cheb(nx, ny, a.x, a.y) <= cur) continue;
+      const s = (this.sup[d.side][nx][ny] ? 2 : 0) + this.ter[nx][ny].def + this.rnd() * 0.5;
+      if (s > bs) { bs = s; bx = nx; by = ny; }
+    }
+    return bx < 0 ? null : [bx, by];
+  }
+  kill(u, why) {
+    if (u.dead) return;
+    u.dead = true; this.grid[u.x][u.y] = null; this.units.splice(this.units.indexOf(u), 1); this.ghosts.push(u);
+    this.say((u.side === P ? 'Your ' : 'Enemy ') + u.t.label + ' ' + why + '.');
+    this.addFx(2, u.x + .5, u.y + .5, 0, 0, null, SIDE_COL[u.side], 24);
+  }
+  attack(a, d) {
+    if (!this.canAttack(a, d)) return;
+    const e = this.est(a, a.x, a.y, d), ox = d.x, oy = d.y, dist = cheb(a.x, a.y, d.x, d.y), rt = this.retreatTile(d, a);
+    const trapped = e[2] >= 1.3 && rt === null;
+    const dd = Math.round(e[0] * (0.88 + 0.24 * this.rnd()) * (trapped ? 1.35 : 1)), da = Math.round(e[1] * (0.88 + 0.24 * this.rnd()));
+    d.hp -= dd; a.hp -= da; a.attacked = true; a.mp = 0; a.entr = 0; d.entr = Math.max(0, d.entr - 1);
+    this.addFx(1, a.x + .5, a.y + .5, d.x + .5, d.y + .5, null, a.t === UT.ART ? '#ffc800' : '#ffffff', 14);
+    this.addFx(0, d.x + .5, d.y + .1, 0, 0, '-' + dd + (trapped ? ' TRAPPED' : ''), '#ff4632', 45);
+    if (da > 0) this.addFx(0, a.x + .5, a.y + .1, 0, 0, '-' + da, '#ffaa28', 45);
+    this.say((a.side === P ? 'Your ' : 'Enemy ') + a.t.label + ' hits ' + (d.side === P ? 'your ' : 'enemy ') + d.t.label + ' (' + dd + '/' + da + ')');
+    let advance = false;
+    if (d.hp <= 0) { this.kill(d, 'is destroyed'); advance = true; }
+    if (a.hp <= 0) this.kill(a, 'is destroyed');
+    else if (!d.dead && e[2] >= 1.5 && rt) {
+      this.grid[d.x][d.y] = null; d.x = rt[0]; d.y = rt[1]; this.grid[d.x][d.y] = d; d.entr = 0;
+      this.say((d.side === P ? 'Your ' : 'Enemy ') + d.t.label + ' falls back.'); advance = true;
+    }
+    if (advance && !a.dead && dist === 1 && a.t !== UT.ART && !this.grid[ox][oy]) { a.moved = true; this.relocate(a, ox, oy); }
+    this.recompute(); this.checkElim();
+  }
+  airStrike(s, x, y) {
+    const d = this.grid[x][y];
+    if (!d || d.side === s || this.ind[s] < AIR_COST || this.airCd[s] > 0) return false;
+    this.ind[s] -= AIR_COST; this.airCd[s] = 4;
+    const dmg = Math.round(24 * this.wx.air * (0.85 + 0.3 * this.rnd()));
+    this.addFx(2, x + .5, y + .5, 0, 0, null, '#ffc800', 30);
+    this.addFx(0, x + .5, y + .1, 0, 0, 'AIR -' + dmg, '#ffbe3c', 55);
+    this.say((s === P ? 'Your' : 'Enemy') + ' airstrike hits ' + d.t.label + ' (' + dmg + ')');
+    d.hp -= dmg; d.entr = 0;
+    const splash = Math.round(8 * this.wx.air), hit = [];
+    for (let k = 0; k < 8; k++) { const nx = x + DX8[k], ny = y + DY8[k]; if (inb(nx, ny) && this.grid[nx][ny] && this.grid[nx][ny].side !== s) hit.push(this.grid[nx][ny]); }
+    for (const u of hit) u.hp -= splash;
+    if (d.hp <= 0) this.kill(d, 'is destroyed');
+    for (const u of hit) if (u.hp <= 0) this.kill(u, 'is destroyed');
+    this.recompute(); this.checkElim(); return true;
+  }
+
+  // ---- economy
+  income(s) {
+    let ii = 0, mm = 0;
+    for (const n of this.nodes) if (n.owner === s && (n.t === NT.HQ || this.sup[s][n.x][n.y])) { ii += n.t.ind; mm += n.t.man; }
+    ii = Math.round(ii * this.incMul[s]); mm = Math.round(mm * this.incMul[s]);
+    return [ii - Math.trunc(this.count(s) * 0.3), mm];
+  }
+  techCost(s, k) { return 25 + 20 * this.tech[s][k]; }
+  research(s, k) {
+    if (this.tech[s][k] >= 3 || this.ind[s] < this.techCost(s, k)) return false;
+    this.ind[s] -= this.techCost(s, k); this.tech[s][k]++;
+    this.say((s === P ? 'You research ' : 'Enemy researches ') + TECH[k] + ' ' + this.tech[s][k] + '.');
+    return true;
+  }
+  spawnTiles(s) {
+    const r = grid2(false);
+    for (const n of this.nodes) if (n.owner === s && (n.t === NT.HQ || n.t === NT.CITY) && this.sup[s][n.x][n.y])
+      for (let x = n.x - 2; x <= n.x + 2; x++) for (let y = n.y - 2; y <= n.y + 2; y++)
+        if (inb(x, y) && this.ter[x][y].passable && !this.grid[x][y] && this.ctl[x][y] * (s === P ? 1 : -1) > 0 && !this.zoc(x, y, s)) r[x][y] = true;
+    return r;
+  }
+  build(s, t, x, y) {
+    if (this.ind[s] < t.ind || this.man[s] < t.man || !this.spawnTiles(s)[x][y]) return false;
+    this.ind[s] -= t.ind; this.man[s] -= t.man;
+    const u = new Unit(t, s, x, y); u.fresh = true; u.attacked = true; u.mp = 0;
+    this.addUnit(u, 0); this.recompute(); return true;
+  }
+  buildDepot(u) {
+    if (u.attacked || u.fresh || this.ind[u.side] < DEPOT_COST || this.nodeAt(u.x, u.y) || !this.sup[u.side][u.x][u.y]) return false;
+    let d = 0; for (const n of this.nodes) if (n.t === NT.DEPOT && n.owner === u.side) d++;
+    if (d >= 4) return false;
+    this.ind[u.side] -= DEPOT_COST; this.nodes.push(new Node(NT.DEPOT, u.x, u.y, u.side));
+    u.attacked = true; u.mp = 0;
+    this.say((u.side === P ? 'You build' : 'Enemy builds') + ' a forward depot.');
+    this.addFx(0, u.x + .5, u.y - .1, 0, 0, 'Depot', '#ffffff', 45);
+    this.recompute(); return true;
+  }
+  startTurn(s) {
+    this.turn = s; this.recompute();
+    const inc = this.income(s);
+    this.ind[s] = Math.max(0, this.ind[s] + inc[0]); this.man[s] += inc[1];
+    for (const u of this.units.slice()) {
+      if (u.side !== s) continue;
+      const su = this.sup[s][u.x][u.y];
+      if (su) {
+        if (!u.moved && !u.attacked && !u.fresh) u.entr = Math.min(3, u.entr + 1);
+        if (!u.attacked && u.hp < 100) {
+          const n = this.nodeAt(u.x, u.y);
+          let heal = Math.min(100 - u.hp, 6 + (u.moved ? 0 : 3) + (n && n.owner === s && (n.t === NT.HQ || n.t === NT.CITY) ? 4 : 0));
+          heal = Math.min(heal, this.man[s] * 4);
+          if (heal > 0) { this.man[s] -= Math.floor((heal + 3) / 4); u.hp += heal; }
+        }
+      } else {
+        u.entr = 0; u.hp -= Math.max(3, 7 - 2 * this.tech[s][2]);
+        this.addFx(0, u.x + .5, u.y + .1, 0, 0, 'CUT OFF', '#ff5a5a', 50);
+        if (u.hp <= 0) { this.kill(u, 'surrenders, encircled'); continue; }
+      }
+      u.moved = u.attacked = u.fresh = false;
+      u.mp = Math.max(1, u.t.mp - this.wx.pen(u.t)) - (su ? 0 : 1); u.mp = Math.max(1, u.mp);
+    }
+    if (this.airCd[s] > 0) this.airCd[s]--;
+    this.recompute(); this.checkElim();
+  }
+  endTurn() {
+    if (this.winner >= 0) return;
+    const next = 1 - this.turn;
+    if (next === P) {
+      this.round++;
+      if (this.round % 3 === 1) {
+        const r = this.rnd(), w = r < 0.55 ? WX.CLEAR : r < 0.8 ? WX.RAIN : WX.SNOW;
+        if (w !== this.wx) this.say('Weather: ' + w.label); this.wx = w;
+      }
+      this.say('--- Round ' + this.round + ' ---');
+    }
+    this.startTurn(next);
+  }
+  checkElim() {
+    if (this.winner >= 0) return;
+    for (let s = 0; s < 2; s++)
+      if (this.count(s) === 0 && (this.ind[s] < UT.RECON.ind || this.man[s] < UT.RECON.man)) { this.winner = 1 - s; this.endReason = s === P ? 'Your army has been annihilated.' : 'The enemy army has been annihilated.'; }
+  }
+  addFx(kind, x, y, x2, y2, text, c, life) { if (!this.fxOn) return; this.fx.push({ kind, x, y, x2, y2, text, c, life, age: 0 }); }
+}
+
+// ------------------------------------------------------------------ bot AI
+class Bot {
+  constructor(g, lvl, side) { this.g = g; this.lvl = lvl; this.me = side; this.foe = 1 - side; this.hqx = -1; this.hqy = -1; this.riskW = [0.5, 0.9, 0.9][lvl]; this.caution = [0, 0.6, 0.6][lvl]; this.SIMW = 1.0; }
+  foes() { return this.g.units.filter(u => u.side === this.foe); }
+  static val(t) { return (t.ind + t.man * 0.6) / 14.0; }
+  own(x, y) { return this.g.ctl[x][y] * (this.me === P ? 1 : -1); }
+  prepare() {
+    const g = this.g, me = this.me, o = [], h = [];
+    for (const n of g.nodes) {
+      if (n.owner !== me) o.push([n.x, n.y, n.t === NT.HQ ? 0 : n.t === NT.DEPOT ? 4 : 0]);
+      if (n.owner === me && (n.t === NT.HQ || n.t === NT.CITY)) h.push([n.x, n.y, 0]);
+    }
+    for (const u of g.units) if (u.side === this.foe) o.push([u.x, u.y, this.lvl === 0 ? 0 : 3]);
+    this.distObj = g.distMap(o); this.distHome = g.distMap(h); this.distDef = null;
+    for (const n of g.nodes) if (n.owner === me && n.t === NT.HQ) { this.hqx = n.x; this.hqy = n.y; }
+    const d = [];
+    for (const u of g.units) if (u.side === this.foe && cheb(u.x, u.y, this.hqx, this.hqy) <= 9) d.push([u.x, u.y, -10]);
+    if (this.lvl >= 1 && d.length) this.distDef = g.distMap(d);
+  }
+  economy() {
+    const g = this.g, me = this.me, lvl = this.lvl;
+    if (lvl >= 1) {
+      let best = -1;
+      for (let k = 0; k < 3; k++) if (g.tech[me][k] < 3 && (best < 0 || g.tech[me][k] < g.tech[me][best] || (lvl === 1 && Math.random() < .5 && g.tech[me][k] === g.tech[me][best]))) best = k;
+      if (best >= 0 && g.ind[me] >= g.techCost(me, best) + (g.count(me) < 9 ? 40 : 14)) g.research(me, best);
+    }
+    const cap = [12, 18, 22][lvl], reserve = g.count(me) < 8 ? 0 : [0, 6, 6][lvl];
+    for (let guard = 0; guard < 6 && g.count(me) < cap; guard++) {
+      const t = this.chooseType(reserve); if (!t) break;
+      const sp = g.spawnTiles(me), fs = this.foes(); let bx = -1, by = -1, bd = 1e9;
+      for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (sp[x][y]) {
+        let d = lvl === 0 ? Math.random() : 1e5;
+        if (lvl > 0) for (const f of fs) d = Math.min(d, Math.hypot(f.x - x, f.y - y));
+        if (d < bd) { bd = d; bx = x; by = y; }
+      }
+      if (bx < 0) break;
+      g.build(me, t, bx, by);
+    }
+    if (lvl >= 1 && g.airCd[me] === 0 && g.ind[me] >= AIR_COST + (lvl === 2 ? 0 : 8)) {
+      let best = null, bs = lvl === 2 ? 16 : 24;
+      for (const f of this.foes()) {
+        let s = Math.min(f.hp, 24) * Bot.val(f.t) + (f.hp <= 24 ? 12 : 0);
+        for (let k = 0; k < 8; k++) { const nx = f.x + DX8[k], ny = f.y + DY8[k]; if (inb(nx, ny) && g.grid[nx][ny] && g.grid[nx][ny].side === me) s += 4; }
+        if (s > bs) { bs = s; best = f; }
+      }
+      if (best) g.airStrike(me, best.x, best.y);
+    }
+  }
+  chooseType(reserve) {
+    const g = this.g, me = this.me, lvl = this.lvl, cnt = [0, 0, 0, 0]; let tot = 0, ft = 0;
+    for (const u of g.units) { if (u.side === me) { cnt[u.t.o]++; tot++; } else if (u.t === UT.ARMOR) ft++; }
+    const tgt = lvl === 0 ? [.55, .15, .15, .15] : lvl === 1 ? [.45, .25, .2, .1] : ft >= 3 ? [.4, .2, .3, .1] : [.4, .3, .2, .1];
+    if (lvl === 0) { const x = Math.random(); let a = 0; for (let i = 0; i < 4; i++) { a += tgt[i]; if (x < a) return this.afford(UTYPES[i], reserve) ? UTYPES[i] : null; } }
+    let best = null, bd = -9;
+    for (let i = 0; i < 4; i++) { if (!this.afford(UTYPES[i], reserve)) continue; const d = tgt[i] - cnt[i] / Math.max(1, tot); if (d > bd) { bd = d; best = UTYPES[i]; } }
+    return best;
+  }
+  afford(t, reserve) { return this.g.ind[this.me] - t.ind >= reserve && this.g.man[this.me] >= t.man; }
+  order() {
+    const g = this.g, fs = this.foes(), l = g.units.filter(u => u.side === this.me && !u.fresh), key = new Map();
+    for (const u of l) { let d = 99; for (const f of fs) d = Math.min(d, cheb(u.x, u.y, f.x, f.y)); key.set(u, d + (u.t === UT.ART ? -50 : 0)); }
+    l.sort((a, b) => key.get(a) - key.get(b));
+    return l;
+  }
+  cheap(u, x, y, fs, weak) {
+    const g = this.g, me = this.me, lvl = this.lvl; let s;
+    if (lvl === 0) return 3 * (this.distObj[u.x][u.y] - this.distObj[x][y]) + Math.random() * 6;
+    if (weak) s = 2.5 * (this.distHome[u.x][u.y] - this.distHome[x][y]) + (g.sup[me][x][y] ? 5 : 0);
+    else if (this.distDef && cheb(u.x, u.y, this.hqx, this.hqy) <= 14) s = 4.5 * (this.distDef[u.x][u.y] - this.distDef[x][y]);
+    else s = (u.t === UT.ART ? 2.5 : 4.0) * (this.distObj[u.x][u.y] - this.distObj[x][y]);
+    const t = g.ter[x][y]; let fd = 99, thr = 0, sp = 0;
+    for (const f of fs) { const d = cheb(x, y, f.x, f.y); fd = Math.min(fd, d); if (d <= 3) thr += f.t.atk * hpf(f.hp); }
+    for (const a of g.units) if (a.side === me && a !== u && cheb(x, y, a.x, a.y) <= 2) sp += a.t.atk * hpf(a.hp) * 0.7;
+    const near = fd <= 4, n = g.nodeAt(x, y);
+    if (near) s += (t.def - 1) * 10;
+    if (n && n.owner !== me) s += n.t === NT.HQ ? 60 : 22;
+    let fr = 0;
+    for (let k = 0; k < 8; k++) { const nx = x + DX8[k], ny = y + DY8[k]; if (inb(nx, ny) && g.grid[nx][ny] && g.grid[nx][ny].side === me && g.grid[nx][ny] !== u) fr++; }
+    if (near) s += Math.min(fr, 3) * 2.2 - (fr === 0 ? 6 : 0);
+    s -= this.caution * Math.max(0, thr - sp - u.t.def * hpf(u.hp) * t.def * 0.8) * 0.25;
+    if (!g.sup[me][x][y]) s -= lvl === 1 ? 8 : 14;
+    if (near && x === u.x && y === u.y) s += 2;
+    return s;
+  }
+  attackValue(u, f, e) {
+    let v = e[0] * Bot.val(f.t) - e[1] * Bot.val(u.t) * this.riskW;
+    if (e[0] >= f.hp) v += 14 * Bot.val(f.t);
+    if (!this.g.sup[this.foe][f.x][f.y]) v += 6;
+    return v;
+  }
+  metrics() {
+    const g = this.g, me = this.me; let fu = 0, mu = 0, tiles = 0;
+    for (const u of g.units) { if (u.side === this.foe && !g.sup[this.foe][u.x][u.y]) fu++; if (u.side === me && !g.sup[me][u.x][u.y]) mu++; }
+    for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (g.ter[x][y].passable && this.own(x, y) > 0) tiles++;
+    return [fu, mu, tiles];
+  }
+  plan(u) {
+    const g = this.g, me = this.me, lvl = this.lvl;
+    this.prepare();
+    const fs = this.foes(); if (!fs.length) return null;
+    if (lvl >= 1 && g.ind[me] >= DEPOT_COST + 10 && g.sup[me][u.x][u.y] && !g.nodeAt(u.x, u.y) && !u.attacked && u.hp > 40) {
+      let d = 99, fd = 99;
+      for (const n of g.nodes) if (n.owner === me && n.t.range > 0) d = Math.min(d, Math.abs(n.x - u.x) + Math.abs(n.y - u.y));
+      for (const f of fs) fd = Math.min(fd, cheb(u.x, u.y, f.x, f.y));
+      if (d >= 9 && fd >= 3 && Math.floor(Math.random() * 3) === 0) return { x: u.x, y: u.y, cost: 0, depot: true };
+    }
+    if (lvl === 0 && Math.floor(Math.random() * 5) === 0) return null;
+    const cost = g.reach(u), weak = lvl >= 1 && u.hp < 35, cands = [];
+    for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) {
+      if (cost[x][y] >= BIG) continue;
+      const o = g.grid[x][y]; if (o && o !== u) continue;
+      const p = { x, y, cost: cost[x][y], target: null, av: 0, depot: false, score: this.cheap(u, x, y, fs, weak) };
+      if (!u.attacked && !(u.t === UT.ART && (x !== u.x || y !== u.y))) {
+        for (const f of fs) {
+          const d = cheb(x, y, f.x, f.y); if (d < 1 || d > u.t.range) continue;
+          const e = g.est(u, x, y, f); let v = this.attackValue(u, f, e);
+          if (lvl === 0 && Math.floor(Math.random() * 100) < 35) v = -1;
+          if (weak) v -= 8;
+          if (!p.target || v > p.av) { p.target = f; p.av = v; }
+        }
+        if (p.target) { if (p.av > 0) p.score += p.av + 4; else p.target = null; }
+      }
+      cands.push(p);
+    }
+    if (!cands.length) return null;
+    cands.sort((a, b) => b.score - a.score);
+    if (lvl === 2) {
+      const m0 = this.metrics(), ox = u.x, oy = u.y, K = Math.min(12, cands.length); let best = null, bs = -1e18;
+      for (let i = 0; i < K; i++) {
+        const p = cands[i]; let sim = 0;
+        if (p.x !== ox || p.y !== oy) {
+          const n = g.nodeAt(p.x, p.y), prev = n ? n.owner : 0;
+          g.grid[ox][oy] = null; u.x = p.x; u.y = p.y; g.grid[p.x][p.y] = u;
+          if (n) n.owner = me;
+          g.recompute();
+          const m = this.metrics();
+          sim = this.SIMW * (14 * (m[0] - m0[0]) - 18 * (m[1] - m0[1]) + 0.12 * (m[2] - m0[2]));
+          g.grid[p.x][p.y] = null; u.x = ox; u.y = oy; g.grid[ox][oy] = u;
+          if (n) n.owner = prev;
+        }
+        if (p.score + sim > bs) { bs = p.score + sim; best = p; }
+      }
+      g.recompute();
+      return best;
+    }
+    if (lvl === 0) return cands[Math.floor(Math.random() * Math.min(3, cands.length))];
+    return cands[0];
+  }
+  exec(u, p) {
+    if (!p || u.dead) return;
+    if (p.depot) { this.g.buildDepot(u); return; }
+    if (p.x !== u.x || p.y !== u.y) this.g.move(u, p.x, p.y, p.cost);
+    if (p.target && !p.target.dead) this.g.attack(u, p.target);
+  }
+  playTurn() { this.economy(); for (const u of this.order()) { if (this.g.winner >= 0) return; if (!u.dead) this.exec(u, this.plan(u)); } }
+}
+
+// ------------------------------------------------------------------ UI: canvas rendering + site-styled sidebar
+const $ = id => document.getElementById(id);
+const SANS_ = typeof SANS !== 'undefined' ? SANS : '-apple-system, system-ui, sans-serif';
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } },
+};
+
+// ---- developer lock (same password and remembered unlock as the other in-development game)
+const DEV_HASH = 2740183783595544;
+function cyrb53(str, seed = 0) {
+  let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+  for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
+const pwOk = pw => cyrb53('cometcombat:' + pw) === DEV_HASH;
+let unlocked = false;
+try { const sp = sessionStorage.getItem('cc.dev') || ''; if (sp && pwOk(sp)) unlocked = true; } catch (e) { /* ignore */ }
+
+const root = $('fl'), cv = $('flCanvas'), ctx = cv.getContext('2d'), mainEl = $('flMain');
+const panels = { dev: $('flDev'), start: $('flStart'), help: $('flHelp'), over: $('flOver') };
+let active = false, raf = 0, lastTs = 0, acc = 0, frameN = 0;
+let g = null, bot = null, diff = Math.min(2, Math.max(0, +store.get('fl.diff', 1) || 1)), pickDiff = diff;
+let ts = 24, ox = 0, oy = 0, dpr = 1, hx = -1, hy = -1, mode = 0, buildType = null, spawn = null, sel = null, selReach = null, showSupply = false;
+let terrainCv = null, terrainK = -1, dirty = true, logShown = 0, overT = 0;
+let botQ = null, botStarted = false, botWait = 0, pendA = null, pendD = null;
+const NX = W * RES + 1, NY = H * RES + 1, field = new Float32Array(NX * NY), tintCv = document.createElement('canvas'), tintCtx = tintCv.getContext('2d');
+tintCv.width = NX; tintCv.height = NY;
+const tintData = tintCtx.createImageData(NX, NY);
+let front = [];
+
+const showPanel = n => { for (const k in panels) panels[k].classList.toggle('show', k === n); };
+const anyPanel = () => Object.values(panels).some(p => p.classList.contains('show'));
+const playerTurn = () => !!g && g.turn === P && g.winner < 0;
+
+// ---- game control
+function newGame(d) {
+  diff = d; store.set('fl.diff', String(d));
+  g = new Game((Math.random() * 4294967295) >>> 0, d); g.incMul[B] = [0.8, 1.0, 1.15][d];
+  bot = new Bot(g, d, B); sel = null; selReach = null; mode = 0; botStarted = false; botQ = null; pendA = pendD = null; dirty = true; terrainK = -1; logShown = 0; overT = 0;
+  $('flLog').textContent = ''; showPanel(null); refresh(true);
+}
+function cancel() { mode = 0; sel = null; selReach = null; }
+function select(u) { sel = u; selReach = u ? g.reach(u) : null; mode = 0; }
+function click(x, y) {
+  if (!inb(x, y) || !playerTurn()) return;
+  const u = g.grid[x][y];
+  if (mode === 2) { if (g.airStrike(P, x, y)) mode = 0; else if (!u || u.side !== B) g.say('Airstrike: choose a tile with an enemy unit.'); return; }
+  if (mode === 1) { if (spawn && spawn[x][y] && g.build(P, buildType, x, y)) { mode = 0; sel = null; selReach = null; } return; }
+  if (u && u.side === P) { select(u); return; }
+  if (!sel) return;
+  if (u && u.side === B) { if (g.canAttack(sel, u)) { g.attack(sel, u); if (sel.dead) cancel(); else select(sel); } return; }
+  if (!u && selReach[x][y] < BIG && selReach[x][y] <= sel.mp) { g.move(sel, x, y, selReach[x][y]); select(sel); }
+}
+function startBuild(t) {
+  if (!playerTurn() || g.ind[P] < t.ind || g.man[P] < t.man) return;
+  sel = null; selReach = null; mode = mode === 1 && buildType === t ? 0 : 1; buildType = t; spawn = g.spawnTiles(P);
+}
+function startAir() {
+  if (!playerTurn()) return;
+  if (g.airCd[P] > 0) { g.say('Airstrike on cooldown (' + g.airCd[P] + ' turns).'); return; }
+  if (g.ind[P] < AIR_COST) { g.say('Airstrike needs ' + AIR_COST + ' Industry.'); return; }
+  sel = null; selReach = null; mode = mode === 2 ? 0 : 2;
+}
+function depot() { if (playerTurn() && sel && g.buildDepot(sel)) select(sel); }
+function research(k) { if (playerTurn()) g.research(P, k); }
+function endPlayerTurn() { if (!playerTurn()) return; cancel(); g.endTurn(); botStarted = false; botQ = null; botWait = 20; }
+
+// ---- per-tick update (animation + bot sequencing), 40 ticks per second
+function animate(u, target) {
+  let ch = false;
+  const tx = u.x + .5, ty = u.y + .5, dx = tx - u.rx, dy = ty - u.ry, d = Math.hypot(dx, dy);
+  if (d > 0.004) { const st = Math.min(d, d * 0.16 + 0.03); u.rx += dx / d * st; u.ry += dy / d * st; ch = true; } else { u.rx = tx; u.ry = ty; }
+  if (Math.abs(u.vhp - u.hp) > 0.3) { u.vhp += (u.hp - u.vhp) * 0.14; ch = true; } else u.vhp = u.hp;
+  if (Math.abs(u.vis - target) > 0.001) { u.vis += Math.sign(target - u.vis) * 0.06; if (Math.abs(u.vis - target) < 0.06) u.vis = target; ch = true; }
+  return ch;
+}
+const movingAny = () => g.units.some(u => Math.abs(u.rx - u.x - .5) > 0.01 || Math.abs(u.ry - u.y - .5) > 0.01);
+function tick() {
+  if (!g) return;
+  let ch = false;
+  for (const u of g.units) ch = animate(u, 1) || ch;
+  for (let i = g.ghosts.length - 1; i >= 0; i--) { const u = g.ghosts[i]; animate(u, 0); ch = true; if (u.vis <= 0.01) g.ghosts.splice(i, 1); }
+  for (const n of g.nodes) {
+    const tp = n.owner === P ? 1 : 0, te = n.owner === B ? 1 : 0;
+    if (Math.abs(n.vp - tp) > 0.002 || Math.abs(n.ve - te) > 0.002) { n.vp += (tp - n.vp) * 0.1; n.ve += (te - n.ve) * 0.1; ch = true; } else { n.vp = tp; n.ve = te; }
+  }
+  if (ch) dirty = true;
+  for (let i = g.fx.length - 1; i >= 0; i--) { const f = g.fx[i]; if (++f.age > f.life) g.fx.splice(i, 1); }
+  botStep(!ch || !movingAny());
+  if (g.winner >= 0 && !panels.over.classList.contains('show') && !panels.help.classList.contains('show') && overT >= 0 && ++overT > 55) { overT = -1; showOver(); }
+}
+function botStep(idle) {
+  if (g.turn !== B || g.winner >= 0) return;
+  if (botWait > 0) { botWait--; return; }
+  if (!idle) return;
+  if (!botStarted) { bot.economy(); botQ = bot.order(); botStarted = true; botWait = 12; return; }
+  if (pendA) { if (!pendA.dead && !pendD.dead) g.attack(pendA, pendD); pendA = pendD = null; botWait = 16; return; }
+  while (botQ.length) {
+    const u = botQ.shift(); if (u.dead) continue;
+    const p = bot.plan(u); if (!p) continue;
+    if (p.depot) { g.buildDepot(u); botWait = 10; return; }
+    const mv = p.x !== u.x || p.y !== u.y;
+    if (mv) g.move(u, p.x, p.y, p.cost);
+    if (p.target) { pendA = u; pendD = p.target; }
+    botWait = mv ? 4 : 1; return;
+  }
+  g.endTurn(); if (sel) select(sel);
+}
+
+// ---- influence field + the frontline (zero contour via marching squares)
+function addSource(cx, cy, w) {
+  if (Math.abs(w) < 1e-4) return;
+  for (let i = 0; i < NX; i++) {
+    const dx = i / RES - cx, dx2 = dx * dx, base = i * NY;
+    for (let j = 0; j < NY; j++) { const dy = j / RES - cy, d2 = dx2 + dy * dy; field[base + j] += w * (0.22 / (1 + d2 / 25) + (d2 < 150 ? Math.exp(-d2 / 9.5) : 0)); }
+  }
+}
+function computeField() {
+  field.fill(0);
+  const wt = u => (u.side === P ? 1 : -1) * u.t.infl * u.vis * (0.35 + 0.65 * u.vhp / 100);
+  for (const u of g.units) addSource(u.rx, u.ry, wt(u));
+  for (const u of g.ghosts) addSource(u.rx, u.ry, wt(u));
+  for (const n of g.nodes) { addSource(n.x + .5, n.y + .5, n.t.infl * n.vp); addSource(n.x + .5, n.y + .5, -n.t.infl * n.ve); }
+  const d = tintData.data;                                                          // territory tint, one texel per field sample
+  for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) {
+    const v = field[i * NY + j], a = Math.round(26 + 62 * Math.tanh(Math.abs(v) * 2.2)), o = (j * NX + i) * 4;
+    if (v > 0) { d[o] = 0x3C; d[o + 1] = 0x78; d[o + 2] = 0xFF; } else { d[o] = 0xFF; d[o + 1] = 0x46; d[o + 2] = 0x3C; }
+    d[o + 3] = a;
+  }
+  tintCtx.putImageData(tintData, 0, 0);
+  const segs = [], s = 1 / RES, F = (i, j) => field[i * NY + j];
+  const seg = (e, a, b) => segs.push(e[a * 2] * s, e[a * 2 + 1] * s, e[b * 2] * s, e[b * 2 + 1] * s);
+  for (let i = 0; i < NX - 1; i++) for (let j = 0; j < NY - 1; j++) {
+    const a = F(i, j), b = F(i + 1, j), c = F(i + 1, j + 1), d2 = F(i, j + 1), pa = a > 0, pb = b > 0, pc = c > 0, pd = d2 > 0;
+    if (pa === pb && pb === pc && pc === pd) continue;
+    const e = new Array(8).fill(0), has = [false, false, false, false];
+    if (pa !== pb) { has[0] = true; e[0] = i + a / (a - b); e[1] = j; }
+    if (pb !== pc) { has[1] = true; e[2] = i + 1; e[3] = j + b / (b - c); }
+    if (pd !== pc) { has[2] = true; e[4] = i + d2 / (d2 - c); e[5] = j + 1; }
+    if (pa !== pd) { has[3] = true; e[6] = i; e[7] = j + a / (a - d2); }
+    const idx = []; for (let k = 0; k < 4; k++) if (has[k]) idx.push(k);
+    if (idx.length === 2) seg(e, idx[0], idx[1]);
+    else if (idx.length === 4) { const center = (a + b + c + d2) / 4 > 0; if (center === pa) { seg(e, 0, 3); seg(e, 1, 2); } else { seg(e, 0, 1); seg(e, 2, 3); } }
+  }
+  front = segs;
+}
+
+// ---- drawing
+const rgbJ = (r, g_, b) => 'rgb(' + r + ',' + g_ + ',' + b + ')';
+function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+function shade(hex, f) { const n = parseInt(hex.slice(1), 16); return rgbJ(Math.min(255, Math.round((n >> 16) * f)), Math.min(255, Math.round(((n >> 8) & 255) * f)), Math.min(255, Math.round((n & 255) * f))); }
+function buildTerrain() {
+  const k = Math.max(8, Math.round(ts * dpr)); terrainK = k;
+  terrainCv = document.createElement('canvas'); terrainCv.width = W * k; terrainCv.height = H * k; const t = terrainCv.getContext('2d'), u = k / 24;
+  for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) {
+    const h = ((Math.imul(x, 73856093) ^ Math.imul(y, 19349663)) & 0xffff), v = h % 13 - 6, r = mulberry(h), tt = g.ter[x][y], px = x * k, py = y * k;
+    let base;
+    if (tt === TERR.FOREST) base = rgbJ(92 + v, 130 + v, 84 + v); else if (tt === TERR.HILL) base = rgbJ(176 + v, 158 + v, 112 + v);
+    else if (tt === TERR.MOUNTAIN) base = rgbJ(128 + v, 128 + v, 134 + v); else if (tt === TERR.WATER) base = rgbJ(84 + v, 128 + v, 178 + v); else base = rgbJ(146 + v, 170 + v, 108 + v);
+    t.fillStyle = base; t.fillRect(px, py, k, k);
+    if (tt === TERR.PLAIN) {
+      t.strokeStyle = 'rgba(0,0,0,.11)'; t.lineWidth = u;
+      for (let i = 0; i < 3; i++) { const sx = px + 3 * u + r() * (k - 6 * u), sy = py + 4 * u + r() * (k - 8 * u); t.beginPath(); t.moveTo(sx, sy); t.lineTo(sx + 2 * u, sy - 2 * u); t.stroke(); }
+    } else if (tt === TERR.FOREST) {
+      for (let i = 0; i < 3; i++) {
+        const sx = px + k / 5 + r() * (k * 3 / 5), sy = py + k / 4 + r() * (k / 2), rd = Math.max(3 * u, k / 4);
+        t.fillStyle = rgbJ(40, 86, 50); t.beginPath(); t.arc(sx, sy, rd / 2, 0, 6.283); t.fill();
+        t.fillStyle = 'rgba(70,118,66,.63)'; t.beginPath(); t.arc(sx - rd / 4 + u, sy - rd / 4, rd / 4, 0, 6.283); t.fill();
+      }
+    } else if (tt === TERR.HILL) {
+      t.strokeStyle = 'rgba(110,90,55,.75)'; t.lineWidth = 1.6 * u;
+      t.beginPath(); t.ellipse(px + 2 * u + k / 4, py + k / 3 + k / 4, k / 4, k / 4, 0, Math.PI, 2 * Math.PI); t.stroke();
+      t.beginPath(); t.ellipse(px + k / 2 - 2 * u + k / 4, py + k / 2 + (k / 2 - 3 * u) / 2, k / 4, (k / 2 - 3 * u) / 2, 0, Math.PI, 2 * Math.PI); t.stroke();
+    } else if (tt === TERR.MOUNTAIN) {
+      for (let i = 0; i < 2; i++) {
+        const cx = px + k / 3 + i * k / 3, top = py + k / 5 + i * k / 6;
+        t.fillStyle = rgbJ(88, 88, 96); t.beginPath(); t.moveTo(cx - k / 4, py + k - 3 * u); t.lineTo(cx, top); t.lineTo(cx + k / 4, py + k - 3 * u); t.closePath(); t.fill();
+        t.fillStyle = '#fff'; t.beginPath(); t.moveTo(cx - k / 9, top + k / 6); t.lineTo(cx, top); t.lineTo(cx + k / 9, top + k / 6); t.closePath(); t.fill();
+      }
+    } else if (tt === TERR.WATER) {
+      t.strokeStyle = 'rgba(255,255,255,.27)'; t.lineWidth = 1.2 * u;
+      t.beginPath(); t.ellipse(px + 3 * u + k / 6, py + k / 3 + 3 * u, k / 6, 3 * u, 0, Math.PI, 2 * Math.PI); t.stroke();
+      t.beginPath(); t.ellipse(px + k / 2 + k / 6, py + k * 2 / 3 + 3 * u, k / 6, 3 * u, 0, Math.PI, 2 * Math.PI); t.stroke();
+    }
+  }
+}
+function drawNode(n) {
+  const cx = ox + (n.x + .5) * ts, cy = oy + (n.y + .5) * ts, s = ts * 0.86, oc = n.owner < 0 ? '#bebebe' : SIDE_COL[n.owner], u = ts / 24;
+  rr(ctx, cx - s / 2, cy - s / 2, s, s, 6 * u); ctx.fillStyle = 'rgba(8,14,36,.82)'; ctx.fill(); ctx.strokeStyle = oc; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = n.owner < 0 ? '#e6e6e6' : shade(oc, 1.35);
+  if (n.t === NT.HQ) {
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = (i % 2 === 0 ? 8 : 3.6) * u; const px = cx + Math.cos(a) * r, py = cy + Math.sin(a) * r; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.closePath(); ctx.fill();
+  } else if (n.t === NT.CITY) {
+    ctx.fillRect(cx - 7 * u, cy - 1 * u, 4 * u, 7 * u); ctx.fillRect(cx - 2 * u, cy - 6 * u, 5 * u, 12 * u); ctx.fillRect(cx + 4 * u, cy + 1 * u, 4 * u, 5 * u);
+  } else if (n.t === NT.FACTORY) {
+    ctx.fillRect(cx - 7 * u, cy - 1 * u, 14 * u, 8 * u); ctx.fillRect(cx - 6 * u, cy - 7 * u, 3 * u, 7 * u); ctx.fillRect(cx, cy - 5 * u, 3 * u, 5 * u);
+  } else if (n.t === NT.DEPOT) {
+    ctx.fillRect(cx - 5 * u, cy - 5 * u, 10 * u, 10 * u); ctx.strokeStyle = 'rgb(8,14,36)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx - 5 * u, cy - 5 * u); ctx.lineTo(cx + 5 * u, cy + 5 * u); ctx.moveTo(cx + 5 * u, cy - 5 * u); ctx.lineTo(cx - 5 * u, cy + 5 * u); ctx.stroke();
+  }
+}
+function drawUnit(u, ghost) {
+  const cx = ox + u.rx * ts, cy = oy + u.ry * ts, w = ts * 0.8, h = ts * 0.58, spent = u.side === P && playerTurn() && !ghost && u.mp <= 0 && u.attacked;
+  ctx.save(); ctx.globalAlpha = clamp(u.vis, 0, 1) * (spent ? 0.72 : 1);
+  rr(ctx, cx - w / 2 + 1.5, cy - h / 2 + 2, w, h, 5); ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fill();
+  const c = SIDE_COL[u.side], gr = ctx.createLinearGradient(0, cy - h / 2, 0, cy + h / 2); gr.addColorStop(0, shade(c, 1.43)); gr.addColorStop(1, shade(c, 0.7));
+  rr(ctx, cx - w / 2, cy - h / 2, w, h, 5); ctx.fillStyle = gr; ctx.fill();
+  ctx.strokeStyle = u === sel ? '#ffe65a' : 'rgb(15,18,24)'; ctx.lineWidth = u === sel ? 2.6 : 1.5; ctx.stroke();
+  ctx.strokeStyle = '#fff'; ctx.fillStyle = '#fff'; ctx.lineWidth = 1.7;
+  const sw = w * 0.3, sh = h * 0.32; ctx.beginPath();
+  if (u.t === UT.INF) { ctx.moveTo(cx - sw, cy - sh); ctx.lineTo(cx + sw, cy + sh); ctx.moveTo(cx - sw, cy + sh); ctx.lineTo(cx + sw, cy - sh); ctx.stroke(); }
+  else if (u.t === UT.ARMOR) { ctx.ellipse(cx, cy, sw, sh, 0, 0, 6.283); ctx.stroke(); }
+  else if (u.t === UT.ART) { ctx.arc(cx, cy, sh * 0.75, 0, 6.283); ctx.fill(); }
+  else { ctx.moveTo(cx - sw, cy + sh); ctx.lineTo(cx + sw, cy - sh); ctx.stroke(); }
+  const f = clamp(u.vhp / 100, 0, 1);
+  ctx.fillStyle = 'rgba(0,0,0,.67)'; ctx.fillRect(cx - w / 2, cy + h / 2 + 1, w, 3.5);
+  ctx.fillStyle = f > 0.6 ? 'rgb(90,220,90)' : f > 0.3 ? 'rgb(240,200,60)' : 'rgb(240,70,60)'; ctx.fillRect(cx - w / 2, cy + h / 2 + 1, w * f, 3.5);
+  ctx.fillStyle = 'rgb(255,240,150)'; for (let i = 0; i < u.entr; i++) ctx.fillRect(cx - w / 2 + 2 + i * 4, cy - h / 2 - 3, 3, 2.5);
+  if (!ghost && !g.sup[u.side][u.x][u.y]) {
+    ctx.fillStyle = 'rgb(255,60,60)'; ctx.beginPath(); ctx.arc(cx + w / 2 - 0.5, cy - h / 2 - 0.5, 5.5, 0, 6.283); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 10px ' + SANS_; ctx.textAlign = 'center'; ctx.fillText('!', cx + w / 2 - 0.5, cy - h / 2 + 3);
+  }
+  ctx.restore();
+}
+function outlined(s, x, y, c) {
+  ctx.lineJoin = 'round'; ctx.lineWidth = 3; ctx.strokeStyle = '#000'; ctx.strokeText(s, x, y); ctx.fillStyle = c; ctx.fillText(s, x, y);
+}
+const tile = (x, y, c) => { ctx.fillStyle = c; ctx.fillRect(ox + x * ts + 1, oy + y * ts + 1, ts - 1, ts - 1); };
+function draw() {
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+  if (!g) return;
+  if (terrainK !== Math.max(8, Math.round(ts * dpr))) buildTerrain();
+  if (dirty) { computeField(); dirty = false; }
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(terrainCv, ox, oy, W * ts, H * ts);
+  ctx.save(); ctx.beginPath(); ctx.rect(ox, oy, W * ts, H * ts); ctx.clip();         // territory tint (bilinear = soft blending), clipped to the map
+  const cs = ts / RES; ctx.drawImage(tintCv, ox - cs / 2, oy - cs / 2, NX * cs, NY * cs); ctx.restore();
+  ctx.strokeStyle = 'rgba(0,0,0,.09)'; ctx.lineWidth = 1; ctx.beginPath();
+  for (let x = 0; x <= W; x++) { ctx.moveTo(ox + x * ts, oy); ctx.lineTo(ox + x * ts, oy + H * ts); }
+  for (let y = 0; y <= H; y++) { ctx.moveTo(ox, oy + y * ts); ctx.lineTo(ox + W * ts, oy + y * ts); }
+  ctx.stroke();
+  if (showSupply) for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (g.ter[x][y].passable) {
+    if (g.sup[P][x][y]) tile(x, y, 'rgba(80,200,255,.16)'); else if (g.ctl[x][y] > 0) tile(x, y, 'rgba(255,60,60,.27)');
+    if (g.sup[B][x][y]) tile(x, y, 'rgba(255,190,80,.16)'); else if (g.ctl[x][y] < 0) tile(x, y, 'rgba(255,60,60,.27)');
+  }
+  for (const n of g.nodes) drawNode(n);
+  ctx.save(); ctx.translate(ox, oy); ctx.scale(ts, ts); ctx.lineCap = 'round'; ctx.lineJoin = 'round';           // the frontline
+  const strokeFront = (w, col) => { ctx.lineWidth = w; ctx.strokeStyle = col; ctx.beginPath(); for (let i = 0; i < front.length; i += 4) { ctx.moveTo(front[i], front[i + 1]); ctx.lineTo(front[i + 2], front[i + 3]); } ctx.stroke(); };
+  strokeFront(0.50, 'rgba(255,220,90,.13)'); strokeFront(0.26, 'rgba(20,20,24,.78)'); strokeFront(0.11, 'rgb(255,240,150)');
+  ctx.restore();
+  if (mode === 1 && spawn) for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (spawn[x][y]) tile(x, y, 'rgba(90,255,140,.35)');
+  if (sel && selReach) {
+    for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (selReach[x][y] < BIG && selReach[x][y] <= sel.mp && !g.grid[x][y]) tile(x, y, 'rgba(255,255,255,.3)');
+    for (const f of g.units) if (f.side === B && g.canAttack(sel, f)) {
+      ctx.strokeStyle = 'rgb(255,60,40)'; ctx.lineWidth = 2.6; ctx.strokeRect(ox + f.x * ts + 1, oy + f.y * ts + 1, ts - 3, ts - 3);
+      const e = g.est(sel, sel.x, sel.y, f); ctx.font = 'bold ' + Math.max(9, ts / 3) + 'px ' + SANS_; ctx.textAlign = 'left'; outlined(String(Math.round(e[0])), ox + f.x * ts + 2, oy + f.y * ts + ts - 3, '#fff');
+    }
+  }
+  if (mode === 2 && inb(hx, hy) && g.grid[hx][hy] && g.grid[hx][hy].side === B) { ctx.strokeStyle = '#ffa500'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(ox + (hx + .5) * ts, oy + (hy + .5) * ts, ts * 0.8, 0, 6.283); ctx.stroke(); }
+  if (inb(hx, hy)) { ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.5; ctx.strokeRect(ox + hx * ts, oy + hy * ts, ts, ts); }
+  const all = g.units.slice().sort((a, b) => a.ry - b.ry);
+  for (const u of g.ghosts) drawUnit(u, true);
+  for (const u of all) drawUnit(u, false);
+  for (const f of g.fx) {
+    const k = f.age / f.life;
+    if (f.kind === 0) { ctx.font = 'bold ' + Math.max(11, ts / 2) + 'px ' + SANS_; ctx.textAlign = 'center'; outlined(f.text, ox + f.x * ts, oy + (f.y - k * 0.9) * ts, f.c); }
+    else if (f.kind === 1) { ctx.globalAlpha = 1 - k; ctx.strokeStyle = f.c; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(ox + f.x * ts, oy + f.y * ts); ctx.lineTo(ox + (f.x + (f.x2 - f.x) * Math.min(1, k * 2.5)) * ts, oy + (f.y + (f.y2 - f.y) * Math.min(1, k * 2.5)) * ts); ctx.stroke(); ctx.globalAlpha = 1; }
+    else { const r = ts * (0.3 + 1.6 * k); ctx.globalAlpha = .78 * (1 - k); ctx.strokeStyle = f.c; ctx.lineWidth = 4 * (1 - k) + 1; ctx.beginPath(); ctx.arc(ox + f.x * ts, oy + f.y * ts, r, 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1; }
+  }
+  const msg = g.winner >= 0 ? null : g.turn === B ? 'ENEMY (' + DIFF[diff].toUpperCase() + ') IS MOVING...' : mode === 1 ? 'Place ' + buildType.label + ' on a green tile (Esc cancels)' : mode === 2 ? 'AIRSTRIKE: choose an enemy unit' : null;
+  if (msg) {
+    ctx.font = 'bold 13px ' + SANS_; ctx.textAlign = 'left'; const sw = ctx.measureText(msg).width;
+    rr(ctx, ox + 10, oy + 8, sw + 22, 28, 14); ctx.fillStyle = 'rgba(8,14,36,.82)'; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = g.turn === B ? '#ff9a9a' : '#ffe27a'; ctx.fillText(msg, ox + 21, oy + 27);
+  }
+}
+
+// ---- layout
+function resize() {
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const cw = mainEl.clientWidth, ch = mainEl.clientHeight;
+  if (cv.width !== Math.round(cw * dpr) || cv.height !== Math.round(ch * dpr)) { cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr); }
+  ts = Math.max(8, Math.min(cw / W, ch / H)); ox = (cw - ts * W) / 2; oy = (ch - ts * H) / 2;
+}
+if (window.ResizeObserver) new ResizeObserver(() => { if (active) resize(); }).observe(mainEl);
+window.addEventListener('resize', () => { if (active) resize(); });
+
+// ---- sidebar (DOM, in the same style as the other games)
+const sideCache = {}, setHTML = (id, html) => { if (sideCache[id] !== html) { sideCache[id] = html; $(id).innerHTML = html; } };
+const recBtns = [], techBtns = [];
+function buildSide() {
+  const rec = $('flRec'), tech = $('flTech');
+  UTYPES.forEach((t, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'flBtn'; b.addEventListener('click', () => startBuild(t)); rec.appendChild(b); recBtns.push(b); });
+  TECH.forEach((n, k) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'flBtn'; b.addEventListener('click', () => research(k)); tech.appendChild(b); techBtns.push(b); });
+}
+const btnHtml = (key, label, right) => '<span><small>' + key + '</small> ' + label + '</span><span>' + right + '</span>';
+function refresh(force) {
+  if (!g) return;
+  const pt = playerTurn();
+  setHTML('flStatus', 'Round <b>' + g.round + '</b> vs <b>' + DIFF[diff] + '</b> bot &middot; ' + (pt ? '<span class="you">YOUR TURN</span>' : g.winner >= 0 ? '<span>GAME OVER</span>' : '<span class="foe">enemy turn</span>') + '<br>Weather: ' + g.wx.label);
+  const inc = g.income(P);
+  setHTML('flRes', 'Industry <b class="gold">' + g.ind[P] + '</b> (' + (inc[0] >= 0 ? '+' : '') + inc[0] + ') &nbsp; Manpower <b class="gold">' + g.man[P] + '</b> (+' + inc[1] + ')<br>Units <b>' + g.count(P) + '</b> vs ' + g.count(B) + ' &nbsp; Airstrike: ' + (g.airCd[P] > 0 ? 'in ' + g.airCd[P] + 't' : g.ind[P] < AIR_COST ? 'need ' + AIR_COST + ' I' : 'ready'));
+  let pc = 0, bc = 0; for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (g.ter[x][y].passable) { if (g.ctl[x][y] > 0) pc++; else bc++; }
+  const pct = Math.round(100 * pc / Math.max(1, pc + bc)); $('flBarP').style.width = pct + '%'; $('flBarTxt').textContent = pct + '% territory';
+  UTYPES.forEach((t, i) => {
+    const b = recBtns[i]; b.innerHTML = btnHtml(i + 1, t.label, t.ind + ' I · ' + t.man + ' M');
+    b.title = 'Attack ' + t.atk + ', Defence ' + t.def + ', Move ' + t.mp + (t.range > 1 ? ', Range 2 (must not move to fire)' : '');
+    b.disabled = !(pt && g.ind[P] >= t.ind && g.man[P] >= t.man); b.classList.toggle('on', mode === 1 && buildType === t);
+  });
+  const air = $('flAir'); air.innerHTML = btnHtml('A', 'Airstrike', AIR_COST + ' I'); air.disabled = !(pt && g.ind[P] >= AIR_COST && g.airCd[P] === 0); air.classList.toggle('on', mode === 2);
+  $('flDepot').innerHTML = btnHtml('D', 'Forward depot', DEPOT_COST + ' I');
+  $('flDepot').disabled = !(pt && sel && !sel.dead && g.ind[P] >= DEPOT_COST && !sel.attacked && !g.nodeAt(sel.x, sel.y) && g.sup[P][sel.x][sel.y]);
+  TECH.forEach((n, k) => { const b = techBtns[k]; b.innerHTML = btnHtml('L' + g.tech[P][k], n, g.tech[P][k] < 3 ? g.techCost(P, k) + ' I' : 'max'); b.title = TECH_DESC[k]; b.disabled = !(pt && g.tech[P][k] < 3 && g.ind[P] >= g.techCost(P, k)); });
+  $('flEnd').disabled = !pt; $('flSupply').classList.toggle('on', showSupply);
+  const u = sel;
+  if (u && !u.dead) { const t = g.ter[u.x][u.y]; setHTML('flInfo', '<b>' + u.t.label + '</b> HP ' + u.hp + ' &nbsp;Move ' + u.mp + '<br>Dug in: ' + u.entr + '/3 &nbsp; on ' + t.label + ' (x' + t.def + ')<br>' + (g.sup[P][u.x][u.y] ? '<span class="ok">Supplied</span>' : '<span class="bad">CUT OFF - losing HP</span>') + (u.attacked ? ' &nbsp;(has acted)' : '')); }
+  else setHTML('flInfo', '<i>Click or tap one of your units, then a highlighted tile to move or a red-framed enemy to attack.</i>');
+  if (inb(hx, hy)) {
+    const t = g.ter[hx][hy], n = g.nodeAt(hx, hy), h = g.grid[hx][hy];
+    setHTML('flTerr', t.label + ' (def x' + t.def + ', cost ' + (t.passable ? t.cost : '-') + ')' + (n ? ' - ' + (n.owner < 0 ? 'Neutral ' : n.owner === P ? 'Your ' : 'Enemy ') + n.t.label : '') + (h ? ' - ' + (h.side === P ? 'your ' : 'enemy ') + h.t.label + ' ' + h.hp + 'HP' : ''));
+  } else setHTML('flTerr', '&nbsp;');
+  const logEl = $('flLog'); if (logShown < g.logs.length) { while (logShown < g.logs.length) logEl.appendChild(document.createTextNode(g.logs[logShown++] + '\n')); logEl.scrollTop = logEl.scrollHeight; }
+}
+function showOver() {
+  const win = g.winner === P, t = $('flOverTitle');
+  t.textContent = win ? 'Victory' : 'Defeat'; t.className = win ? 'win' : 'lose'; $('flOverMsg').textContent = g.endReason + '  Round ' + g.round + ' vs ' + DIFF[diff] + '.';
+  showPanel('over');
+}
+
+// ---- input
+function tileAt(e) { const r = cv.getBoundingClientRect(), x = Math.floor((e.clientX - r.left - ox) / ts), y = Math.floor((e.clientY - r.top - oy) / ts); return inb(x, y) ? [x, y] : [-1, -1]; }
+cv.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') [hx, hy] = tileAt(e); });
+cv.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { hx = hy = -1; } });
+cv.addEventListener('pointerdown', e => {
+  if (!active || !g || anyPanel()) return;
+  e.preventDefault(); [hx, hy] = tileAt(e);
+  if (e.pointerType === 'mouse' && e.button === 2) { cancel(); return; }
+  click(hx, hy);
+});
+cv.addEventListener('contextmenu', e => e.preventDefault());
+
+function submitDev() {
+  const v = $('flDevPw').value;
+  if (!pwOk(v)) { $('flDevErr').textContent = 'Incorrect password.'; $('flDevPw').select(); return; }
+  unlocked = true; try { sessionStorage.setItem('cc.dev', v); } catch (e) { /* ignore */ }
+  $('flDevErr').textContent = ''; openStart(false);
+}
+const DIFF_DESC = ['Unfocused and rarely coordinates. Gets 80% of normal income.', 'Weighs objectives, terrain, danger and supply.', 'Simulates each move\'s effect on the frontline and on supply: hunts encirclements, builds depots, researches, uses air support. +15% income.'];
+function openStart(canCancel) {
+  pickDiff = diff; refreshPick(); $('flStartCancel').style.display = canCancel ? '' : 'none'; showPanel('start');
+}
+function refreshPick() { for (const b of document.querySelectorAll('#flStart .flDiff')) b.classList.toggle('on', +b.dataset.d === pickDiff); $('flDiffDesc').textContent = DIFF_DESC[pickDiff]; }
+for (const b of document.querySelectorAll('#flStart .flDiff')) b.addEventListener('click', () => { pickDiff = +b.dataset.d; refreshPick(); });
+$('flStartGo').addEventListener('click', () => newGame(pickDiff));
+$('flStartCancel').addEventListener('click', () => showPanel(g && g.winner >= 0 ? 'over' : null));
+$('flDevOk').addEventListener('click', submitDev); $('flDevCancel').addEventListener('click', () => exit());
+$('flDevPw').addEventListener('keydown', e => { if (e.code === 'Enter') { e.preventDefault(); submitDev(); } });
+$('flStartMenu').addEventListener('click', () => exit());
+$('flMenu').addEventListener('click', () => exit());
+$('flHelpBtn').addEventListener('click', () => showPanel('help')); $('flHelpClose').addEventListener('click', () => showPanel(g && g.winner >= 0 && overT < 0 ? 'over' : null));
+$('flNew').addEventListener('click', () => openStart(true));
+$('flSupply').addEventListener('click', () => { showSupply = !showSupply; });
+$('flAir').addEventListener('click', startAir); $('flDepot').addEventListener('click', depot);
+$('flEnd').addEventListener('click', endPlayerTurn); $('flCancel').addEventListener('click', cancel);
+$('flOverNew').addEventListener('click', () => openStart(true)); $('flOverView').addEventListener('click', () => showPanel(null)); $('flOverMenu').addEventListener('click', () => exit());
+window.addEventListener('keydown', e => {
+  if (!active) return;
+  if (e.target && e.target.tagName === 'INPUT') return;
+  if (e.code === 'Escape') { if (panels.help.classList.contains('show')) $('flHelpClose').click(); else if (anyPanel()) { if (panels.start.classList.contains('show') && g) $('flStartCancel').click(); else exit(); } else cancel(); return; }
+  if (anyPanel() || !g) return;
+  if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); endPlayerTurn(); }
+  else if (e.code === 'KeyS') showSupply = !showSupply; else if (e.code === 'KeyA') startAir(); else if (e.code === 'KeyD') depot();
+  else if (/^Digit[1-4]$/.test(e.code)) startBuild(UTYPES[+e.code.slice(5) - 1]);
+});
+
+// ---- loop / lifecycle
+function loop(now) {
+  if (!active) return;
+  const dt = Math.min(120, now - lastTs); lastTs = now; acc += dt; let n = 0;
+  while (acc >= 25 && n++ < 6) { tick(); acc -= 25; } if (n >= 6) acc = 0;
+  if (++frameN % 5 === 0) refresh();
+  draw(); raf = requestAnimationFrame(loop);
+}
+function open() {
+  active = true; document.body.classList.add('fl'); resize(); lastTs = performance.now(); acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
+  if (!unlocked) { $('flDevPw').value = ''; $('flDevErr').textContent = ''; showPanel('dev'); setTimeout(() => { try { $('flDevPw').focus(); } catch (e) { /* ignore */ } }, 50); }
+  else if (g && g.winner < 0) showPanel(null); else openStart(false);
+}
+function exit() {
+  active = false; cancelAnimationFrame(raf); showPanel(null);
+  document.body.classList.remove('fl'); document.body.classList.add('home');
+  try { $('cardFl').focus(); } catch (e) { /* ignore */ }
+}
+buildSide();
+return { open, exit, api: { Game, Bot, newGame, state: () => g, bot: () => bot, click, endTurn: endPlayerTurn, select, unlocked: () => unlocked, startBuild, startAir, research, showSupply: v => { showSupply = v; }, ts: () => ts } };
+})();
+
+document.getElementById('cardFl').addEventListener('click', () => {
+  document.body.classList.remove('home'); document.body.classList.add('fl');
+  FL.open();
 });
 </script>
 </body>
