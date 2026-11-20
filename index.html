@@ -233,25 +233,47 @@
   body.fl #wrap, body.fl #touch, body.fl #btnHome { display: none !important; }
   #flMain { position: relative; flex: 1; min-width: 0; min-height: 0; }
   #flCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-  #flSide { width: clamp(272px, 27vw, 340px); flex: none; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; touch-action: pan-y;
+  #flHud { position: absolute; z-index: 2; top: 8px; right: 8px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 16px); pointer-events: none; }
+  .hp { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border-radius: 99px; background: rgba(8,14,36,.86); border: 2px solid rgba(255,255,255,.3); font: 800 13px -apple-system, system-ui, sans-serif; color: #fff; white-space: nowrap; }
+  .hp i { font-style: normal; font-weight: 700; opacity: .75; font-size: 11px; }
+  .hp.ind { color: #ffe27a; border-color: rgba(255,226,122,.6); } .hp.man { color: #8fe0ff; border-color: rgba(143,224,255,.6); }
+  .hp.blue { color: #7fd0ff; border-color: #4084ec; } .hp.red { color: #ff9a9a; border-color: #e04c42; }
+  #flSide { width: clamp(280px, 28vw, 350px); flex: none; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; touch-action: pan-y;
     background: rgba(8,14,36,.92); border-left: 1px solid rgba(255,255,255,.12);
     padding: calc(10px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) 12px; }
-  @media (max-aspect-ratio: 1/1) { #fl { flex-direction: column; } #flSide { width: auto; height: 46%; border-left: 0; border-top: 1px solid rgba(255,255,255,.12); } }
+  @media (max-aspect-ratio: 1/1) { #fl { flex-direction: column; } #flSide { width: auto; height: 48%; border-left: 0; border-top: 1px solid rgba(255,255,255,.12); } }
   .flHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .flHead h3 { margin: 0; font-size: 17px; font-weight: 900; letter-spacing: .07em; white-space: nowrap; text-transform: uppercase; background: linear-gradient(180deg, #fff 20%, #8fd0ff 60%, #5b7cff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .flBtn { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; box-sizing: border-box; text-align: left; font: 700 12.5px -apple-system, system-ui, sans-serif; letter-spacing: .02em; color: #fff;
     padding: 7px 10px; border-radius: 10px; border: 2px solid rgba(255,255,255,.28); background: rgba(8,14,36,.86); cursor: pointer; touch-action: manipulation; }
-  .flBtn small { color: #8fa5d8; font-weight: 700; margin-right: 4px; }
-  .flBtn > span:last-child { color: #ffe27a; font-weight: 800; white-space: nowrap; }
+  .flBtn small { color: #8fa5d8; font-weight: 700; margin-right: 2px; }
   .flBtn:hover:not(:disabled) { background: rgba(40,60,120,.9); }
   .flBtn:disabled { opacity: .42; cursor: default; }
   .flBtn.on { border-color: #7cf0c8; background: rgba(40,120,100,.75); }
   .flBtn.sm { width: auto; justify-content: center; padding: 6px 10px; border-radius: 99px; font-size: 10.5px; letter-spacing: .05em; white-space: nowrap; }
+  .flBtn.two { flex-direction: column; align-items: stretch; gap: 2px; }
+  .flBtn .r1 { display: flex; justify-content: space-between; align-items: center; gap: 8px; } .flBtn .r2 { font-size: 10.5px; font-weight: 600; color: #9db4e8; }
+  .chip { display: inline-flex; align-items: center; gap: 3px; margin-left: 5px; padding: 1px 7px; border-radius: 99px; font: 800 11.5px -apple-system, system-ui, sans-serif; background: rgba(255,255,255,.08); }
+  .chip.ind { color: #ffe27a; } .chip.man { color: #8fe0ff; } .chip.lack { color: #ff8a8a; background: rgba(229,72,77,.18); } .chip.max { color: #7cf0c8; }
   .flGrp { display: flex; flex-direction: column; gap: 4px; }
   .flRow { display: flex; gap: 6px; flex-wrap: wrap; } .flRow .flBtn { flex: 1 1 auto; }
-  .flBox { font: 600 12.5px/1.45 -apple-system, system-ui, sans-serif; color: #cdd8f5; } .flBox b { color: #fff; } .flBox b.gold { color: #ffe27a; }
-  .flBox .you { color: #7fd0ff; font-weight: 800; } .flBox .foe { color: #ff9a9a; font-weight: 800; } .flBox .ok { color: #8fe08f; } .flBox .bad { color: #ff7070; font-weight: 800; }
-  #flTerr { min-height: 1.5em; color: #9db4e8; font-weight: 500; font-size: 12px; }
+  .flBox { font: 600 12.5px/1.45 -apple-system, system-ui, sans-serif; color: #cdd8f5; } .flBox b { color: #fff; }
+  .flBox .ok { color: #8fe08f; } .flBox .bad { color: #ff7070; font-weight: 800; }
+  #flTurn { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .pill { display: inline-block; padding: 4px 12px; border-radius: 99px; font: 900 12px -apple-system, system-ui, sans-serif; letter-spacing: .08em; background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.3); }
+  .pill.blue { color: #7fd0ff; border-color: #4084ec; background: rgba(64,132,236,.18); } .pill.red { color: #ff9a9a; border-color: #e04c42; background: rgba(224,76,66,.18); }
+  #flTurn .rd { font: 700 12px -apple-system, system-ui, sans-serif; color: #9db4e8; } #flTurn .rd b { color: #fff; }
+  #flWx { font: 600 11.5px -apple-system, system-ui, sans-serif; color: #9db4e8; margin-top: -2px; } #flWx b { color: #cdd8f5; }
+  #flRes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .resCard { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 12px; border: 2px solid rgba(255,255,255,.28); background: rgba(8,14,36,.86); }
+  .resCard .ic { font-size: 26px; line-height: 0; } .resCard .lbl { font: 800 10px -apple-system, system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #8fa5d8; }
+  .resCard .val { font: 900 26px/1.05 -apple-system, system-ui, sans-serif; } .resCard .inc { font: 700 11px -apple-system, system-ui, sans-serif; color: #9db4e8; }
+  .resCard.ind { border-color: rgba(255,226,122,.55); } .resCard.ind .ic, .resCard.ind .val { color: #ffe27a; }
+  .resCard.man { border-color: rgba(143,224,255,.55); } .resCard.man .ic, .resCard.man .val { color: #8fe0ff; }
+  #flMini { font: 600 12px -apple-system, system-ui, sans-serif; color: #cdd8f5; } #flMini b { color: #fff; }
+  #flHint { padding: 8px 10px; border-radius: 10px; background: rgba(40,80,160,.22); border: 1px solid rgba(124,196,255,.35); font: 600 12px/1.45 -apple-system, system-ui, sans-serif; color: #cdd8f5; }
+  #flHint b { color: #fff; } #flHint .grn { color: #6cf59a; } #flHint .gold { color: #ffbe3c; } #flHint .red { color: #ff7d6e; } #flHint .wht { color: #fff; text-decoration: underline; } #flHint .blue { color: #7fd0ff; }
+  #flTerr { min-height: 1.5em; color: #9db4e8; font-weight: 500; font-size: 11.5px; }
   .flH { margin-top: 6px; font: 800 10.5px -apple-system, system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8fa5d8; }
   #flBar { position: relative; flex: none; height: 16px; border-radius: 8px; overflow: hidden; background: #e04c42; }
   #flBarP { position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: #4084ec; transition: width .3s; }
@@ -259,15 +281,21 @@
   .flEnd { width: 100%; margin-top: 6px; padding: 11px 16px !important; font-size: 14px !important; }
   .flEnd:disabled { opacity: .45; cursor: default; }
   #flLog { flex: 1 1 90px; min-height: 90px; overflow-y: auto; font: 11px/1.4 ui-monospace, Menlo, monospace; color: #aab6d6; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 6px 8px; white-space: pre-wrap; touch-action: pan-y; }
-  .flDiff { font: 700 clamp(12px, 2.1vmin, 16px) -apple-system, system-ui, sans-serif; letter-spacing: .05em; color: #cdd8f5; background: rgba(255,255,255,.07);
-    border: 2px solid rgba(255,255,255,.28); border-radius: 99px; padding: 1.2vmin 2.4vmin; cursor: pointer; touch-action: manipulation; }
-  .flDiff.on { background: #1f6fe0; color: #fff; border-color: #7cc4ff; }
-  .flDiff.ev.on { background: linear-gradient(180deg, #b3262c, #5b1a6b); border-color: #ff9a9a; }
   #fl .ccPanel { z-index: 7; background: radial-gradient(ellipse at 50% 0%, #14224f, #050816 70%); }
-  #flHelpBody { text-align: left; max-width: 660px; max-height: 58vh; overflow-y: auto; color: #a9bbe6; font-size: clamp(12px, 2vmin, 15px); line-height: 1.5; padding-right: 8px; touch-action: pan-y; }
-  #flHelpBody h4 { margin: 12px 0 2px; color: #ffe27a; font-size: .95em; letter-spacing: .1em; text-transform: uppercase; } #flHelpBody p { margin: 0; max-width: none; }
-  #flOverTitle.win { background: linear-gradient(180deg, #fff, #ffe27a 60%, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  #flOverTitle.lose { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .flDiff, .flMode { font: 700 clamp(12px, 2.1vmin, 16px) -apple-system, system-ui, sans-serif; letter-spacing: .05em; color: #cdd8f5; background: rgba(255,255,255,.07);
+    border: 2px solid rgba(255,255,255,.28); border-radius: 99px; padding: 1.2vmin 2.4vmin; cursor: pointer; touch-action: manipulation; }
+  .flDiff.on, .flMode.on { background: #1f6fe0; color: #fff; border-color: #7cc4ff; }
+  .flDiff.ev.on { background: linear-gradient(180deg, #b3262c, #5b1a6b); border-color: #ff9a9a; }
+  #flHelpBody { text-align: left; width: min(94vw, 700px); max-height: 56vh; overflow-y: auto; color: #a9bbe6; font-size: clamp(12px, 2vmin, 15px); line-height: 1.5; padding-right: 8px; touch-action: pan-y; }
+  #flHelpBody h4 { margin: 14px 0 3px; color: #ffe27a; font-size: .95em; letter-spacing: .1em; text-transform: uppercase; } #flHelpBody h4:first-child { margin-top: 0; }
+  #flHelpBody p, #flHelpBody li { margin: 0 0 6px; max-width: none; } #flHelpBody ul, #flHelpBody ol { margin: 0 0 6px; padding-left: 20px; } #flHelpBody b { color: #fff; }
+  .flTabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .flTab { font: 800 12px -apple-system, system-ui, sans-serif; letter-spacing: .06em; color: #cdd8f5; background: rgba(255,255,255,.07); border: 2px solid rgba(255,255,255,.28); border-radius: 99px; padding: 7px 14px; cursor: pointer; touch-action: manipulation; }
+  .flTab.on { background: #1f6fe0; color: #fff; border-color: #7cc4ff; }
+  .flTbl { width: 100%; border-collapse: collapse; margin: 4px 0 8px; font-size: .92em; } .flTbl th { text-align: left; color: #8fa5d8; font-size: .8em; letter-spacing: .08em; text-transform: uppercase; padding: 3px 6px; border-bottom: 1px solid rgba(255,255,255,.15); }
+  .flTbl td { padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,.07); color: #cdd8f5; } .flTbl td:first-child { color: #fff; font-weight: 700; white-space: nowrap; } .flTbl td:nth-child(2) { white-space: nowrap; }
+  #flOverTitle.win, #flPassTitle.blue, #flOverTitle.blue { background: linear-gradient(180deg, #fff, #7fd0ff 60%, #4084ec); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #flOverTitle.lose, #flPassTitle.red, #flOverTitle.red { background: linear-gradient(180deg, #fff, #ff9a9a 60%, #e5484d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 </style>
 </head>
 <body class="home">
@@ -305,7 +333,7 @@
     </button>
   </div>
 </div>
-<div id="ver">v1.0-pre1</div>
+<div id="ver">v1.0-pre2</div>
 <div id="rc">
   <div id="rcStart" class="ccPanel">
     <h2>Raycast Arena</h2>
@@ -313,18 +341,24 @@
     <p class="rcDesk"><b>Move</b> WASD &nbsp;·&nbsp; <b>Run</b> Shift &nbsp;·&nbsp; <b>Look</b> mouse<br><b>Fire</b> click or Space &nbsp;·&nbsp; <b>Weapons</b> 1 / 2 / 3 / Q / wheel<br><b>Pause</b> Esc &nbsp;·&nbsp; <b>Mute</b> M &nbsp;·&nbsp; <b>Sensitivity</b> [ ] &nbsp;·&nbsp; <b>Invert Y</b> I</p>
     <p class="rcTouch"><b>Left thumb</b> move (push to the edge to run)<br><b>Right thumb</b> drag to look up, down and around<br><b>FIRE</b> shoot (drag while holding to aim) &nbsp;·&nbsp; <b>SWAP</b> weapon &nbsp;·&nbsp; <b>II</b> pause<br>Tip: Share, then Add to Home Screen for full screen</p>
     <p id="rcStartBest"></p>
-    <div class="ccRow"><button id="rcPlay" class="ccBtn primary" type="button">Play</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <p id="rcSaveNote" style="font-size:12px;opacity:.7"></p>
+    <div class="ccRow"><button id="rcContinue" class="ccBtn primary" type="button" style="display:none">Continue</button><button id="rcPlay" class="ccBtn" type="button">New game</button><button id="rcStartMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v1.0-pre2</div>
+  </div>
+  <div id="rcWarn" class="ccPanel">
+    <h2>Erase saved game?</h2>
+    <p id="rcWarnMsg"></p>
+    <div class="ccRow"><button id="rcWarnGo" class="ccBtn danger" type="button">Erase save &amp; start</button><button id="rcWarnNo" class="ccBtn" type="button">Cancel</button></div>
   </div>
   <div id="rcPause" class="ccPanel">
     <h2>Paused</h2>
-    <div class="ccRow"><button id="rcResume" class="ccBtn primary" type="button">Resume</button><button id="rcPauseMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccRow"><button id="rcResume" class="ccBtn primary" type="button">Resume</button><button id="rcPauseMenu" class="ccBtn" type="button">Save &amp; Exit</button></div>
   </div>
   <div id="rcOver" class="ccPanel">
     <h2>You died</h2>
     <p id="rcOverStats"></p><p id="rcOverBest"></p>
     <div class="ccRow"><button id="rcAgain" class="ccBtn primary" type="button">Play again</button><button id="rcOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <div class="ccver">v1.0-pre2</div>
   </div>
 </div>
 <div id="si">
@@ -346,7 +380,7 @@
     <p id="siStartBest"></p>
     <p style="font-size:12px;opacity:.7">Your run is saved automatically when you leave, pause or clear a wave. Leaving in the middle of a wave returns you to the start of that wave. Starting a new game erases the saved run.</p>
     <div class="ccRow"><button id="siContinue" class="ccBtn primary" type="button" style="display:none">Continue</button><button id="siPlay" class="ccBtn" type="button">New game</button><button id="siStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <div class="ccver">v1.0-pre2</div>
   </div>
   <div id="siWarn" class="ccPanel">
     <h2>Erase saved run?</h2>
@@ -361,7 +395,7 @@
     <h2 style="background:linear-gradient(180deg,#fff,#ff9a9a 60%,#e5484d);-webkit-background-clip:text;background-clip:text">Earth has fallen</h2>
     <p id="siOverScore"></p><p id="siOverBest"></p><p id="siOverSeed"></p>
     <div class="ccRow"><button id="siAgain" class="ccBtn primary" type="button">Play again</button><button id="siOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <div class="ccver">v1.0-pre2</div>
   </div>
 </div>
 <div id="geo">
@@ -384,7 +418,7 @@
     <div id="geoStartErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="geoPlay" class="ccBtn primary" type="button">Play</button><button id="geoStartMenu" class="ccBtn" type="button">Menu</button></div>
     <p style="font-size:11px;opacity:.65;margin:0">Random places from GeoNames (CC BY 4.0). Some spots may have no Street View imagery; if a round shows none, just place a pin as best you can.</p>
-    <div class="ccver">v1.0-pre1 &middot; needs an internet connection</div>
+    <div class="ccver">v1.0-pre2 &middot; needs an internet connection</div>
   </div>
   <div id="geoOver" class="ccPanel">
     <h2>Final score</h2>
@@ -392,21 +426,24 @@
     <ul id="geoList"></ul>
     <p id="geoOverBest"></p>
     <div class="ccRow"><button id="geoAgain" class="ccBtn primary" type="button">Play again</button><button id="geoOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <div class="ccver">v1.0-pre2</div>
   </div>
 </div>
 <div id="fl">
-  <div id="flMain"><canvas id="flCanvas"></canvas></div>
+  <div id="flMain"><canvas id="flCanvas"></canvas><div id="flHud"></div></div>
   <aside id="flSide">
-    <div class="flHead"><button id="flMenu" class="flBtn sm" type="button">&#10005; MENU</button><h3>Frontline</h3><button id="flHelpBtn" class="flBtn sm" type="button">? HELP</button></div>
-    <div id="flStatus" class="flBox"></div>
-    <div id="flRes" class="flBox"></div>
+    <div class="flHead"><button id="flMenu" class="flBtn sm" type="button">SAVE &amp; EXIT</button><h3>Frontline</h3><button id="flHelpBtn" class="flBtn sm" type="button">? HELP</button></div>
+    <div id="flTurn"></div>
+    <div id="flWx"></div>
+    <div id="flRes"></div>
+    <div id="flMini"></div>
     <div id="flBar"><div id="flBarP"></div><span id="flBarTxt"></span></div>
+    <div id="flHint"></div>
     <div id="flTerr" class="flBox">&nbsp;</div>
-    <div class="flH">Recruit (HQ / supplied cities)</div><div id="flRec" class="flGrp"></div>
-    <div class="flH">Orders</div><div class="flGrp"><button id="flAir" class="flBtn" type="button"></button><button id="flDepot" class="flBtn" type="button"></button></div>
+    <div class="flH">Recruit (next to your HQ / supplied cities)</div><div id="flRec" class="flGrp"></div>
+    <div class="flH">Orders</div><div class="flGrp"><button id="flAir" class="flBtn two" type="button"></button><button id="flDepot" class="flBtn two" type="button"></button></div>
     <div class="flH">Research</div><div id="flTech" class="flGrp"></div>
-    <div class="flH">Selected</div><div id="flInfo" class="flBox"></div>
+    <div class="flH">Selected unit</div><div id="flInfo" class="flBox"></div>
     <button id="flEnd" class="ccBtn primary flEnd" type="button">End turn &middot; Space</button>
     <div class="flRow"><button id="flNew" class="flBtn sm" type="button">New game</button><button id="flSupply" class="flBtn sm" type="button">Supply [S]</button><button id="flCancel" class="flBtn sm" type="button">Cancel</button></div>
     <div id="flLog"></div>
@@ -418,28 +455,112 @@
     <div><label for="flDevPw">Developer password</label><input id="flDevPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
     <div id="flDevErr" class="ccErr" role="alert"></div>
     <div class="ccRow"><button id="flDevOk" class="ccBtn primary" type="button">Unlock</button><button id="flDevCancel" class="ccBtn" type="button">Cancel</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <div class="ccver">v1.0-pre2</div>
   </div>
   <div id="flStart" class="ccPanel">
     <h2>Frontline</h2>
-    <p>A turn-based war on a shifting frontline. Capture the enemy headquarters, or cut their supply lines and starve their army. Choose the enemy's skill level:</p>
-    <div class="siDiffRow"><button class="flDiff" data-d="0" type="button">Easy</button><button class="flDiff" data-d="1" type="button">Medium</button><button class="flDiff ev" data-d="2" type="button">Hard</button></div>
+    <p>A turn-based war on a shifting frontline. Capture the enemy headquarters, or cut their supply lines and starve their army.</p>
+    <div class="siDiffRow"><button class="flMode" data-m="bot" type="button">vs Bot</button><button class="flMode" data-m="duo" type="button">1v1 (same device)</button></div>
+    <div id="flDiffRow" class="siDiffRow"><button class="flDiff" data-d="0" type="button">Easy</button><button class="flDiff" data-d="1" type="button">Medium</button><button class="flDiff ev" data-d="2" type="button">Hard</button></div>
     <p id="flDiffDesc"></p>
-    <p><b>Mouse</b> &nbsp;click a unit, then a tile to move or an enemy to attack. Right-click or Esc cancels<br><b>Touch</b> &nbsp;tap to select, move and attack, use the Cancel button to deselect<br><b>Keys</b> &nbsp;Space end turn, 1-4 recruit, A airstrike, D depot, S supply overlay</p>
-    <div class="ccRow"><button id="flStartGo" class="ccBtn primary" type="button">Start</button><button id="flStartCancel" class="ccBtn" type="button" style="display:none">Cancel</button><button id="flStartMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <p><b>Mouse</b> &nbsp;click a unit, then a tile to move or an enemy to attack. Right-click or Esc cancels<br><b>Touch</b> &nbsp;tap to select, move and attack, use Cancel to deselect<br><b>Keys</b> &nbsp;Space end turn, 1-4 recruit, A airstrike, D depot, S supply overlay</p>
+    <p style="font-size:12px;opacity:.7">Your game is saved automatically at the start of every turn. Leaving mid-turn returns you to the start of that turn. Starting a new game erases the saved one.</p>
+    <div class="ccRow"><button id="flContinue" class="ccBtn primary" type="button" style="display:none">Continue</button><button id="flStartGo" class="ccBtn" type="button">New game</button><button id="flStartCancel" class="ccBtn" type="button" style="display:none">Cancel</button><button id="flStartMenu" class="ccBtn" type="button">Menu</button></div>
+    <div class="ccver">v1.0-pre2</div>
+  </div>
+  <div id="flWarn" class="ccPanel">
+    <h2>Erase saved game?</h2>
+    <p id="flWarnMsg"></p>
+    <div class="ccRow"><button id="flWarnGo" class="ccBtn danger" type="button">Erase save &amp; start</button><button id="flWarnNo" class="ccBtn" type="button">Cancel</button></div>
+  </div>
+  <div id="flPass" class="ccPanel">
+    <h2 id="flPassTitle"></h2>
+    <p id="flPassMsg"></p>
+    <div class="ccRow"><button id="flPassGo" class="ccBtn primary" type="button">Start my turn</button></div>
   </div>
   <div id="flHelp" class="ccPanel">
     <h2>How to play</h2>
+    <div class="flTabs"><button class="flTab on" data-tab="basics" type="button">Basics</button><button class="flTab" data-tab="units" type="button">Units &amp; terrain</button><button class="flTab" data-tab="combat" type="button">Combat &amp; supply</button><button class="flTab" data-tab="tips" type="button">Tips &amp; keys</button></div>
     <div id="flHelpBody">
-      <h4>Goal</h4><p>Capture the enemy headquarters (the star), or annihilate their army. There is no round limit: the game continues until one side wins.</p>
-      <h4>The frontline</h4><p>The yellow line is the border between the two sides' control. It is computed continuously from the strength and position of every unit and owned structure, so it flows as units move. Push one unit far ahead and the line bulges around it, a salient. Salients gain ground but are exposed: if the enemy closes the neck behind it, the units inside are encircled.</p>
-      <h4>Supply &amp; encirclement</h4><p>Supply flows out of your HQ, cities and depots through ground you control (blue), and is blocked by enemy units and their zones of control. A unit with no supply route is CUT OFF (red !): it loses HP each turn, fights at -30%, moves slower, and can no longer heal or dig in. Only supplied structures give income. Toggle the supply overlay with S. Logistics research and forward depots extend your range.</p>
-      <h4>Your turn</h4><p>Select a unit, click a highlighted tile to move, click a red-framed enemy to attack. Units may move and then attack (artillery must stay still to fire, range 2). Entering a tile next to an enemy ends your movement (zone of control). Spend resources to recruit (new units appear at HQ/cities and act next turn), research upgrades, build depots, or call an airstrike.</p>
-      <h4>Combat</h4><p>Damage depends on unit type, HP, terrain (forest, hills and mountains help the defender), digging in (+12% per turn stationary, max 3), supply, weather and flanking: each other friendly unit adjacent to the target adds +20% (max +60%). Overwhelmed defenders retreat; a defender with no retreat square is TRAPPED and takes extra damage. A winning melee attacker advances into the vacated tile.</p>
-      <h4>Economy</h4><p>Each round you earn Industry and Manpower from structures that are supplied (HQ 5/4, City 2/3, Factory 5/1). Upkeep costs 0.3 Industry per unit. Healing consumes Manpower. Neutral structures in the centre are up for grabs: move a unit onto them.</p>
-      <h4>Weather</h4><p>Every few rounds: Rain (armor -1 move, air weaker) or Snow (everyone -1 move).</p>
-      <h4>Difficulty</h4><p>Easy: unfocused, rarely coordinates, 80% income. Medium: weighs objectives, terrain, danger and supply. Hard: simulates the effect of each candidate move on the frontline and on supply (it hunts encirclements and avoids being cut off), builds depots, researches, uses air support, +15% income.</p>
+      <div id="flHelp_basics" class="flHelpPane">
+        <h4>The goal</h4><p>Capture the enemy <b>headquarters</b> (the star) or destroy their whole army. There is no round limit.</p>
+        <h4>Your first turn in 4 steps</h4>
+        <ol><li><b>Recruit</b>: the Recruit buttons cost <b>Industry</b> and <b>Manpower</b>. New units appear on green tiles next to your HQ or a supplied city and can act next turn.</li>
+        <li><b>Select</b> a blue unit. White tiles show where it can move, a red frame shows an enemy it can hit right now, and an orange dashed frame shows an enemy it can reach this turn: one click moves in and attacks.</li>
+        <li><b>Move and attack</b>. A unit can move and then attack. Artillery cannot move and fire in the same turn.</li>
+        <li>Press <b>End turn</b> (Space). The enemy moves, then it is your turn again.</li></ol>
+        <h4>Reading the map</h4>
+        <ul><li><b>Blue / red tint</b> shows who controls the ground. The <b>yellow line</b> is the frontline between the two.</li>
+        <li>Units: <b>X</b> infantry, <b>oval</b> armor, <b>dot</b> artillery, <b>slash</b> recon. The bar under a unit is its health (HP). Small yellow ticks above it show how dug in it is.</li>
+        <li>Structures: <b>star</b> headquarters, <b>buildings</b> city, <b>factory</b>, and a <b>crate with an X</b> for a forward depot. Grey ones are neutral and up for grabs in the middle.</li>
+        <li>A <b>red !</b> on a unit means it is <b>cut off</b> from supply (see Combat &amp; supply).</li></ul>
+        <h4>Resources</h4>
+        <ul><li><b>Industry</b> pays for recruiting, research, depots and airstrikes. <b>Manpower</b> pays for recruiting and for healing wounded units.</li>
+        <li>At the start of each of your turns you receive income from every <b>supplied</b> structure: Headquarters +5 industry / +4 manpower, City +2 / +3, Factory +5 / +1. Each unit costs 0.3 industry upkeep.</li>
+        <li>Your current amounts and income are always shown in the two big cards at the top of the sidebar and on the map.</li></ul>
+        <h4>Taking structures</h4><p>Move a unit onto a structure to capture it. Capturing is not free: the unit <b>loses HP</b> (city 7, factory 8, depot 4), even when nobody defends it. The HQ is the winning prize and costs nothing.</p>
+        <h4>Game modes</h4><p><b>vs Bot</b> has three difficulties. <b>1v1 (same device)</b> lets two people take turns; a screen asks you to pass the device between turns. Your game is saved at the start of every turn.</p>
+      </div>
+      <div id="flHelp_units" class="flHelpPane" style="display:none">
+        <h4>Units</h4>
+        <table class="flTbl"><tr><th>Unit</th><th>Cost</th><th>ATK</th><th>DEF</th><th>Move</th><th>Range</th><th>Role</th></tr>
+        <tr><td>Infantry</td><td>8 I, 10 M</td><td>10</td><td>12</td><td>2</td><td>1</td><td>Cheap, tough. Holds the line.</td></tr>
+        <tr><td>Armor</td><td>18 I, 6 M</td><td>18</td><td>9</td><td>4</td><td>1</td><td>Strong attacker, fast, weak defender. Slower in forest and hills.</td></tr>
+        <tr><td>Artillery</td><td>14 I, 6 M</td><td>15</td><td>4</td><td>2</td><td>2</td><td>Hits from 2 tiles away but must stay still to fire. Fragile, keep it behind infantry.</td></tr>
+        <tr><td>Recon</td><td>6 I, 4 M</td><td>6</td><td>6</td><td>5</td><td>1</td><td>Very fast and cheap. Good for grabbing neutral cities and flanking.</td></tr></table>
+        <p>I = industry, M = manpower. A wounded unit fights worse: strength scales with its HP.</p>
+        <h4>Terrain</h4>
+        <table class="flTbl"><tr><th>Terrain</th><th>Defence</th><th>Move cost</th></tr>
+        <tr><td>Plains</td><td>x1.0</td><td>1</td></tr><tr><td>Forest</td><td>x1.3</td><td>2 (3 for armor / recon)</td></tr><tr><td>Hills</td><td>x1.45</td><td>2 (3 for armor / recon)</td></tr>
+        <tr><td>Mountains</td><td>x1.7</td><td>impassable</td></tr><tr><td>Water</td><td>-</td><td>impassable</td></tr></table>
+        <p>Defending on forest or hills makes a unit much harder to kill. Mountains and water block movement and supply, so they shape the battlefield.</p>
+        <h4>Structures</h4>
+        <table class="flTbl"><tr><th>Structure</th><th>Income</th><th>Notes</th></tr>
+        <tr><td>Headquarters</td><td>+5 I, +4 M</td><td>Supply range 22. Lose it and you lose the game.</td></tr>
+        <tr><td>City</td><td>+2 I, +3 M</td><td>Supply range 14. You can recruit next to it. Units healing here recover extra HP. Capturing costs 7 HP.</td></tr>
+        <tr><td>Factory</td><td>+5 I, +1 M</td><td>No supply range of its own. Capturing costs 8 HP.</td></tr>
+        <tr><td>Forward depot</td><td>-</td><td>Costs 12 industry. Select a unit that is supplied, then press Depot. Supply range 12. You may own 4. Capturing one costs 4 HP.</td></tr></table>
+        <h4>Movement</h4><p>Units move in 8 directions and pay the terrain cost of every tile. A unit that steps next to an enemy is caught in its <b>zone of control</b> and must stop there. You cannot walk through enemy units.</p>
+      </div>
+      <div id="flHelp_combat" class="flHelpPane" style="display:none">
+        <h4>How combat works</h4>
+        <p>Click an enemy in range (red frame). The attacker's strength is compared with the defender's strength and both take damage. The number on the frame is the expected damage to the target. These things matter:</p>
+        <ul><li><b>Unit type and HP</b>: wounded units hit and defend worse.</li>
+        <li><b>Terrain</b>: defenders on forest, hills or mountains take much less damage.</li>
+        <li><b>Digging in</b>: a unit that stays put (no move, no attack) gains +12% defence per turn, up to 3 ticks.</li>
+        <li><b>Flanking</b>: every other friendly unit adjacent to the target adds +20% damage (up to +60%). Surround targets!</li>
+        <li><b>Supply</b>: cut-off attackers deal 30% less damage and cut-off defenders defend 25% worse.</li>
+        <li><b>Research</b>: Firepower and Fortification each add +12% per level (max level 3).</li>
+        <li><b>Weather</b>: rain and snow weaken attacks a little.</li></ul>
+        <h4>Retreat, trapped and advancing</h4><p>A badly outmatched defender <b>falls back</b> one tile. If it has no free tile to retreat to it is <b>TRAPPED</b> and takes extra damage. When a melee attacker wins, it <b>advances</b> into the empty tile.</p>
+        <h4>Move + attack in one click</h4><p>When a unit is selected, enemies that are just outside its current range but reachable this turn get an <b>orange dashed frame</b>. Click one and the unit moves to the best tile next to it and attacks. Artillery cannot do this because it cannot move and fire.</p>
+        <h4>Airstrikes</h4><p>Costs <b>15 industry</b> and has a 4-turn cooldown. Pick an enemy unit: it takes <b>34 damage</b>, enemies on the 8 tiles around it take <b>14</b> and enemies two tiles away take <b>7</b>. Rain and snow weaken it. Great for finishing wounded units or breaking up a cluster.</p>
+        <h4>Supply and encirclement</h4>
+        <p>Supply flows out of your HQ, cities and depots along ground <b>you control</b> (blue). Enemy units and the tiles next to them block it. Press <b>S</b> to see the supply overlay.</p>
+        <p>A unit with no supply route is <b>CUT OFF</b> (red !). Every turn it loses HP, moves 1 less, fights at -30%, defends at -25% and can neither heal nor dig in. Structures that are cut off give you no income.</p>
+        <p>This is how battles are won: push a unit forward and the frontline bulges into a <b>salient</b>. If the enemy closes the neck behind it, everything inside is encircled and withers. Do not overextend, and look for enemy salients to cut off.</p>
+        <h4>Research</h4>
+        <ul><li><b>Firepower</b>: +12% attack per level.</li><li><b>Fortification</b>: +12% defence per level.</li><li><b>Logistics</b>: +3 supply range per level and less damage from being cut off.</li></ul>
+        <h4>Weather</h4><p>Every few rounds the weather changes. <b>Rain</b>: armor loses 1 move, airstrikes are 50% weaker, attacks -10%. <b>Snow</b>: every unit loses 1 move, airstrikes -30%, attacks -15%.</p>
+        <h4>Healing</h4><p>Supplied units that did not attack heal each turn (more if they did not move, more in a friendly HQ or city). Healing costs manpower.</p>
+      </div>
+      <div id="flHelp_tips" class="flHelpPane" style="display:none">
+        <h4>Beginner tips</h4>
+        <ul><li>Spend your starting industry on a few more infantry and a couple of artillery. Keep research for when you have spare industry.</li>
+        <li>Grab the neutral cities and factories in the middle early: they raise your income. Use cheap recon units, they lose less value to the capture cost.</li>
+        <li>Keep your units together. A lone unit far ahead of the line is a salient waiting to be encircled.</li>
+        <li>Put infantry in forest or hills in front and artillery one tile behind. Dig in on defence.</li>
+        <li>Attack with several units at the same target: flanking bonuses add up fast.</li>
+        <li>Watch for the <b>red !</b>. If your units are cut off, retake the ground behind them or build a depot nearby.</li>
+        <li>Check your income every turn. If it drops, one of your structures is cut off.</li>
+        <li>On Hard, the bot hunts encirclements. Protect your supply lines and your HQ.</li></ul>
+        <h4>Controls</h4>
+        <table class="flTbl"><tr><th>Action</th><th>Mouse / keyboard</th><th>Touch</th></tr>
+        <tr><td>Select / move / attack</td><td>Click</td><td>Tap</td></tr><tr><td>Cancel</td><td>Right-click or Esc</td><td>Cancel button</td></tr>
+        <tr><td>End turn</td><td>Space or Enter</td><td>End turn button</td></tr><tr><td>Recruit</td><td>1 2 3 4</td><td>Recruit buttons</td></tr>
+        <tr><td>Airstrike / depot</td><td>A / D</td><td>Order buttons</td></tr><tr><td>Supply overlay</td><td>S</td><td>Supply button</td></tr></table>
+        <h4>Saving</h4><p>The game saves at the start of every turn. <b>Save &amp; Exit</b> (top of the sidebar) leaves the game; choose <b>Continue</b> on the start screen to resume from the start of that turn. Starting a new game erases the saved one.</p>
+      </div>
     </div>
     <div class="ccRow"><button id="flHelpClose" class="ccBtn primary" type="button">Close</button></div>
   </div>
@@ -447,7 +568,7 @@
     <h2 id="flOverTitle"></h2>
     <p id="flOverMsg"></p>
     <div class="ccRow"><button id="flOverNew" class="ccBtn primary" type="button">New game</button><button id="flOverView" class="ccBtn" type="button">View map</button><button id="flOverMenu" class="ccBtn" type="button">Menu</button></div>
-    <div class="ccver">v1.0-pre1</div>
+    <div class="ccver">v1.0-pre2</div>
   </div>
 </div>
 <div id="wrap"><canvas id="game" tabindex="0"></canvas></div>
@@ -460,7 +581,7 @@
 
 <script>
 /* =====================================================================
- *  COMETBOUND GAMES v1.0-pre1  -  home menu + RAYCAST ARENA (FPS) + COMET INVADERS + COMETGUESSR + FRONTLINE, one HTML file.
+ *  COMETBOUND GAMES v1.0-pre2  -  home menu + RAYCAST ARENA (FPS) + COMET INVADERS + COMETGUESSR + FRONTLINE, one HTML file.
  *
  *  Desktop : WASD move, mouse look (click to capture), click/Space fire,
  *            1/2/3/Q/wheel weapons, Shift run, [ ] sensitivity, I invert Y,
@@ -828,10 +949,10 @@ function rotate(a) {
 function addPitch(v) { pitch = Math.max(-PITCH_MAX, Math.min(PITCH_MAX, pitch + v)); }
 
 // ------------------------------------------------------------------ game logic
-function startGame() { reset(); state = ST_PLAY; paused = false; capture(true); syncBody(); }
+function startGame() { reset(); rayRun = Date.now() * 1000 + Math.floor(Math.random() * 1000); raySnap = null; rcWarnOpen = false; state = ST_PLAY; paused = false; capture(true); syncBody(); }
 function pause() {
   if (state !== ST_PLAY || paused) return;
-  paused = true; pausedAt = performance.now(); mouseDown = false; touchFire = false; joyX = joyY = 0;
+  paused = true; saveRay(); pausedAt = performance.now(); mouseDown = false; touchFire = false; joyX = joyY = 0;
   if (document.pointerLockElement) document.exitPointerLock();
   syncBody();
 }
@@ -840,11 +961,47 @@ function capture(on) {
     try { const p = cvs.requestPointerLock(); if (p && p.catch) p.catch(() => {}); } catch (e) { /* ignore */ }
   }
 }
-const rcPanels = { start: document.getElementById('rcStart'), pause: document.getElementById('rcPause'), over: document.getElementById('rcOver') };
+// ---- save / continue (same idea as Comet Invaders): the run is stored whenever you leave, pause or close the tab.
+// Leaving in the middle of a wave returns you to the checkpoint taken just before that wave began, so nothing earned during
+// the wave (ammo, health, score, kills) is kept and it cannot be farmed by leaving and re-entering.
+let raySnap = null, rayRun = 0, rcWarnOpen = false;
+function buildRaySave(w) {
+  return { v: 1, run: rayRun, wave: w, score, kills, hp: Math.round(hp), armor: Math.round(armor), ammo, weapon, rocketUnlocked, pos: [posX, posY], dir: [dirX, dirY], plane: [planeX, planeY], pitch,
+    pickups: ents.filter(e => !e.remove && (e.type === T_HEALTH || e.type === T_AMMO || e.type === T_ARMOR)).map(e => ({ t: e.type, x: e.x, y: e.y })), at: Date.now() };
+}
+function saveRay() {
+  if (state !== ST_PLAY) return;
+  try { localStorage.setItem('ra.save', JSON.stringify(waveActive && raySnap ? raySnap : buildRaySave(wave))); } catch (e) { /* storage unavailable */ }
+}
+function loadRaySave() {
+  try { const sv = JSON.parse(localStorage.getItem('ra.save') || 'null'); return sv && sv.v === 1 && sv.wave >= 0 && Array.isArray(sv.pickups) ? sv : null; } catch (e) { return null; }
+}
+function clearRaySave() { try { localStorage.removeItem('ra.save'); } catch (e) { /* ignore */ } }
+function requestNewRay() {
+  const sv = loadRaySave();
+  if (!sv) { startGame(); return; }
+  document.getElementById('rcWarnMsg').textContent = 'You have a saved game (wave ' + (sv.wave + 1) + ', score ' + sv.score + '). Starting a new game will permanently erase it.';
+  rcWarnOpen = true; syncBody();
+}
+function continueRay() {
+  const sv = loadRaySave(); if (!sv) return;
+  reset();
+  wave = sv.wave; score = sv.score | 0; kills = sv.kills | 0; hp = Math.min(100, Math.max(1, sv.hp | 0)); armor = Math.min(100, Math.max(0, sv.armor | 0)); ammo = Math.min(99, Math.max(0, sv.ammo | 0));
+  weapon = sv.weapon | 0; rocketUnlocked = !!sv.rocketUnlocked; posX = sv.pos[0]; posY = sv.pos[1]; dirX = sv.dir[0]; dirY = sv.dir[1]; planeX = sv.plane[0]; planeY = sv.plane[1]; pitch = sv.pitch || 0;
+  ents = sv.pickups.map(p => newEnt(p.t, p.x, p.y)); computeFlow();
+  waveActive = false; waveTimer = 2.5; banner = 'GAME RESTORED  ·  WAVE ' + (wave + 1) + ' NEXT'; bannerT = 2.5;
+  rayRun = sv.run; raySnap = null; rcWarnOpen = false; state = ST_PLAY; paused = false; capture(true); syncBody();
+}
+const rcPanels = { start: document.getElementById('rcStart'), pause: document.getElementById('rcPause'), over: document.getElementById('rcOver'), warn: document.getElementById('rcWarn') };
 function syncPanels() {
-  const show = inHome ? null : state === ST_TITLE ? 'start' : state === ST_DEAD ? 'over' : paused ? 'pause' : null;
+  const show = inHome ? null : rcWarnOpen ? 'warn' : state === ST_TITLE ? 'start' : state === ST_DEAD ? 'over' : paused ? 'pause' : null;
   for (const k in rcPanels) rcPanels[k].classList.toggle('show', k === show);
-  if (show === 'start') document.getElementById('rcStartBest').textContent = highScore ? 'Best score ' + highScore : '';
+  if (show === 'start') {
+    document.getElementById('rcStartBest').textContent = highScore ? 'Best score ' + highScore : '';
+    const sv = loadRaySave(), cb = document.getElementById('rcContinue'); cb.style.display = sv ? '' : 'none';
+    if (sv) cb.textContent = 'Continue · Wave ' + (sv.wave + 1);
+    document.getElementById('rcSaveNote').textContent = sv ? 'Your run is saved automatically. Leaving mid-wave returns you to the start of that wave. A new game erases the save.' : '';
+  }
   if (show === 'over') {
     document.getElementById('rcOverStats').textContent = 'Score ' + score + '   ·   Kills ' + kills + '   ·   Wave ' + wave;
     document.getElementById('rcOverBest').textContent = (score >= highScore && score > 0 ? 'New best! ' : 'Best ') + highScore;
@@ -860,6 +1017,7 @@ function spawnEnemy(x, y, kind) {
   ents.push(e);
 }
 function spawnWave() {
+  raySnap = buildRaySave(wave);                                    // checkpoint just before the wave starts
   wave++;
   const n = Math.min(3 + wave * 2, 18);
   const brutes = wave >= 3 ? Math.min((wave - 1) >> 1, Math.floor(n / 3)) : 0;
@@ -890,6 +1048,7 @@ function hurtPlayer(d) {
   play(S.HURT);
   if (hp <= 0) {
     hp = 0; state = ST_DEAD; mouseDown = false; touchFire = false;
+    { const sv0 = loadRaySave(); if (sv0 && sv0.run === rayRun) clearRaySave(); }
     if (document.pointerLockElement) document.exitPointerLock();
     saveScore(); syncBody();
   }
@@ -1371,6 +1530,7 @@ function showGame() {
   lastT = performance.now();
 }
 function goHome() {
+  saveRay(); rcWarnOpen = false;
   if (document.pointerLockElement) document.exitPointerLock();
   state = ST_TITLE; paused = false; mouseDown = false; touchFire = false; joyX = joyY = 0;
   ptrs.clear(); joyBase.style.display = joyKnob.style.display = 'none'; btnFire.classList.remove('down');
@@ -1385,7 +1545,8 @@ function activate() {
     const el = document.documentElement, rf = el.requestFullscreen || el.webkitRequestFullscreen;
     if (rf && !document.fullscreenElement && !document.webkitFullscreenElement) { try { const p = rf.call(el); if (p && p.catch) p.catch(() => {}); } catch (e) { /* ignore */ } }
   }
-  if (state === ST_TITLE || state === ST_DEAD) startGame();
+  if (rcWarnOpen) return;
+  if (state === ST_TITLE || state === ST_DEAD) requestNewRay();
   else if (paused) { paused = false; capture(true); syncBody(); }
 }
 
@@ -1397,7 +1558,8 @@ window.addEventListener('keydown', e => {
   switch (e.code) {
     case 'Enter': activate(); break;
     case 'Escape':
-      if (state === ST_PLAY && !paused) pause();
+      if (rcWarnOpen) { rcWarnOpen = false; syncBody(); }
+      else if (state === ST_PLAY && !paused) pause();
       else if (performance.now() - pausedAt > 400) goHome();
       break;
     case 'KeyM': soundOn = !soundOn; toast('SOUND ' + (soundOn ? 'ON' : 'OFF')); break;
@@ -1519,6 +1681,10 @@ function frame(now) {
 }
 document.getElementById('cardRay').addEventListener('click', showGame);
 for (const id of ['rcPlay', 'rcResume', 'rcAgain']) document.getElementById(id).addEventListener('click', e => { e.stopPropagation(); activate(); });
+document.getElementById('rcContinue').addEventListener('click', e => { e.stopPropagation(); initAudio(); continueRay(); });
+document.getElementById('rcWarnGo').addEventListener('click', e => { e.stopPropagation(); clearRaySave(); initAudio(); startGame(); });
+document.getElementById('rcWarnNo').addEventListener('click', e => { e.stopPropagation(); rcWarnOpen = false; syncBody(); });
+window.addEventListener('pagehide', () => { if (state === ST_PLAY) saveRay(); });
 for (const id of ['rcStartMenu', 'rcPauseMenu', 'rcOverMenu']) document.getElementById(id).addEventListener('click', e => { e.stopPropagation(); goHome(); });
 reset();
 syncBody();
@@ -2593,7 +2759,7 @@ document.getElementById('cardInvaders').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  COMETGUESSR  v1.0-pre1  -  guess where you are from Google Street View
+ *  COMETGUESSR  v1.0-pre2  -  guess where you are from Google Street View
  *
  *  Street View is shown through Google's embeddable viewer (Google Earth itself refuses
  *  to be embedded in other pages; this is the same imagery). The guess map uses Leaflet
@@ -2869,7 +3035,7 @@ document.getElementById('cardGeo').addEventListener('click', () => {
 </script>
 <script>
 /* =====================================================================================
- *  FRONTLINE  v1.0-pre1  -  turn-based strategy on a flowing frontline (ported from the Java original)
+ *  FRONTLINE  v1.0-pre2  -  turn-based strategy on a flowing frontline (ported from the Java original)
  *
  *  The frontline is the zero-contour of an influence field summed from every unit and every owned structure,
  *  recomputed every frame from the units' rendered positions. Supply flows only through friendly-controlled ground,
@@ -2880,6 +3046,7 @@ const FL = (() => {
 // ------------------------------------------------------------------ data
 const W = 46, H = 30, RES = 3, P = 0, B = 1, BIG = 1 << 28;
 const AIR_COST = 15, DEPOT_COST = 12;
+const AIR_DMG = 34, AIR_SPLASH1 = 14, AIR_SPLASH2 = 7;           // airstrike: centre / adjacent tiles / two tiles away
 const DIFF = ['Easy', 'Medium', 'Hard'];
 const TECH = ['Firepower', 'Fortification', 'Logistics'];
 const TECH_DESC = ['+12% attack / level', '+12% defence / level', '+3 supply range, less attrition'];
@@ -2899,12 +3066,15 @@ for (const k in TERR) TERR[k].passable = TERR[k].cost < 50;
 const mkU = (o, label, ind, man, mp, atk, def, range, infl) => ({ o, label, ind, man, mp, atk, def, range, infl });
 const UT = { INF: mkU(0, 'Infantry', 8, 10, 2, 10, 12, 1, 1.0), ARMOR: mkU(1, 'Armor', 18, 6, 4, 18, 9, 1, 1.1), ART: mkU(2, 'Artillery', 14, 6, 2, 15, 4, 2, 0.8), RECON: mkU(3, 'Recon', 6, 4, 5, 6, 6, 1, 0.7) };
 const UTYPES = [UT.INF, UT.ARMOR, UT.ART, UT.RECON];
-const NT = { HQ: { label: 'Headquarters', ind: 5, man: 4, range: 22, infl: 1.6 }, CITY: { label: 'City', ind: 2, man: 3, range: 14, infl: 1.0 }, FACTORY: { label: 'Factory', ind: 5, man: 1, range: 0, infl: 0.8 }, DEPOT: { label: 'Depot', ind: 0, man: 0, range: 12, infl: 0.5 } };
+// cap = HP the capturing unit loses when it takes the structure, so even undefended ones are not free
+const NT = { HQ: { label: 'Headquarters', ind: 5, man: 4, range: 22, infl: 1.6, cap: 0 }, CITY: { label: 'City', ind: 2, man: 3, range: 14, infl: 1.0, cap: 7 }, FACTORY: { label: 'Factory', ind: 5, man: 1, range: 0, infl: 0.8, cap: 8 }, DEPOT: { label: 'Depot', ind: 0, man: 0, range: 12, infl: 0.5, cap: 4 } };
 const WX = {
   CLEAR: { label: 'Clear', atk: 1, air: 1, pen: () => 0 },
   RAIN: { label: 'Rain (armor -1 MP, air -50%)', atk: 0.9, air: 0.5, pen: t => t === UT.ARMOR ? 1 : 0 },
   SNOW: { label: 'Snow (all -1 MP, air -30%)', atk: 0.85, air: 0.7, pen: () => 1 },
 };
+
+const NT_KEYS = Object.keys(NT), WX_KEYS = Object.keys(WX), TERR_BY_ID = Object.values(TERR).sort((a, b) => a.id - b.id);
 
 class PQ {                                                                  // small binary heap
   constructor(less) { this.a = []; this.less = less; }
@@ -2925,8 +3095,10 @@ class Node { constructor(t, x, y, owner) { this.t = t; this.x = x; this.y = y; t
 
 // ------------------------------------------------------------------ game model
 class Game {
-  constructor(seed, diff) {
-    this.rnd = mulberry(seed >>> 0); this.diff = diff;
+  constructor(seed, diff, duo, sv) {
+    this.rng = { s: seed >>> 0 };                                                   // mulberry32; its state is saved so a restored game plays out identically
+    this.rnd = () => { let t = (this.rng.s = (this.rng.s + 0x6D2B79F5) | 0); t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    this.diff = diff; this.duo = !!duo;
     this.ter = grid2(TERR.PLAIN); this.grid = grid2(null);
     this.units = []; this.ghosts = []; this.nodes = [];
     this.ind = [0, 0]; this.man = [0, 0]; this.airCd = [0, 0]; this.tech = [[0, 0, 0], [0, 0, 0]]; this.incMul = [1, 1];
@@ -2934,11 +3106,31 @@ class Game {
     this.sup = [0, 1].map(() => Array.from({ length: W }, () => new Uint8Array(H)));
     this.wx = WX.CLEAR; this.round = 1; this.turn = P; this.winner = -1; this.endReason = '';
     this.logs = []; this.fx = []; this.fxOn = true;
+    if (sv) { this.load(sv); return; }
     this.genMap(); this.setup(); this.recompute();
-    this.say('Round 1 begins. Capture the enemy HQ - or cut their supply and starve them out.');
+    this.say(this.duo ? 'Round 1 begins. Blue (Player 1) moves first. Capture the other HQ, or cut their supply.' : 'Round 1 begins. Capture the enemy HQ - or cut their supply and starve them out.');
     this.startTurn(P);
   }
+  sn(s) { return this.duo ? (s === P ? 'Blue' : 'Red') : (s === P ? 'You' : 'Enemy'); }      // "You" / "Enemy"  or  "Blue" / "Red"
+  pn(s) { return this.duo ? (s === P ? 'Blue' : 'Red') : (s === P ? 'Your' : 'Enemy'); }     // possessive form: "Your" / "Enemy"
   say(s) { this.logs.push(s); }
+  serialize() {
+    return {
+      v: 1, diff: this.diff, duo: this.duo, rng: this.rng.s, round: this.round, turn: this.turn, winner: this.winner, endReason: this.endReason, wx: WX_KEYS.find(k => WX[k] === this.wx),
+      ter: this.ter.map(col => col.map(t => t.id)), ind: this.ind.slice(), man: this.man.slice(), airCd: this.airCd.slice(), tech: this.tech.map(a => a.slice()), incMul: this.incMul.slice(),
+      units: this.units.map(u => ({ t: u.t.o, side: u.side, x: u.x, y: u.y, hp: u.hp, mp: u.mp, entr: u.entr, moved: u.moved, attacked: u.attacked, fresh: u.fresh })),
+      nodes: this.nodes.map(n => ({ t: NT_KEYS.find(k => NT[k] === n.t), x: n.x, y: n.y, owner: n.owner })), logs: this.logs.slice(-40),
+    };
+  }
+  load(sv) {
+    this.round = sv.round; this.turn = sv.turn; this.winner = sv.winner; this.endReason = sv.endReason || ''; this.wx = WX[sv.wx] || WX.CLEAR;
+    for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) this.ter[x][y] = TERR_BY_ID[sv.ter[x][y]] || TERR.PLAIN;
+    this.ind = sv.ind.slice(); this.man = sv.man.slice(); this.airCd = sv.airCd.slice(); this.tech = sv.tech.map(a => a.slice()); this.incMul = sv.incMul.slice();
+    for (const o of sv.units) { const u = new Unit(UTYPES[o.t], o.side, o.x, o.y); u.hp = u.vhp = o.hp; u.mp = o.mp; u.entr = o.entr; u.moved = o.moved; u.attacked = o.attacked; u.fresh = o.fresh; this.addUnit(u, 1); }
+    for (const o of sv.nodes) this.nodes.push(new Node(NT[o.t], o.x, o.y, o.owner));
+    this.logs = (sv.logs || []).slice(); this.say('--- Game restored ---');
+    this.recompute();
+  }
   ri(n) { return Math.floor(this.rnd() * n); }
 
   // ---- map generation (point-symmetric so both sides are fair)
@@ -3082,9 +3274,11 @@ class Game {
     const n = this.nodeAt(x, y);
     if (n && n.owner !== u.side) {
       n.owner = u.side;
-      this.say((u.side === P ? 'You capture ' : 'Enemy captures ') + n.t.label + '.');
-      this.addFx(0, x + .5, y - .1, 0, 0, 'Captured!', SIDE_COL[u.side], 55);
-      if (n.t === NT.HQ) { this.winner = u.side; this.endReason = (u.side === P ? 'You captured' : 'The enemy captured') + ' the ' + (u.side === P ? 'enemy' : 'your') + ' headquarters.'; }
+      const cost = Math.min(n.t.cap, Math.max(0, u.hp - 1));                           // taking a structure costs HP (never fatal), even if nobody defends it
+      if (cost > 0) u.hp -= cost;
+      this.say(this.sn(u.side) + ' captured the ' + n.t.label + (cost > 0 ? ' (' + this.pn(u.side).toLowerCase() + ' ' + u.t.label + ' lost ' + cost + ' HP).' : '.'));
+      this.addFx(0, x + .5, y - .1, 0, 0, 'Captured!' + (cost > 0 ? ' -' + cost : ''), SIDE_COL[u.side], 60);
+      if (n.t === NT.HQ) { this.winner = u.side; this.endReason = this.duo ? (u.side === P ? 'Blue' : 'Red') + ' captured the ' + (u.side === P ? 'Red' : 'Blue') + ' headquarters.' : (u.side === P ? 'You captured the enemy headquarters.' : 'The enemy captured your headquarters.'); }
     }
   }
   move(u, x, y, cost) {
@@ -3129,7 +3323,7 @@ class Game {
   kill(u, why) {
     if (u.dead) return;
     u.dead = true; this.grid[u.x][u.y] = null; this.units.splice(this.units.indexOf(u), 1); this.ghosts.push(u);
-    this.say((u.side === P ? 'Your ' : 'Enemy ') + u.t.label + ' ' + why + '.');
+    this.say(this.pn(u.side) + ' ' + u.t.label + ' ' + why + '.');
     this.addFx(2, u.x + .5, u.y + .5, 0, 0, null, SIDE_COL[u.side], 24);
   }
   attack(a, d) {
@@ -3141,13 +3335,13 @@ class Game {
     this.addFx(1, a.x + .5, a.y + .5, d.x + .5, d.y + .5, null, a.t === UT.ART ? '#ffc800' : '#ffffff', 14);
     this.addFx(0, d.x + .5, d.y + .1, 0, 0, '-' + dd + (trapped ? ' TRAPPED' : ''), '#ff4632', 45);
     if (da > 0) this.addFx(0, a.x + .5, a.y + .1, 0, 0, '-' + da, '#ffaa28', 45);
-    this.say((a.side === P ? 'Your ' : 'Enemy ') + a.t.label + ' hits ' + (d.side === P ? 'your ' : 'enemy ') + d.t.label + ' (' + dd + '/' + da + ')');
+    this.say(this.pn(a.side) + ' ' + a.t.label + ' hits ' + this.pn(d.side).toLowerCase() + ' ' + d.t.label + ' (' + dd + '/' + da + ')');
     let advance = false;
     if (d.hp <= 0) { this.kill(d, 'is destroyed'); advance = true; }
     if (a.hp <= 0) this.kill(a, 'is destroyed');
     else if (!d.dead && e[2] >= 1.5 && rt) {
       this.grid[d.x][d.y] = null; d.x = rt[0]; d.y = rt[1]; this.grid[d.x][d.y] = d; d.entr = 0;
-      this.say((d.side === P ? 'Your ' : 'Enemy ') + d.t.label + ' falls back.'); advance = true;
+      this.say(this.pn(d.side) + ' ' + d.t.label + ' falls back.'); advance = true;
     }
     if (advance && !a.dead && dist === 1 && a.t !== UT.ART && !this.grid[ox][oy]) { a.moved = true; this.relocate(a, ox, oy); }
     this.recompute(); this.checkElim();
@@ -3156,17 +3350,36 @@ class Game {
     const d = this.grid[x][y];
     if (!d || d.side === s || this.ind[s] < AIR_COST || this.airCd[s] > 0) return false;
     this.ind[s] -= AIR_COST; this.airCd[s] = 4;
-    const dmg = Math.round(24 * this.wx.air * (0.85 + 0.3 * this.rnd()));
+    const dmg = Math.round(AIR_DMG * this.wx.air * (0.85 + 0.3 * this.rnd()));
+    this.addFx(3, x + .5, y + .5, 0, 0, null, '#ffc800', 34);
     this.addFx(2, x + .5, y + .5, 0, 0, null, '#ffc800', 30);
     this.addFx(0, x + .5, y + .1, 0, 0, 'AIR -' + dmg, '#ffbe3c', 55);
-    this.say((s === P ? 'Your' : 'Enemy') + ' airstrike hits ' + d.t.label + ' (' + dmg + ')');
+    this.say(this.pn(s) + ' airstrike hits ' + d.t.label + ' (' + dmg + ' + splash within 2 tiles)');
     d.hp -= dmg; d.entr = 0;
-    const splash = Math.round(8 * this.wx.air), hit = [];
-    for (let k = 0; k < 8; k++) { const nx = x + DX8[k], ny = y + DY8[k]; if (inb(nx, ny) && this.grid[nx][ny] && this.grid[nx][ny].side !== s) hit.push(this.grid[nx][ny]); }
-    for (const u of hit) u.hp -= splash;
+    const hit = [];
+    for (let dx = -2; dx <= 2; dx++) for (let dy = -2; dy <= 2; dy++) {
+      if (!dx && !dy) continue;
+      const nx = x + dx, ny = y + dy; if (!inb(nx, ny) || !this.grid[nx][ny] || this.grid[nx][ny].side === s) continue;
+      hit.push([this.grid[nx][ny], Math.round((Math.max(Math.abs(dx), Math.abs(dy)) === 1 ? AIR_SPLASH1 : AIR_SPLASH2) * this.wx.air)]);
+    }
+    for (const h of hit) { h[0].hp -= h[1]; h[0].entr = 0; this.addFx(0, h[0].x + .5, h[0].y + .1, 0, 0, '-' + h[1], '#ffbe3c', 45); }
     if (d.hp <= 0) this.kill(d, 'is destroyed');
-    for (const u of hit) if (u.hp <= 0) this.kill(u, 'is destroyed');
+    for (const h of hit) if (h[0].hp <= 0) this.kill(h[0], 'is destroyed');
     this.recompute(); this.checkElim(); return true;
+  }
+
+  // ---- "move + attack in one click": best reachable tile from which u can hit d (null if none). Artillery can't move and fire.
+  strikeTile(u, d, reach) {
+    if (u.attacked || u.fresh || u.dead || d.dead || d.side === u.side || u.t.range > 1) return null;
+    let best = null, bs = -1e9;
+    for (let k = 0; k < 8; k++) {
+      const nx = d.x + DX8[k], ny = d.y + DY8[k];
+      if (!inb(nx, ny) || (nx === u.x && ny === u.y) || reach[nx][ny] >= BIG || reach[nx][ny] > u.mp) continue;
+      const o = this.grid[nx][ny]; if (o && o !== u) continue;
+      const e = this.est(u, nx, ny, d), sc = e[2] - e[1] * 0.02 - reach[nx][ny] * 0.05 + this.ter[nx][ny].def * 0.3 + (this.sup[u.side][nx][ny] ? 0.3 : 0);
+      if (sc > bs) { bs = sc; best = { x: nx, y: ny, cost: reach[nx][ny], est: e }; }
+    }
+    return best;
   }
 
   // ---- economy
@@ -3180,7 +3393,7 @@ class Game {
   research(s, k) {
     if (this.tech[s][k] >= 3 || this.ind[s] < this.techCost(s, k)) return false;
     this.ind[s] -= this.techCost(s, k); this.tech[s][k]++;
-    this.say((s === P ? 'You research ' : 'Enemy researches ') + TECH[k] + ' ' + this.tech[s][k] + '.');
+    this.say(this.sn(s) + ' researched ' + TECH[k] + ' ' + this.tech[s][k] + '.');
     return true;
   }
   spawnTiles(s) {
@@ -3202,7 +3415,7 @@ class Game {
     if (d >= 4) return false;
     this.ind[u.side] -= DEPOT_COST; this.nodes.push(new Node(NT.DEPOT, u.x, u.y, u.side));
     u.attacked = true; u.mp = 0;
-    this.say((u.side === P ? 'You build' : 'Enemy builds') + ' a forward depot.');
+    this.say(this.sn(u.side) + ' built a forward depot.');
     this.addFx(0, u.x + .5, u.y - .1, 0, 0, 'Depot', '#ffffff', 45);
     this.recompute(); return true;
   }
@@ -3248,7 +3461,7 @@ class Game {
   checkElim() {
     if (this.winner >= 0) return;
     for (let s = 0; s < 2; s++)
-      if (this.count(s) === 0 && (this.ind[s] < UT.RECON.ind || this.man[s] < UT.RECON.man)) { this.winner = 1 - s; this.endReason = s === P ? 'Your army has been annihilated.' : 'The enemy army has been annihilated.'; }
+      if (this.count(s) === 0 && (this.ind[s] < UT.RECON.ind || this.man[s] < UT.RECON.man)) { this.winner = 1 - s; this.endReason = this.duo ? (s === P ? 'Blue' : 'Red') + "'s army has been annihilated." : s === P ? 'Your army has been annihilated.' : 'The enemy army has been annihilated.'; }
   }
   addFx(kind, x, y, x2, y2, text, c, life) { if (!this.fxOn) return; this.fx.push({ kind, x, y, x2, y2, text, c, life, age: 0 }); }
 }
@@ -3294,8 +3507,9 @@ class Bot {
     if (lvl >= 1 && g.airCd[me] === 0 && g.ind[me] >= AIR_COST + (lvl === 2 ? 0 : 8)) {
       let best = null, bs = lvl === 2 ? 16 : 24;
       for (const f of this.foes()) {
-        let s = Math.min(f.hp, 24) * Bot.val(f.t) + (f.hp <= 24 ? 12 : 0);
+        let s = Math.min(f.hp, AIR_DMG) * Bot.val(f.t) + (f.hp <= AIR_DMG ? 12 : 0);
         for (let k = 0; k < 8; k++) { const nx = f.x + DX8[k], ny = f.y + DY8[k]; if (inb(nx, ny) && g.grid[nx][ny] && g.grid[nx][ny].side === me) s += 4; }
+        for (const o of this.foes()) if (o !== f && cheb(o.x, o.y, f.x, f.y) <= 2) s += 3 + Math.min(o.hp, AIR_SPLASH2) * Bot.val(o.t) * 0.3;     // splash value
         if (s > bs) { bs = s; best = f; }
       }
       if (best) g.airStrike(me, best.x, best.y);
@@ -3432,12 +3646,12 @@ let unlocked = false;
 try { const sp = sessionStorage.getItem('cc.dev') || ''; if (sp && pwOk(sp)) unlocked = true; } catch (e) { /* ignore */ }
 
 const root = $('fl'), cv = $('flCanvas'), ctx = cv.getContext('2d'), mainEl = $('flMain');
-const panels = { dev: $('flDev'), start: $('flStart'), help: $('flHelp'), over: $('flOver') };
+const panels = { dev: $('flDev'), start: $('flStart'), help: $('flHelp'), over: $('flOver'), warn: $('flWarn'), pass: $('flPass') };
 let active = false, raf = 0, lastTs = 0, acc = 0, frameN = 0;
-let g = null, bot = null, diff = Math.min(2, Math.max(0, +store.get('fl.diff', 1) || 1)), pickDiff = diff;
+let g = null, bot = null, duo = false, diff = Math.min(2, Math.max(0, +store.get('fl.diff', 1) || 1)), pickDiff = diff, pickDuo = store.get('fl.duo', '0') === '1', pendingNew = null;
 let ts = 24, ox = 0, oy = 0, dpr = 1, hx = -1, hy = -1, mode = 0, buildType = null, spawn = null, sel = null, selReach = null, showSupply = false;
 let terrainCv = null, terrainK = -1, dirty = true, logShown = 0, overT = 0;
-let botQ = null, botStarted = false, botWait = 0, pendA = null, pendD = null;
+let botQ = null, botStarted = false, botWait = 0, pendA = null, pendD = null, resumeAfterHelp = null;
 const NX = W * RES + 1, NY = H * RES + 1, field = new Float32Array(NX * NY), tintCv = document.createElement('canvas'), tintCtx = tintCv.getContext('2d');
 tintCv.width = NX; tintCv.height = NY;
 const tintData = tintCtx.createImageData(NX, NY);
@@ -3445,40 +3659,87 @@ let front = [];
 
 const showPanel = n => { for (const k in panels) panels[k].classList.toggle('show', k === n); };
 const anyPanel = () => Object.values(panels).some(p => p.classList.contains('show'));
-const playerTurn = () => !!g && g.turn === P && g.winner < 0;
+const me = () => duo ? g.turn : P;                                                  // the side whose orders the screen currently takes
+const foeOf = s => 1 - s;
+const humanTurn = () => !!g && g.winner < 0 && (duo || g.turn === P);
+const playerTurn = humanTurn;
+const sideName = s => duo ? (s === P ? 'Player 1 (Blue)' : 'Player 2 (Red)') : (s === P ? 'You' : 'Enemy');
+
+// ---- save / continue. The game is stored at the START of every human turn, so leaving mid-turn returns to that turn's start
+// (and, because the random-number state is saved too, repeating the same orders gives the same results: no save-scumming).
+function snapshot() {
+  if (!g || g.winner >= 0) return;
+  try { store.set('fl.save', JSON.stringify({ v: 1, at: Date.now(), g: g.serialize() })); } catch (e) { /* storage unavailable */ }
+}
+function loadSave() {
+  try {
+    const sv = JSON.parse(store.get('fl.save', '') || 'null');
+    if (!sv || sv.v !== 1 || !sv.g || sv.g.v !== 1 || !Array.isArray(sv.g.units) || sv.g.winner >= 0) return null;
+    return sv;
+  } catch (e) { return null; }
+}
+const clearSave = () => store.set('fl.save', '');
+const saveLabel = sv => 'Round ' + sv.g.round + ' · ' + (sv.g.duo ? '1v1' : 'vs ' + DIFF[sv.g.diff]);
 
 // ---- game control
-function newGame(d) {
-  diff = d; store.set('fl.diff', String(d));
-  g = new Game((Math.random() * 4294967295) >>> 0, d); g.incMul[B] = [0.8, 1.0, 1.15][d];
-  bot = new Bot(g, d, B); sel = null; selReach = null; mode = 0; botStarted = false; botQ = null; pendA = pendD = null; dirty = true; terrainK = -1; logShown = 0; overT = 0;
-  $('flLog').textContent = ''; showPanel(null); refresh(true);
+function resetUi() { sel = null; selReach = null; mode = 0; botStarted = false; botQ = null; pendA = pendD = null; dirty = true; terrainK = -1; logShown = 0; overT = 0; $('flLog').textContent = ''; }
+function beginNew(d, isDuo) {
+  diff = d; duo = isDuo; store.set('fl.diff', String(d)); store.set('fl.duo', isDuo ? '1' : '0');
+  g = new Game((Math.random() * 4294967295) >>> 0, d, isDuo);
+  if (!duo) g.incMul[B] = [0.8, 1.0, 1.15][d];
+  bot = duo ? null : new Bot(g, d, B); resetUi(); snapshot(); showPanel(null); refresh(true);
+}
+function continueGame() {
+  const sv = loadSave(); if (!sv) return;
+  duo = !!sv.g.duo; diff = sv.g.diff; g = new Game(0, diff, duo, sv.g); g.rng.s = sv.g.rng >>> 0;
+  bot = duo ? null : new Bot(g, diff, B); resetUi(); showPanel(null); refresh(true);
+  if (duo) showPass();
+}
+function requestNew(d, isDuo) {                                                       // a new game erases the save, so ask first
+  const sv = loadSave();
+  if (!sv) { beginNew(d, isDuo); return; }
+  pendingNew = [d, isDuo]; $('flWarnMsg').textContent = 'You have a saved game (' + saveLabel(sv) + '). Starting a new game will permanently erase it.'; showPanel('warn');
+}
+function showPass() {
+  $('flPassTitle').textContent = sideName(g.turn) + ' - your turn';
+  $('flPassMsg').textContent = 'Pass the device to ' + (g.turn === P ? 'Player 1 (Blue)' : 'Player 2 (Red)') + '. Round ' + g.round + '.';
+  $('flPassTitle').className = g.turn === P ? 'blue' : 'red'; showPanel('pass');
 }
 function cancel() { mode = 0; sel = null; selReach = null; }
 function select(u) { sel = u; selReach = u ? g.reach(u) : null; mode = 0; }
 function click(x, y) {
-  if (!inb(x, y) || !playerTurn()) return;
-  const u = g.grid[x][y];
-  if (mode === 2) { if (g.airStrike(P, x, y)) mode = 0; else if (!u || u.side !== B) g.say('Airstrike: choose a tile with an enemy unit.'); return; }
-  if (mode === 1) { if (spawn && spawn[x][y] && g.build(P, buildType, x, y)) { mode = 0; sel = null; selReach = null; } return; }
-  if (u && u.side === P) { select(u); return; }
+  if (!inb(x, y) || !humanTurn()) return;
+  const s = me(), u = g.grid[x][y];
+  if (mode === 2) { if (g.airStrike(s, x, y)) mode = 0; else g.say('Airstrike: choose a tile with an enemy unit.'); return; }
+  if (mode === 1) { if (spawn && spawn[x][y] && g.build(s, buildType, x, y)) { mode = 0; sel = null; selReach = null; } return; }
+  if (u && u.side === s) { select(u); return; }
   if (!sel) return;
-  if (u && u.side === B) { if (g.canAttack(sel, u)) { g.attack(sel, u); if (sel.dead) cancel(); else select(sel); } return; }
+  if (u && u.side !== s) {
+    if (g.canAttack(sel, u)) { g.attack(sel, u); if (sel.dead) cancel(); else select(sel); return; }
+    const t = g.strikeTile(sel, u, selReach);                                          // shortcut: move into range and attack in one click
+    if (t) { g.move(sel, t.x, t.y, t.cost); if (!sel.dead && g.canAttack(sel, u)) g.attack(sel, u); if (sel.dead) cancel(); else select(sel); }
+    return;
+  }
   if (!u && selReach[x][y] < BIG && selReach[x][y] <= sel.mp) { g.move(sel, x, y, selReach[x][y]); select(sel); }
 }
 function startBuild(t) {
-  if (!playerTurn() || g.ind[P] < t.ind || g.man[P] < t.man) return;
-  sel = null; selReach = null; mode = mode === 1 && buildType === t ? 0 : 1; buildType = t; spawn = g.spawnTiles(P);
+  if (!humanTurn()) return; const s = me();
+  if (g.ind[s] < t.ind || g.man[s] < t.man) return;
+  sel = null; selReach = null; mode = mode === 1 && buildType === t ? 0 : 1; buildType = t; spawn = g.spawnTiles(s);
 }
 function startAir() {
-  if (!playerTurn()) return;
-  if (g.airCd[P] > 0) { g.say('Airstrike on cooldown (' + g.airCd[P] + ' turns).'); return; }
-  if (g.ind[P] < AIR_COST) { g.say('Airstrike needs ' + AIR_COST + ' Industry.'); return; }
+  if (!humanTurn()) return; const s = me();
+  if (g.airCd[s] > 0) { g.say('Airstrike on cooldown (' + g.airCd[s] + ' turns).'); return; }
+  if (g.ind[s] < AIR_COST) { g.say('Airstrike needs ' + AIR_COST + ' Industry.'); return; }
   sel = null; selReach = null; mode = mode === 2 ? 0 : 2;
 }
-function depot() { if (playerTurn() && sel && g.buildDepot(sel)) select(sel); }
-function research(k) { if (playerTurn()) g.research(P, k); }
-function endPlayerTurn() { if (!playerTurn()) return; cancel(); g.endTurn(); botStarted = false; botQ = null; botWait = 20; }
+function depot() { if (humanTurn() && sel && g.buildDepot(sel)) select(sel); }
+function research(k) { if (humanTurn()) g.research(me(), k); }
+function endPlayerTurn() {
+  if (!humanTurn()) return;
+  cancel(); g.endTurn(); botStarted = false; botQ = null; botWait = 20;
+  if (duo && g.winner < 0) { snapshot(); showPass(); }
+}
 
 // ---- per-tick update (animation + bot sequencing), 40 ticks per second
 function animate(u, target) {
@@ -3501,8 +3762,8 @@ function tick() {
   }
   if (ch) dirty = true;
   for (let i = g.fx.length - 1; i >= 0; i--) { const f = g.fx[i]; if (++f.age > f.life) g.fx.splice(i, 1); }
-  botStep(!ch || !movingAny());
-  if (g.winner >= 0 && !panels.over.classList.contains('show') && !panels.help.classList.contains('show') && overT >= 0 && ++overT > 55) { overT = -1; showOver(); }
+  if (!duo) botStep(!ch || !movingAny());
+  if (g.winner >= 0 && overT >= 0) { if (overT === 0) clearSave(); if (++overT > 55 && !panels.help.classList.contains('show')) { overT = -1; showOver(); } }
 }
 function botStep(idle) {
   if (g.turn !== B || g.winner >= 0) return;
@@ -3519,7 +3780,7 @@ function botStep(idle) {
     if (p.target) { pendA = u; pendD = p.target; }
     botWait = mv ? 4 : 1; return;
   }
-  g.endTurn(); if (sel) select(sel);
+  g.endTurn(); if (g.winner < 0) snapshot(); if (sel) select(sel);
 }
 
 // ---- influence field + the frontline (zero contour via marching squares)
@@ -3617,7 +3878,7 @@ function drawNode(n) {
   }
 }
 function drawUnit(u, ghost) {
-  const cx = ox + u.rx * ts, cy = oy + u.ry * ts, w = ts * 0.8, h = ts * 0.58, spent = u.side === P && playerTurn() && !ghost && u.mp <= 0 && u.attacked;
+  const cx = ox + u.rx * ts, cy = oy + u.ry * ts, w = ts * 0.8, h = ts * 0.58, spent = !ghost && humanTurn() && u.side === me() && u.mp <= 0 && u.attacked;
   ctx.save(); ctx.globalAlpha = clamp(u.vis, 0, 1) * (spent ? 0.72 : 1);
   rr(ctx, cx - w / 2 + 1.5, cy - h / 2 + 2, w, h, 5); ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fill();
   const c = SIDE_COL[u.side], gr = ctx.createLinearGradient(0, cy - h / 2, 0, cy + h / 2); gr.addColorStop(0, shade(c, 1.43)); gr.addColorStop(1, shade(c, 0.7));
@@ -3666,14 +3927,28 @@ function draw() {
   strokeFront(0.50, 'rgba(255,220,90,.13)'); strokeFront(0.26, 'rgba(20,20,24,.78)'); strokeFront(0.11, 'rgb(255,240,150)');
   ctx.restore();
   if (mode === 1 && spawn) for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (spawn[x][y]) tile(x, y, 'rgba(90,255,140,.35)');
-  if (sel && selReach) {
+  if (sel && selReach && !sel.dead) {
     for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (selReach[x][y] < BIG && selReach[x][y] <= sel.mp && !g.grid[x][y]) tile(x, y, 'rgba(255,255,255,.3)');
-    for (const f of g.units) if (f.side === B && g.canAttack(sel, f)) {
-      ctx.strokeStyle = 'rgb(255,60,40)'; ctx.lineWidth = 2.6; ctx.strokeRect(ox + f.x * ts + 1, oy + f.y * ts + 1, ts - 3, ts - 3);
-      const e = g.est(sel, sel.x, sel.y, f); ctx.font = 'bold ' + Math.max(9, ts / 3) + 'px ' + SANS_; ctx.textAlign = 'left'; outlined(String(Math.round(e[0])), ox + f.x * ts + 2, oy + f.y * ts + ts - 3, '#fff');
+    ctx.font = 'bold ' + Math.max(9, ts / 3) + 'px ' + SANS_; ctx.textAlign = 'left';
+    for (const f of g.units) if (f.side !== sel.side) {
+      if (g.canAttack(sel, f)) {                                                          // red frame: can attack right now
+        ctx.strokeStyle = 'rgb(255,60,40)'; ctx.lineWidth = 2.6; ctx.strokeRect(ox + f.x * ts + 1, oy + f.y * ts + 1, ts - 3, ts - 3);
+        const e = g.est(sel, sel.x, sel.y, f); outlined(String(Math.round(e[0])), ox + f.x * ts + 2, oy + f.y * ts + ts - 3, '#fff');
+      } else {
+        const st = g.strikeTile(sel, f, selReach);                                        // orange dashed frame: one click moves in and attacks
+        if (st) {
+          ctx.strokeStyle = 'rgb(255,170,40)'; ctx.lineWidth = 2.4; ctx.setLineDash([5, 3]); ctx.strokeRect(ox + f.x * ts + 1, oy + f.y * ts + 1, ts - 3, ts - 3); ctx.setLineDash([]);
+          outlined(String(Math.round(st.est[0])), ox + f.x * ts + 2, oy + f.y * ts + ts - 3, '#ffd27a');
+          if (hx === f.x && hy === f.y) { ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 2; ctx.setLineDash([3, 3]); ctx.strokeRect(ox + st.x * ts + 2, oy + st.y * ts + 2, ts - 4, ts - 4); ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(ox + (sel.x + .5) * ts, oy + (sel.y + .5) * ts); ctx.lineTo(ox + (st.x + .5) * ts, oy + (st.y + .5) * ts); ctx.stroke(); }
+        }
+      }
     }
   }
-  if (mode === 2 && inb(hx, hy) && g.grid[hx][hy] && g.grid[hx][hy].side === B) { ctx.strokeStyle = '#ffa500'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(ox + (hx + .5) * ts, oy + (hy + .5) * ts, ts * 0.8, 0, 6.283); ctx.stroke(); }
+  if (mode === 2 && inb(hx, hy)) {                                                    // airstrike preview: centre + splash radius
+    const t = g.grid[hx][hy];
+    for (let dx = -2; dx <= 2; dx++) for (let dy = -2; dy <= 2; dy++) { const x = hx + dx, y = hy + dy; if (inb(x, y)) tile(x, y, Math.max(Math.abs(dx), Math.abs(dy)) <= 1 ? 'rgba(255,150,40,.34)' : 'rgba(255,210,80,.2)'); }
+    if (t && t.side !== me()) { ctx.strokeStyle = '#ffa500'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(ox + (hx + .5) * ts, oy + (hy + .5) * ts, ts * 0.8, 0, 6.283); ctx.stroke(); }
+  }
   if (inb(hx, hy)) { ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.5; ctx.strokeRect(ox + hx * ts, oy + hy * ts, ts, ts); }
   const all = g.units.slice().sort((a, b) => a.ry - b.ry);
   for (const u of g.ghosts) drawUnit(u, true);
@@ -3682,13 +3957,14 @@ function draw() {
     const k = f.age / f.life;
     if (f.kind === 0) { ctx.font = 'bold ' + Math.max(11, ts / 2) + 'px ' + SANS_; ctx.textAlign = 'center'; outlined(f.text, ox + f.x * ts, oy + (f.y - k * 0.9) * ts, f.c); }
     else if (f.kind === 1) { ctx.globalAlpha = 1 - k; ctx.strokeStyle = f.c; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(ox + f.x * ts, oy + f.y * ts); ctx.lineTo(ox + (f.x + (f.x2 - f.x) * Math.min(1, k * 2.5)) * ts, oy + (f.y + (f.y2 - f.y) * Math.min(1, k * 2.5)) * ts); ctx.stroke(); ctx.globalAlpha = 1; }
+    else if (f.kind === 3) { const r = ts * (0.4 + 2.4 * k); ctx.globalAlpha = .6 * (1 - k); ctx.fillStyle = f.c; ctx.beginPath(); ctx.arc(ox + f.x * ts, oy + f.y * ts, r, 0, 6.283); ctx.fill(); ctx.globalAlpha = 1; }
     else { const r = ts * (0.3 + 1.6 * k); ctx.globalAlpha = .78 * (1 - k); ctx.strokeStyle = f.c; ctx.lineWidth = 4 * (1 - k) + 1; ctx.beginPath(); ctx.arc(ox + f.x * ts, oy + f.y * ts, r, 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1; }
   }
-  const msg = g.winner >= 0 ? null : g.turn === B ? 'ENEMY (' + DIFF[diff].toUpperCase() + ') IS MOVING...' : mode === 1 ? 'Place ' + buildType.label + ' on a green tile (Esc cancels)' : mode === 2 ? 'AIRSTRIKE: choose an enemy unit' : null;
+  const msg = g.winner >= 0 ? null : !duo && g.turn === B ? 'ENEMY (' + DIFF[diff].toUpperCase() + ') IS MOVING...' : mode === 1 ? 'Place ' + buildType.label + ' on a green tile (Esc cancels)' : mode === 2 ? 'AIRSTRIKE: choose an enemy unit (hits nearby enemies too)' : null;
   if (msg) {
     ctx.font = 'bold 13px ' + SANS_; ctx.textAlign = 'left'; const sw = ctx.measureText(msg).width;
     rr(ctx, ox + 10, oy + 8, sw + 22, 28, 14); ctx.fillStyle = 'rgba(8,14,36,.82)'; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.fillStyle = g.turn === B ? '#ff9a9a' : '#ffe27a'; ctx.fillText(msg, ox + 21, oy + 27);
+    ctx.fillStyle = !duo && g.turn === B ? '#ff9a9a' : '#ffe27a'; ctx.fillText(msg, ox + 21, oy + 27);
   }
 }
 
@@ -3702,45 +3978,73 @@ function resize() {
 if (window.ResizeObserver) new ResizeObserver(() => { if (active) resize(); }).observe(mainEl);
 window.addEventListener('resize', () => { if (active) resize(); });
 
-// ---- sidebar (DOM, in the same style as the other games)
+// ---- sidebar + HUD (DOM, in the same style as the other games)
 const sideCache = {}, setHTML = (id, html) => { if (sideCache[id] !== html) { sideCache[id] = html; $(id).innerHTML = html; } };
 const recBtns = [], techBtns = [];
+const ICON_IND = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M3 21V10l6 3V9l6 3V5h3v7h3v9z"/></svg>';
+const ICON_MAN = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><circle cx="12" cy="7" r="4"/><path d="M4 21c0-4.5 3.5-8 8-8s8 3.500 8 8z"/></svg>'.replace('3.500', '3.5');
 function buildSide() {
   const rec = $('flRec'), tech = $('flTech');
-  UTYPES.forEach((t, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'flBtn'; b.addEventListener('click', () => startBuild(t)); rec.appendChild(b); recBtns.push(b); });
-  TECH.forEach((n, k) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'flBtn'; b.addEventListener('click', () => research(k)); tech.appendChild(b); techBtns.push(b); });
+  UTYPES.forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'flBtn two'; b.addEventListener('click', () => startBuild(t)); rec.appendChild(b); recBtns.push(b); });
+  TECH.forEach((n, k) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'flBtn two'; b.addEventListener('click', () => research(k)); tech.appendChild(b); techBtns.push(b); });
 }
-const btnHtml = (key, label, right) => '<span><small>' + key + '</small> ' + label + '</span><span>' + right + '</span>';
-function refresh(force) {
+const chip = (icon, n, cls) => '<span class="chip ' + (cls || '') + '">' + icon + ' ' + n + '</span>';
+function hintText(s, pt) {
+  if (g.winner >= 0) return 'The game is over.';
+  if (!pt) return 'The enemy is moving. Watch the frontline and the log below.';
+  if (mode === 1) return 'Tap a <b class="grn">green tile</b> next to your HQ or a supplied city to place the ' + buildType.label + '. Esc cancels.';
+  if (mode === 2) return 'Tap an <b class="gold">enemy unit</b> to bomb it. Enemies up to 2 tiles away are hit too.';
+  if (sel && !sel.dead) {
+    if (sel.attacked) return 'This unit has already acted this turn. Select another one, or press End turn.';
+    return '<b class="wht">White tiles</b> = where it can move. <b class="red">Red frame</b> = attack now. <b class="gold">Orange dashed frame</b> = one tap moves in and attacks.';
+  }
+  const idle = g.units.filter(u => u.side === s && !u.attacked && !u.fresh && u.mp > 0).length;
+  return 'Tap one of your <b class="blue">' + (s === P ? 'blue' : 'red') + '</b> units to give orders (' + idle + ' can still act), or recruit new ones. Press <b>End turn</b> when you are done.';
+}
+function refresh() {
   if (!g) return;
-  const pt = playerTurn();
-  setHTML('flStatus', 'Round <b>' + g.round + '</b> vs <b>' + DIFF[diff] + '</b> bot &middot; ' + (pt ? '<span class="you">YOUR TURN</span>' : g.winner >= 0 ? '<span>GAME OVER</span>' : '<span class="foe">enemy turn</span>') + '<br>Weather: ' + g.wx.label);
-  const inc = g.income(P);
-  setHTML('flRes', 'Industry <b class="gold">' + g.ind[P] + '</b> (' + (inc[0] >= 0 ? '+' : '') + inc[0] + ') &nbsp; Manpower <b class="gold">' + g.man[P] + '</b> (+' + inc[1] + ')<br>Units <b>' + g.count(P) + '</b> vs ' + g.count(B) + ' &nbsp; Airstrike: ' + (g.airCd[P] > 0 ? 'in ' + g.airCd[P] + 't' : g.ind[P] < AIR_COST ? 'need ' + AIR_COST + ' I' : 'ready'));
+  const pt = humanTurn(), s = pt ? me() : P, inc = g.income(s);
+  const turnTxt = g.winner >= 0 ? 'GAME OVER' : duo ? sideName(g.turn).toUpperCase() + "'S TURN" : pt ? 'YOUR TURN' : 'ENEMY TURN';
+  const turnCls = g.winner >= 0 ? '' : (duo ? (g.turn === P ? 'blue' : 'red') : (pt ? 'blue' : 'red'));
+  setHTML('flTurn', '<span class="pill ' + turnCls + '">' + turnTxt + '</span><span class="rd">Round <b>' + g.round + '</b> · ' + (duo ? '1v1 (same device)' : 'vs ' + DIFF[diff] + ' bot') + '</span>');
+  setHTML('flWx', 'Weather: <b>' + g.wx.label + '</b>');
+  const cardHtml = (icon, label, val, incv, cls) => '<div class="resCard ' + cls + '"><div class="ic">' + icon + '</div><div><div class="lbl">' + label + '</div><div class="val">' + val + '</div><div class="inc">' + (incv >= 0 ? '+' : '') + incv + ' per turn</div></div></div>';
+  setHTML('flRes', cardHtml(ICON_IND, 'Industry', g.ind[s], inc[0], 'ind') + cardHtml(ICON_MAN, 'Manpower', g.man[s], inc[1], 'man'));
+  setHTML('flMini', 'Units <b>' + g.count(s) + '</b> vs ' + g.count(foeOf(s)) + ' &nbsp;·&nbsp; Airstrike: <b>' + (g.airCd[s] > 0 ? 'ready in ' + g.airCd[s] + ' turn' + (g.airCd[s] > 1 ? 's' : '') : g.ind[s] < AIR_COST ? 'need ' + AIR_COST + ' industry' : 'ready') + '</b>');
+  setHTML('flHud', '<span class="hp ' + turnCls + '">' + (g.winner >= 0 ? 'GAME OVER' : duo ? sideName(g.turn) : pt ? 'YOUR TURN' : 'ENEMY TURN') + '</span><span class="hp">Round ' + g.round + '</span><span class="hp ind" title="Industry: buys units, research, depots and airstrikes">' + ICON_IND + ' ' + g.ind[s] + ' <i>(' + (inc[0] >= 0 ? '+' : '') + inc[0] + ')</i></span><span class="hp man" title="Manpower: needed to recruit and to heal units">' + ICON_MAN + ' ' + g.man[s] + ' <i>(+' + inc[1] + ')</i></span>');
+  setHTML('flHint', hintText(s, pt));
   let pc = 0, bc = 0; for (let x = 0; x < W; x++) for (let y = 0; y < H; y++) if (g.ter[x][y].passable) { if (g.ctl[x][y] > 0) pc++; else bc++; }
-  const pct = Math.round(100 * pc / Math.max(1, pc + bc)); $('flBarP').style.width = pct + '%'; $('flBarTxt').textContent = pct + '% territory';
+  const pct = Math.round(100 * pc / Math.max(1, pc + bc)); $('flBarP').style.width = pct + '%'; $('flBarTxt').textContent = pct + '% blue territory';
   UTYPES.forEach((t, i) => {
-    const b = recBtns[i]; b.innerHTML = btnHtml(i + 1, t.label, t.ind + ' I · ' + t.man + ' M');
-    b.title = 'Attack ' + t.atk + ', Defence ' + t.def + ', Move ' + t.mp + (t.range > 1 ? ', Range 2 (must not move to fire)' : '');
-    b.disabled = !(pt && g.ind[P] >= t.ind && g.man[P] >= t.man); b.classList.toggle('on', mode === 1 && buildType === t);
+    const b = recBtns[i], need = [g.ind[s] < t.ind ? (t.ind - g.ind[s]) + ' more industry' : '', g.man[s] < t.man ? (t.man - g.man[s]) + ' more manpower' : ''].filter(Boolean).join(' and ');
+    setHTMLEl(b, '<div class="r1"><span><small>' + (i + 1) + '</small> <b>' + t.label + '</b></span><span>' + chip(ICON_IND, t.ind, g.ind[s] < t.ind ? 'lack' : 'ind') + chip(ICON_MAN, t.man, g.man[s] < t.man ? 'lack' : 'man') + '</span></div><div class="r2">' + (need ? 'Need ' + need : 'ATK ' + t.atk + ' · DEF ' + t.def + ' · MOVE ' + t.mp + (t.range > 1 ? ' · RANGE 2' : '')) + '</div>');
+    b.title = t.label + ': attack ' + t.atk + ', defence ' + t.def + ', move ' + t.mp + (t.range > 1 ? ', range 2 (must not move to fire)' : '') + '. Appears next to your HQ / supplied cities and can act next turn.';
+    b.disabled = !(pt && !need); b.classList.toggle('on', mode === 1 && buildType === t);
   });
-  const air = $('flAir'); air.innerHTML = btnHtml('A', 'Airstrike', AIR_COST + ' I'); air.disabled = !(pt && g.ind[P] >= AIR_COST && g.airCd[P] === 0); air.classList.toggle('on', mode === 2);
-  $('flDepot').innerHTML = btnHtml('D', 'Forward depot', DEPOT_COST + ' I');
-  $('flDepot').disabled = !(pt && sel && !sel.dead && g.ind[P] >= DEPOT_COST && !sel.attacked && !g.nodeAt(sel.x, sel.y) && g.sup[P][sel.x][sel.y]);
-  TECH.forEach((n, k) => { const b = techBtns[k]; b.innerHTML = btnHtml('L' + g.tech[P][k], n, g.tech[P][k] < 3 ? g.techCost(P, k) + ' I' : 'max'); b.title = TECH_DESC[k]; b.disabled = !(pt && g.tech[P][k] < 3 && g.ind[P] >= g.techCost(P, k)); });
+  const air = $('flAir'); setHTMLEl(air, '<div class="r1"><span><small>A</small> <b>Airstrike</b></span><span>' + chip(ICON_IND, AIR_COST, g.ind[s] < AIR_COST ? 'lack' : 'ind') + '</span></div><div class="r2">' + AIR_DMG + ' damage, ' + AIR_SPLASH1 + ' / ' + AIR_SPLASH2 + ' splash within 2 tiles</div>');
+  air.disabled = !(pt && g.ind[s] >= AIR_COST && g.airCd[s] === 0); air.classList.toggle('on', mode === 2);
+  setHTMLEl($('flDepot'), '<div class="r1"><span><small>D</small> <b>Forward depot</b></span><span>' + chip(ICON_IND, DEPOT_COST, g.ind[s] < DEPOT_COST ? 'lack' : 'ind') + '</span></div><div class="r2">Select a unit, then build a supply point under it</div>');
+  $('flDepot').disabled = !(pt && sel && !sel.dead && sel.side === s && g.ind[s] >= DEPOT_COST && !sel.attacked && !g.nodeAt(sel.x, sel.y) && g.sup[s][sel.x][sel.y]);
+  TECH.forEach((n, k) => {
+    const b = techBtns[k], lvl = g.tech[s][k], cost = g.techCost(s, k);
+    setHTMLEl(b, '<div class="r1"><span><b>' + n + '</b> <small>level ' + lvl + '/3</small></span><span>' + (lvl < 3 ? chip(ICON_IND, cost, g.ind[s] < cost ? 'lack' : 'ind') : '<span class="chip max">MAX</span>') + '</span></div><div class="r2">' + TECH_DESC[k] + '</div>');
+    b.disabled = !(pt && lvl < 3 && g.ind[s] >= cost);
+  });
   $('flEnd').disabled = !pt; $('flSupply').classList.toggle('on', showSupply);
   const u = sel;
-  if (u && !u.dead) { const t = g.ter[u.x][u.y]; setHTML('flInfo', '<b>' + u.t.label + '</b> HP ' + u.hp + ' &nbsp;Move ' + u.mp + '<br>Dug in: ' + u.entr + '/3 &nbsp; on ' + t.label + ' (x' + t.def + ')<br>' + (g.sup[P][u.x][u.y] ? '<span class="ok">Supplied</span>' : '<span class="bad">CUT OFF - losing HP</span>') + (u.attacked ? ' &nbsp;(has acted)' : '')); }
-  else setHTML('flInfo', '<i>Click or tap one of your units, then a highlighted tile to move or a red-framed enemy to attack.</i>');
+  if (u && !u.dead) { const t = g.ter[u.x][u.y]; setHTML('flInfo', '<b>' + u.t.label + '</b> &nbsp; HP <b>' + u.hp + '</b>/100 &nbsp; Move left <b>' + u.mp + '</b><br>ATK ' + u.t.atk + ' · DEF ' + u.t.def + (u.t.range > 1 ? ' · RANGE 2' : '') + '<br>Dug in: ' + u.entr + '/3 &nbsp; on ' + t.label + ' (defence x' + t.def + ')<br>' + (g.sup[u.side][u.x][u.y] ? '<span class="ok">Supplied</span>' : '<span class="bad">CUT OFF - losing HP every turn</span>') + (u.attacked ? ' &nbsp;(has acted)' : '')); }
+  else setHTML('flInfo', '<i>No unit selected.</i>');
   if (inb(hx, hy)) {
     const t = g.ter[hx][hy], n = g.nodeAt(hx, hy), h = g.grid[hx][hy];
-    setHTML('flTerr', t.label + ' (def x' + t.def + ', cost ' + (t.passable ? t.cost : '-') + ')' + (n ? ' - ' + (n.owner < 0 ? 'Neutral ' : n.owner === P ? 'Your ' : 'Enemy ') + n.t.label : '') + (h ? ' - ' + (h.side === P ? 'your ' : 'enemy ') + h.t.label + ' ' + h.hp + 'HP' : ''));
-  } else setHTML('flTerr', '&nbsp;');
+    setHTML('flTerr', t.label + ' (defence x' + t.def + ', move cost ' + (t.passable ? t.cost : 'impassable') + ')' + (n ? ' - ' + (n.owner < 0 ? 'neutral ' : n.owner === P ? 'blue ' : 'red ') + n.t.label.toLowerCase() + (n.t.cap && n.owner !== (humanTurn() ? me() : P) ? ' (capturing costs ' + n.t.cap + ' HP)' : '') : '') + (h ? ' - ' + (h.side === P ? 'blue ' : 'red ') + h.t.label + ' ' + h.hp + ' HP' : ''));
+  } else setHTML('flTerr', 'Hover or tap a tile for details.');
   const logEl = $('flLog'); if (logShown < g.logs.length) { while (logShown < g.logs.length) logEl.appendChild(document.createTextNode(g.logs[logShown++] + '\n')); logEl.scrollTop = logEl.scrollHeight; }
 }
+function setHTMLEl(el, html) { if (el._h !== html) { el._h = html; el.innerHTML = html; } }
 function showOver() {
   const win = g.winner === P, t = $('flOverTitle');
-  t.textContent = win ? 'Victory' : 'Defeat'; t.className = win ? 'win' : 'lose'; $('flOverMsg').textContent = g.endReason + '  Round ' + g.round + ' vs ' + DIFF[diff] + '.';
+  t.textContent = duo ? (win ? 'Blue wins' : 'Red wins') : win ? 'Victory' : 'Defeat'; t.className = duo ? (win ? 'blue' : 'red') : win ? 'win' : 'lose';
+  $('flOverMsg').textContent = g.endReason + '  Round ' + g.round + (duo ? ' (1v1).' : ' vs ' + DIFF[diff] + '.');
   showPanel('over');
 }
 
@@ -3763,18 +4067,33 @@ function submitDev() {
   $('flDevErr').textContent = ''; openStart(false);
 }
 const DIFF_DESC = ['Unfocused and rarely coordinates. Gets 80% of normal income.', 'Weighs objectives, terrain, danger and supply.', 'Simulates each move\'s effect on the frontline and on supply: hunts encirclements, builds depots, researches, uses air support. +15% income.'];
-function openStart(canCancel) {
-  pickDiff = diff; refreshPick(); $('flStartCancel').style.display = canCancel ? '' : 'none'; showPanel('start');
+function openStart(canCancel) { pickDiff = diff; refreshPick(); $('flStartCancel').style.display = canCancel ? '' : 'none'; showPanel('start'); }
+function refreshPick() {
+  for (const b of document.querySelectorAll('#flStart .flDiff')) b.classList.toggle('on', +b.dataset.d === pickDiff);
+  for (const b of document.querySelectorAll('#flStart .flMode')) b.classList.toggle('on', (b.dataset.m === 'duo') === pickDuo);
+  $('flDiffRow').style.display = pickDuo ? 'none' : '';
+  $('flDiffDesc').textContent = pickDuo ? 'Two players share this device and take turns: Player 1 (Blue) moves first, then Player 2 (Red). A "pass the device" screen appears between turns.' : DIFF_DESC[pickDiff];
+  const sv = loadSave(); $('flContinue').style.display = sv ? '' : 'none'; if (sv) $('flContinue').textContent = 'Continue · ' + saveLabel(sv);
 }
-function refreshPick() { for (const b of document.querySelectorAll('#flStart .flDiff')) b.classList.toggle('on', +b.dataset.d === pickDiff); $('flDiffDesc').textContent = DIFF_DESC[pickDiff]; }
 for (const b of document.querySelectorAll('#flStart .flDiff')) b.addEventListener('click', () => { pickDiff = +b.dataset.d; refreshPick(); });
-$('flStartGo').addEventListener('click', () => newGame(pickDiff));
+for (const b of document.querySelectorAll('#flStart .flMode')) b.addEventListener('click', () => { pickDuo = b.dataset.m === 'duo'; refreshPick(); });
+$('flStartGo').addEventListener('click', () => requestNew(pickDiff, pickDuo));
+$('flContinue').addEventListener('click', continueGame);
+$('flWarnGo').addEventListener('click', () => { clearSave(); const p = pendingNew || [pickDiff, pickDuo]; beginNew(p[0], p[1]); });
+$('flWarnNo').addEventListener('click', () => openStart(!!g));
+$('flPassGo').addEventListener('click', () => showPanel(null));
 $('flStartCancel').addEventListener('click', () => showPanel(g && g.winner >= 0 ? 'over' : null));
 $('flDevOk').addEventListener('click', submitDev); $('flDevCancel').addEventListener('click', () => exit());
 $('flDevPw').addEventListener('keydown', e => { if (e.code === 'Enter') { e.preventDefault(); submitDev(); } });
 $('flStartMenu').addEventListener('click', () => exit());
 $('flMenu').addEventListener('click', () => exit());
-$('flHelpBtn').addEventListener('click', () => showPanel('help')); $('flHelpClose').addEventListener('click', () => showPanel(g && g.winner >= 0 && overT < 0 ? 'over' : null));
+$('flHelpBtn').addEventListener('click', () => { resumeAfterHelp = anyPanel() ? null : 'game'; showPanel('help'); });
+$('flHelpClose').addEventListener('click', () => showPanel(g && g.winner >= 0 && overT < 0 ? 'over' : (duo && g && g.winner < 0 && resumeAfterHelp === 'pass' ? 'pass' : null)));
+for (const b of document.querySelectorAll('#flHelp .flTab')) b.addEventListener('click', () => {
+  for (const t of document.querySelectorAll('#flHelp .flTab')) t.classList.toggle('on', t === b);
+  for (const p of document.querySelectorAll('#flHelp .flHelpPane')) p.style.display = p.id === 'flHelp_' + b.dataset.tab ? '' : 'none';
+  $('flHelpBody').scrollTop = 0;
+});
 $('flNew').addEventListener('click', () => openStart(true));
 $('flSupply').addEventListener('click', () => { showSupply = !showSupply; });
 $('flAir').addEventListener('click', startAir); $('flDepot').addEventListener('click', depot);
@@ -3783,7 +4102,14 @@ $('flOverNew').addEventListener('click', () => openStart(true)); $('flOverView')
 window.addEventListener('keydown', e => {
   if (!active) return;
   if (e.target && e.target.tagName === 'INPUT') return;
-  if (e.code === 'Escape') { if (panels.help.classList.contains('show')) $('flHelpClose').click(); else if (anyPanel()) { if (panels.start.classList.contains('show') && g) $('flStartCancel').click(); else exit(); } else cancel(); return; }
+  if (e.code === 'Escape') {
+    if (panels.help.classList.contains('show')) $('flHelpClose').click();
+    else if (panels.warn.classList.contains('show')) $('flWarnNo').click();
+    else if (panels.pass.classList.contains('show')) return;
+    else if (anyPanel()) { if (panels.start.classList.contains('show') && g) $('flStartCancel').click(); else exit(); }
+    else cancel();
+    return;
+  }
   if (anyPanel() || !g) return;
   if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); endPlayerTurn(); }
   else if (e.code === 'KeyS') showSupply = !showSupply; else if (e.code === 'KeyA') startAir(); else if (e.code === 'KeyD') depot();
@@ -3804,12 +4130,13 @@ function open() {
   else if (g && g.winner < 0) showPanel(null); else openStart(false);
 }
 function exit() {
-  active = false; cancelAnimationFrame(raf); showPanel(null);
+  active = false;                                                                  // no save here: the checkpoint is the start of the turn
+ cancelAnimationFrame(raf); showPanel(null);
   document.body.classList.remove('fl'); document.body.classList.add('home');
   try { $('cardFl').focus(); } catch (e) { /* ignore */ }
 }
 buildSide();
-return { open, exit, api: { Game, Bot, newGame, state: () => g, bot: () => bot, click, endTurn: endPlayerTurn, select, unlocked: () => unlocked, startBuild, startAir, research, showSupply: v => { showSupply = v; }, ts: () => ts } };
+return { open, exit, api: { Game, Bot, TERR, UT, NT, newGame: (d, isDuo) => beginNew(d, !!isDuo), state: () => g, bot: () => bot, click, endTurn: endPlayerTurn, select, unlocked: () => unlocked, startBuild, startAir, research, showSupply: v => { showSupply = v; }, ts: () => ts, loadSave, continueGame, snapshot, me, isDuo: () => duo, setHover: (x, y) => { hx = x; hy = y; } } };
 })();
 
 document.getElementById('cardFl').addEventListener('click', () => {
